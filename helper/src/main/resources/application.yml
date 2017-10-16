@@ -1,0 +1,19 @@
+spring:  
+  profiles: 
+    active: chengql
+  application:
+    name: helper
+  http:
+    encoding:
+      charset: UTF-8
+    multipart:
+      enabled: true 
+      max-file-size: 5MB  #上传文件最大的大小，因此上传的图片不可超过这个大小，否则抛出异常
+      max-request-size: 10MB 
+#  jackson: 
+#    default-property-inclusion: NON_EMPTY        
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+ 
+  
+

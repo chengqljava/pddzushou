@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheng.helper.repository.ShopDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.cheng.helper.domain.ShopDO" id="shopMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="key" column="key"/>
+        <result property="secret" column="secret"/>
+        <result property="createTime" column="create_time"/>
+        <result property="userId" column="user_id"/>
+        <result property="type" column="type"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+
+	<select id="get" resultMap="shopMap">
+		SELECT 
+			* 
+		FROM 
+			t_shop 
+		WHERE 
+			id = #{id}
+	</select>
+
+	<select id="list" resultMap="shopMap">
+		SELECT 
+			* 
+		FROM 
+			t_shop
+		<choose>
+            <when test="orders != null">
+            	ORDER BY 
+            	<foreach collection="orders" item="item"  open=" " separator="," close=" ">  
+			    	${item.property} ${item.direction}  
+			    </foreach>  
+            </when>
+			<otherwise>
+                ORDER BY id ASC
+			</otherwise>
+        </choose>
+	</select>
+	
+	<insert id="save" parameterType="com.cheng.helper.domain.ShopDO">
+		INSERT INTO t_shop
+		(
+			`id`, 
+			`name`, 
+			`key`, 
+			`secret`, 
+			`create_time`, 
+			`user_id`, 
+			`type`, 
+			`phone`
+		)
+		VALUES
+		(
+			#{id}, 
+			#{name}, 
+			#{key}, 
+			#{secret}, 
+			#{createTime}, 
+			#{userId}, 
+			#{type}, 
+			#{phone}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.cheng.helper.domain.ShopDO">
+		UPDATE t_shop 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="key != null">`key` = #{key}, </if>
+			<if test="secret != null">`secret` = #{secret}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="phone != null">`phone` = #{phone}</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM 
+			t_shop 
+		WHERE 
+			id = #{id}
+	</delete>
+	
+</mapper>

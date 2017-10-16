@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<Console name="STDOUT">
+			<PatternLayout>
+				<Pattern>
+					%d{yyyy-MM-dd HH:mm:ss.SSS}{GMT+8} [web-site] [%thread] %-5level %X{requestId} %logger{35} - %msg %n
+				</Pattern>
+			</PatternLayout>
+			<!-- <JsonLayout/> -->
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Root level="DEBUG">
+			<AppenderRef ref="STDOUT" />
+		</Root>
+	</Loggers>
+</Configuration>

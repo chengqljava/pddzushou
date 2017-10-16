@@ -1,0 +1,76 @@
+server:  
+  port: 80
+  compression:
+    enabled: true #是否压缩
+    min-response-size: 2048 #压缩文件最小大小(kb)
+    mime-types: #要压缩的文件格式
+      - text/html
+      - text/css
+      - text/javascript
+      - application/xhtml+xml
+      - text/xml
+  tomcat:
+    max-threads: 400
+    min-spare-threads: 200
+    uri-encoding: UTF-8
+    accesslog:
+      enabled: true
+      pattern: "%{X-Forwarded-For}i %h %l %u %t \"%r\" %s %b %S %D \"%{Referer}i\" \"%{User-Agent}i\""
+      directory: /tmp/log
+      prefix: access_log
+      suffix: .txt
+
+spring: 
+  redis: 
+    host: r-bp130fa3bfa118b4.redis.rds.aliyuncs.com
+    database: 3
+    password: Wulingredis123
+    port: 6379
+    timeout: 2000
+    pool:
+      max-idle: 10
+      max-active: 10
+  datasource: 
+    url: jdbc:mysql://rdswl63z1iijh041l7kxrw.mysql.rds.aliyuncs.com:3306/wl-global?useUnicode=true&amp;characterEncoding=UTF-8
+    username: wl_prod
+    password: vpfxcGzfIqQ1jh3h
+    driver_class_name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    
+    max-active: 20
+    initial-size: 1
+    min-idle: 3
+    max-wait: 60000
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 300000
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    poolPreparedStatements: true
+    
+  mail:
+    host: smtp.exmail.qq.com
+    port: 465
+    protocol: smtp
+    username: service@wulingd.com
+    password: JeRoiHjTUKAkkewn 
+    fromUser: service@wulingd.com
+    #xx@qq.com,xx@qq.com  多个邮箱逗号（,）分割
+    toUser: all@wulingd.com
+    open: true
+  
+logging: 
+  config: classpath:log4j2-prod.xml
+  
+mySettings: 
+  signUpRestUrl: http://api.admin.ihaiwai.com/api/v1/customers/sign_up/
+  wechatUrl: https://api.weixin.qq.com/cgi-bin/
+  wechatAppId: wxa91087e2698e0c04
+  wechatAppSecret: c0e5827950e7324cb611ad74819d34b8
+  host: http://m.ihaiwai.com
+  
+global:
+  domain: ihaiwai.com
+
+mobile: 
+  domain: m

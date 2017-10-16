@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheng.helper.repository.GoodsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.cheng.helper.domain.GoodsDO" id="goodsMap">
+        <result property="id" column="id"/>
+        <result property="goodsId" column="goods_id"/>
+        <result property="amount" column="amount"/>
+        <result property="createTime" column="create_time"/>
+        <result property="shopId" column="shop_id"/>
+    </resultMap>
+
+	<select id="get" resultMap="goodsMap">
+		SELECT 
+			* 
+		FROM 
+			t_goods 
+		WHERE 
+			id = #{id}
+	</select>
+
+	<select id="list" resultMap="goodsMap">
+		SELECT 
+			* 
+		FROM 
+			t_goods
+		<choose>
+            <when test="orders != null">
+            	ORDER BY 
+            	<foreach collection="orders" item="item"  open=" " separator="," close=" ">  
+			    	${item.property} ${item.direction}  
+			    </foreach>  
+            </when>
+			<otherwise>
+                ORDER BY id ASC
+			</otherwise>
+        </choose>
+	</select>
+	
+	<insert id="save" parameterType="com.cheng.helper.domain.GoodsDO">
+		INSERT INTO t_goods
+		(
+			`id`, 
+			`goods_id`, 
+			`amount`, 
+			`create_time`, 
+			`shop_id`
+		)
+		VALUES
+		(
+			#{id}, 
+			#{goodsId}, 
+			#{amount}, 
+			#{createTime}, 
+			#{shopId}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.cheng.helper.domain.GoodsDO">
+		UPDATE t_goods 
+		<set>
+			<if test="goodsId != null">`goods_id` = #{goodsId}, </if>
+			<if test="amount != null">`amount` = #{amount}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="shopId != null">`shop_id` = #{shopId}</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM 
+			t_goods 
+		WHERE 
+			id = #{id}
+	</delete>
+	
+</mapper>

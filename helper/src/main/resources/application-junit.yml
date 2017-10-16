@@ -1,0 +1,34 @@
+server:  
+  port: 8181
+
+spring:  
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/example_junit?useUnicode=true&amp;characterEncoding=UTF-8
+    username: root
+    password: root
+    driver_class_name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    
+    max-active: 20
+    initial-size: 1
+    min-idle: 3
+    max-wait: 60000
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 300000
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    poolPreparedStatements: true
+  mail:
+    host: smtp.exmail.qq.com
+    port: 465
+    protocol: smtp
+    username: service@wulingd.com
+    password: JeRoiHjTUKAkkewn 
+    fromUser: service@wulingd.com
+    #xx@qq.com,xx@qq.com  多个邮箱逗号（,）分割
+    toUser: shizhen@wulingd.com
+    open: true
+    
+logging: 
+  config: classpath:log4j2-junit.xml
