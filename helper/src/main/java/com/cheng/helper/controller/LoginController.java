@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,4 +64,13 @@ public class LoginController {
 //		            .hmacSha1(request.getNewPassword().getBytes(), memberDO.getSalt().getBytes())));
         return "index";
     }
+	@RequestMapping(value = "/")
+	public String logout(){
+		  HttpSession session = request.getSession(false);
+	        if (session != null) {
+	            session.removeAttribute("userDTO");
+	            session.invalidate();
+	        }
+		 return "index";
+	}
 }
