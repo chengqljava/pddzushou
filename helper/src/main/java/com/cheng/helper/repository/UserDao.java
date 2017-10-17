@@ -22,4 +22,6 @@ public interface UserDao {
 	UserDO get(String id);
 	
 	List<UserDO> list(UserQuery userQuery);
+	
+	UserDO findUserName(String userName);
 }

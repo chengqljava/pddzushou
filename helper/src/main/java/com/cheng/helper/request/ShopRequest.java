@@ -1,4 +1,4 @@
-package com.cheng.helper.domain;
+package com.cheng.helper.request;
 
 
 import java.io.Serializable;
@@ -12,31 +12,37 @@ import lombok.ToString;
 
 
 
+/**
+ * 
+ * 
+ * @author dongjinsong
+ * @email dongjingsong@wulingd.com
+ * @date 2017-10-16 19:09:38
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class UserDO implements Serializable {
+public class ShopRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	//
 	private String id;
 	//
-	private String userName;
+	private String name;
 	//
-	private String password;
+	private String key;
 	//
-	private String phone;
-	//
-	private Boolean delFlag;
+	private String secret;
 	//
 	private Date createTime;
 	//
-	private Date validEndTime;
+	private String userId;
 	//
-	private String role;
-	private String salt;
+	private Boolean type;
+	//
+	private String phone;
 
 }

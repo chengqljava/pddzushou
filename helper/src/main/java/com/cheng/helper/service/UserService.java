@@ -15,7 +15,6 @@ import com.github.pagehelper.PageInfo;
 
 
 @Service("userService")
-@Transactional(readOnly = true)
 public class UserService{
 
 	@Autowired
@@ -24,6 +23,11 @@ public class UserService{
 	public UserDO get(String id){
 		return userDao.get(id);
 	}
+	
+	public UserDO findUserName(String userName){
+		return userDao.findUserName(userName);
+	}
+	
 	
 	public List<UserDO> list(UserQuery userQuery){
 		return userDao.list(userQuery);

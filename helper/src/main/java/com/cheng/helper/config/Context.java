@@ -11,7 +11,7 @@ public class Context {
     	USER.set(user);
     }
 
-    public static UserDTO getMemberId() {
+    public static UserDTO getUser() {
         return USER.get();
     }
 

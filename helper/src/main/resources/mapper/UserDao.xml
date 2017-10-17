@@ -87,5 +87,14 @@
 		WHERE 
 			id = #{id}
 	</delete>
+	<select id="findUserNames" resultMap="userMap">
+		SELECT 
+			* 
+		FROM 
+			t_user 
+		WHERE 
+			user_name= #{userName}
+	</select>
+	
 	
 </mapper>
