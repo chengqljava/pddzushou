@@ -190,7 +190,10 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
-
+	      <dependency>
+				<groupId>ma.glasnost.orika</groupId>
+				<artifactId>orika-core</artifactId>
+			</dependency>
 	</dependencies>
 	<build>
 		<finalName>helper</finalName>

@@ -14,6 +14,10 @@ public class Context {
     public static UserDTO getUser() {
         return USER.get();
     }
+    
+    public static void remove(){
+    	USER.remove();
+    }
 
    
 }

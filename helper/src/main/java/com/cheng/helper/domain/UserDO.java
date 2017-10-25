@@ -23,20 +23,21 @@ public class UserDO implements Serializable {
 	
 	//
 	private String id;
-	//
+	//用户名
 	private String userName;
-	//
+	//密码
 	private String password;
-	//
+	//手机号
 	private String phone;
-	//
+	//是否
 	private Boolean delFlag;
-	//
+	//创建时间
 	private Date createTime;
-	//
+	//有效时间
 	private Date validEndTime;
-	//
+	//用色
 	private String role;
+	//密码对称
 	private String salt;
 
 }

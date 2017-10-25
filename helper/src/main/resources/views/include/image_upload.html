@@ -1,0 +1,35 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td width="45%">
+            <div>
+                <input type="text" readonly="readonly" id="${id!}" name="${name!}" value="${value!}" onchange="fn_${id!}(this.value);" style="width:180px;"  maxlength="255"/>
+            </div>
+            <div style="margin-top:2px;">
+                <input type="file" id="f_${id!}" name="f_${name!}" size="23" style="width:235px;"/>
+            </div>
+            <table class="upload-table" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                     <td><input onclick="uploadImg('${id!}',this);" class="btn" type="button" value="上传">(5M内)</td>
+                </tr>
+            </table>
+            <input type="hidden" id="t_${id!}" value="${(thumbnail==true) ? 'true' : 'false'}"/>
+            <input type="hidden" id="tw_${id!}" value="${(thumbnailWidth! !=null) ? thumbnailWidth : '116'}"/>
+            <input type="hidden" id="th_${id!}" value="${(thumbnailWidth! !=null) ? thumbnailWidth : '86'}"/>
+        </td>
+        <td width="55%" align="center" valign="middle">
+            <%if(value! != null){%>
+                <img id="img_${id!}" src="${value!}" width=300 height=200>
+            <%}else{%>
+                <img id="img_${id!}" src="${value!}" width=300 height=200 style="display:none">
+            <%}%>
+        </td>
+	</tr>
+</table>
+<script type="text/javascript">
+    function fn_${id}(src) {
+        Cms.scaleImg("img_${id}",300,100,src);
+    };
+    $(function() {
+        fn_${id}("${value!}");
+    });
+</script>

@@ -15,5 +15,7 @@ import lombok.ToString;
 public class UserQuery extends BasePageQuery {
 
 	private static final long serialVersionUID = 1L;
+	private String userName;
+	private String phone;
 	
 }

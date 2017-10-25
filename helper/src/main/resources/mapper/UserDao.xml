@@ -13,6 +13,7 @@
         <result property="createTime" column="create_time"/>
         <result property="validEndTime" column="valid_end_time"/>
         <result property="role" column="role"/>
+        <result property="salt" column="salt"/>
     </resultMap>
 
 	<select id="get" resultMap="userMap">
@@ -52,7 +53,8 @@
 			`del_flag`, 
 			`create_time`, 
 			`valid_end_time`, 
-			`role`
+			`role`,
+			`salt`
 		)
 		VALUES
 		(
@@ -63,7 +65,8 @@
 			#{delFlag}, 
 			#{createTime}, 
 			#{validEndTime}, 
-			#{role}
+			#{role},
+			#{salt}
 		)
 	</insert>
 	 
@@ -77,6 +80,7 @@
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="validEndTime != null">`valid_end_time` = #{validEndTime}, </if>
 			<if test="role != null">`role` = #{role}</if>
+		   <if test="salt != null">`salt` = #{salt}</if>
 		</set>
 		WHERE id = #{id}
 	</update>
@@ -87,7 +91,7 @@
 		WHERE 
 			id = #{id}
 	</delete>
-	<select id="findUserNames" resultMap="userMap">
+	<select id="findUserName" resultMap="userMap">
 		SELECT 
 			* 
 		FROM 

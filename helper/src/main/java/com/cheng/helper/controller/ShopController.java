@@ -38,6 +38,7 @@ public class ShopController {
 		shopQuery.setUserId(userDTO.getId());
 		List<ShopDO> lists=shopService.list(shopQuery);
 		model.addAttribute("list", lists);
+		//model.addAttribute("userDTO",userDTO);
 	    return "shop/list";
 	}
 	

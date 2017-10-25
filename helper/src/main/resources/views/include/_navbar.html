@@ -1,0 +1,146 @@
+<%var currentUser = shiro.currentUser();%>
+<div class="navbar navbar-default" id="navbar">
+	<script type="text/javascript">
+		try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+		
+	</script>
+	
+	<div class="navbar-container" id="navbar-container">
+		
+		<div class="navbar-header pull-left">
+			<a href="#" class="navbar-brand">
+			</a><!-- /.brand -->
+		</div><!-- /.navbar-header -->
+
+		<div class="navbar-header pull-right" role="navigation">
+			<ul class="nav ace-nav">
+				<!-- 
+				<li class="green">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-envelope icon-animated-vertical"></i>
+						<span class="badge badge-success inboxNum"></span>
+					</a>
+
+					<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close" id="inboxs">
+						<li class="dropdown-header">
+							<i class="icon-envelope-alt"></i>
+							<span class="inboxNum"></span>条消息
+						</li>
+					</ul>
+				</li> -->
+				<li >
+					
+					<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+						欢迎光临, ${currentUser.username!}
+						<i class="icon-caret-down"></i>
+					</a>
+
+					<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+						<li>
+							<a href="${ctxPath}/user/changePwd">
+								<i class="icon-user"></i>
+								修改密码
+							</a>
+						</li>
+
+						<li class="divider"></li>
+
+						<li>
+							<a href="${ctxPath}/logout">
+								<i class="icon-off"></i>
+								退出
+							</a>
+						</li>
+					</ul>
+					
+				</li>
+				
+			</ul><!-- /.ace-nav -->
+		</div><!-- /.navbar-header -->
+		
+		
+		
+		
+	</div><!-- /.container -->
+	
+	
+	
+	<script type="text/plan" id="inner-data">
+	<span>
+			<span class="msg-body">
+				<span class="msg-title">
+					<span class="blue username"></span>
+					<span class="content"></span>
+				</span>
+
+				<span class="msg-time">
+					<i class="icon-time"></i>
+					<span><span class="passtime"></span>以前</span>
+				</span>
+			</span>
+	</span>
+	</script>
+	<script type="text/plan" id="inner-data-a">
+	<span>
+		<a href="${ctxPath }/inbox/list">
+				查看所有消息
+				<i class="icon-arrow-right"></i>
+		</a>
+	</span>
+	</script>
+	
+	
+	<script type="text/javascript">
+	var alertDangerTemplateArea = $.format($("#alertDangerTemplateArea").val());
+	jQuery(function($) {
+		$.ajax({
+			url : "${ctxPath}/inbox/messages",
+			type : "POST",
+			data : {
+			},
+			success: function(response) {
+            	if(response.success ){
+            		initData(response.value);
+            	}
+            }  
+		});
+	})
+	function initData(list) {
+		var ulObj = document.getElementById("inboxs"); //获取要插入的Ul
+		$(".inboxNum").each(function() {
+			$(this).html(list.length);
+		});
+        if(list.length > 0) {
+        	var cacheData = {};
+        	for (var i = 0; i < list.length;i++) {  //循环体，用于向Ul中写入Li
+  	            var ag = list[i];
+  	            var li = document.createElement('li');
+  	            //${ctxPath}/project/openProjectAuditInput?id=40&view=check
+  	  	        var innerData = $($("#inner-data").html());
+  	  	    	//innerData.find(".clicktarget").attr("href",ag.url);
+  	  	    	//innerData.find(".clicktarget").attr("data", ag.id);
+				innerData.find(".username").html(ag.userName);
+				innerData.find(".content").html(ag.content);
+				innerData.find(".passtime").html(ag.passTime);
+  	            li.innerHTML = innerData.html();
+  	            ulObj.appendChild(li);
+  	        }
+        	 var li = document.createElement('li');
+        	 var inneraData = $($("#inner-data-a").html());
+        	 li.innerHTML = inneraData.html();
+	         ulObj.appendChild(li);
+        	 
+        }
+	}
+	</script>
+</div>
+
+
+
+
+
+
+
+
+
+

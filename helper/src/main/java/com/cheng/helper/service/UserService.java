@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cheng.helper.domain.UserDO;
 import com.cheng.helper.domain.UserQuery;
 import com.cheng.helper.repository.UserDao;
+import com.cheng.helper.utils.IDGenerator;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -41,6 +42,7 @@ public class UserService{
 	
 	@Transactional
 	public void save(UserDO user){
+		user.setId(IDGenerator.OBJECTID.generate());
 		userDao.save(user);
 	}
 	

@@ -25,7 +25,9 @@ public class BeetlConf {
             ClasspathResourceLoader cploder = new ClasspathResourceLoader(
                 BeetlConf.class.getClassLoader(), "/views");
             beetlGroupUtilConfiguration.setResourceLoader(cploder);
-            
+            Map<String, Object> functionPackages = new  HashMap<String, Object>();
+            functionPackages.put("user", new GlobalInfo());
+            beetlGroupUtilConfiguration.setFunctionPackages(functionPackages);
             
         } catch (Exception e) {
             e.printStackTrace();

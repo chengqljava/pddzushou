@@ -10,30 +10,16 @@
     <meta name="description" content="">
     <meta name="Author" content="zifan">
     <meta name="copyright" content="上海屋瓴版权所有。All Rights Reserved">
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctxPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="${ctxPath}/static/css/style.css" rel="stylesheet">
-    <link href="${ctxPath}/static/css/style-responsive.css" rel="stylesheet">
+    <link type="text/css" href="${ctxPath}/static/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="${ctxPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link type="text/css" href="${ctxPath}/static/css/style.css" rel="stylesheet">
+    <link type="text/css"  href="${ctxPath}/static/css/style-responsive.css" rel="stylesheet">
 </head>
 
 <body class="login-body">
-    <div class="set-langrge">
-        <div class="dropdown">
-            <a href="#" class="dropdown-toggle login-language" data-toggle="dropdown">
-                <i class="fa fa-globe"></i>
-                <span>选择语言</span>
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu pull-right">
-                <li><a href="#" class="active bg-primary">  简体中文</a></li>
-                <li><a href="#">  马来西亚</a></li>
-                <li><a href="#">  日语</a></li>
-                <li><a href="#">  繁体中文</a></li>
-            </ul>
-        </div>
-    </div>
+   
     <div class="container">
-        <form class="form-signin" onsubmit="return loginform(this)">
+        <form class="form-signin" method="post" action="${ctxPath}/login/verify">
             <div class="form-signin-heading text-center">
                 <img src="images/login-logo.png" alt=""/>
                 <h1 class="sign-title"><span>地产云</span> 电商系统</h1>
@@ -52,15 +38,23 @@
                         <a href="find-password.html"> 忘记密码?</a>
                     </div>
                 </div>
-                <button class="btn btn-lg btn-login btn-block" type="submit" id="send"><i class="fa fa-check"></i> 登录</button>
+                <button class="btn btn-lg btn-login btn-block" type="submit" id="send" onclick="loginform()"><i class="fa fa-check"></i> 登录</button>
+                <div class="text-center p-t-md" style="color: #999">账号请联系运营专员开通</div>
             </div>
         </form>
     </div>
     <div class="login-copy">© 2015 屋瓴 All Rights Reserved  沪ICP备15019222号-2</div>
-<script src="js/jquery-2.1.1.js"></script>
-<script src="js/bootstrap.min.js"></script>
+ <script src="/static/js/jquery-2.1.1.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
 <script>
-    $('#login-tooltip').tooltip()
+ $(function() {
+	$("body").keydown(function(event) {
+        if (event.keyCode == "13") {//keyCode=13是回车键
+            $('#send').click();
+        }
+    });
+}); 
+   
     //错误信息
     var showError =function(text,e){
         $('#login-error').html(text).stop(true).show();
@@ -79,7 +73,6 @@
         if(lenght==0){
             if(e.id=='username') showError('请输入登陆用户名称',e);
             if(e.id=='password') showError('请输入登陆密码',e);
-            if(e.id=='code') showError('请输入验证码',e);
         }else{
             showSuccess();
         }
@@ -91,22 +84,23 @@
     
 
 
-    function loginform(form) {
-        $.ajax(
-                {
-                    url: "?",
-                    type: "post",
-                    data: $(form).serialize(),
-                    success: function (data) {
-                        window.location.href='index.html'
-                    },
-                    error:function(error){
-                        alert(error)
-                    }
-                }
-        );
-        return false;
+    function loginform() {
+    	var username = $("#username").val();
+    	var password = $("#password").val();
+    	if(username==''){
+    		showError("用户名不能为空");
+    		return false;
+    	}
+    	if(password==''){
+    		showError("密码不能为空");
+    		return false;
+    	}
+		$('#login_form').submit();
     }
+    <% if(!isEmpty(errors!)){ %>
+    showError('${errors!}');
+	<% } %>
+	
 </script>
 </body>
 </html>

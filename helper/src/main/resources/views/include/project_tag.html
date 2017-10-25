@@ -1,0 +1,31 @@
+<% var field = tenant.field; %>
+<ul id="" class="stepy-titles clearfix">
+<!-- 01 基础信息 -->
+	<%if(strutil.contain (show_tag!,"01")){%>
+		<li ${default_tag! == "01"?"class='current-step'"}>
+		<%if(default_tag! == "01"){%>
+			<div>${i18n('project.label.baseInfo')}</div> 
+		<%}else{%> 
+		<a href="${ctxPath}/project/projectInput?id=${entity.projectId!}"><div>${i18n('project.label.baseInfo')}</div></a> 
+		<%}%>
+		</li> 
+	<%}%>
+<!-- #01 基础信息 -->
+<!-- 02 合作信息-->
+<%if(strutil.contain (show_tag!,"02")){%>
+	
+<%}%>
+<!-- #02 合作信息-->
+
+	<%if(field == 1){%> <%}else{%>
+	<li><a href="${ctxPath}/project/addressPoint?id=${entity.id!}"><div>${i18n('project.label.addressPoint')}</div></a></li>
+	<%}%>
+	<li><a href="${ctxPath}/project/product?projectId=${entity.id!}"><div>${i18n('project.label.product')}</div></a></li>
+	<li><a href="${ctxPath}/project/houseType?projectId=${entity.id!}"><div>${i18n('project.label.houseType')}</div></a></li>
+	<%if(field == 1){%> <%}else{%>
+	<li><a
+		href="${ctxPath}/project/commission?projectId=${entity.id!}"><div>${i18n('project.label.commission')}</div></a></li>
+	<%}%>
+	<li><a href="${ctxPath}/project/dynamic?projectId=${entity.id!}"><div>${i18n('project.label.dynamic')}</div></a></li>
+	<li><a href="${ctxPath}/project/pic?projectId=${entity.id!}"><div>${i18n('project.label.pic')}</div></a></li>
+</ul>

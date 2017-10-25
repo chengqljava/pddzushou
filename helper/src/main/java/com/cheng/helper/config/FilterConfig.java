@@ -1,12 +1,11 @@
 package com.cheng.helper.config;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import com.cheng.helper.filter.LoginFilter;
-
-@Configurable
+@Configuration
 public class FilterConfig {
 	   @Bean
 	    public FilterRegistrationBean memberFilterRegistration() {
@@ -14,7 +13,7 @@ public class FilterConfig {
 	        //注入过滤器
 	        registration.setFilter(new LoginFilter());
 	        //拦截规则
-	        registration.addUrlPatterns("*");
+	        registration.addUrlPatterns("/*");
 	        //过滤器名称
 	        registration.setName("loginFilter");
 	        //过滤器排序

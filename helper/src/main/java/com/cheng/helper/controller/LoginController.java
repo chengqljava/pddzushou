@@ -2,22 +2,19 @@ package com.cheng.helper.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springside.modules.utils.mapper.BeanMapper;
+import org.springside.modules.utils.security.CryptoUtil;
+import org.springside.modules.utils.text.EncodeUtil;
 
 import com.cheng.helper.domain.UserDO;
 import com.cheng.helper.dto.UserDTO;
-import  com.cheng.helper.request.LoginRequest;
 import com.cheng.helper.service.UserService;
-
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 
 /**登录
  * @author chengqianliang
@@ -32,22 +29,28 @@ public class LoginController {
 	 private HttpServletRequest       request;
 	@RequestMapping(value = "/login")
     public String login() {
-        // model.addAttribute("crumbs", "联系我们");
-       //		  memberDO.setPassword(EncodeUtil.encodeHex(CryptoUtil
-      //		            .hmacSha1(request.getNewPassword().getBytes(), memberDO.getSalt().getBytes())));
+     
         return "login";
     }
-    @ApiOperation(value = "登录", notes = "登录")
-    @ApiImplicitParam(name = "userRequest", value = "登录", required = true, dataType = "UserRequest", paramType = "body")
     @RequestMapping(value = "/login/verify", method = RequestMethod.POST)
-    public String login(@Valid @RequestBody LoginRequest loginRequest) {
+    public String login(String username,String password,Model model) {
         // model.addAttribute("crumbs", "联系我们");
-    	UserDO userDO=userService.findUserName(loginRequest.getUserName());
+    	UserDO userDO=userService.findUserName(username);
+    	if(userDO==null){
+    		model.addAttribute("errors", "账户不存在请重试");
+    		return "login";
+    	}
+    	if(!userDO.getPassword().equals(EncodeUtil.encodeHex(
+                CryptoUtil.hmacSha1(password.getBytes(),
+                		userDO.getSalt().getBytes())))){
+    		model.addAttribute("errors", "密码错误请重试");
+    		return "login";
+    	}
     	HttpSession session = request.getSession();
-    	session.setMaxInactiveInterval(30*60);
+    	session.setMaxInactiveInterval(60*60*24*365);
     	UserDTO userDTO=BeanMapper.map(userDO, UserDTO.class);
     	session.setAttribute("userDTO",userDTO);
-    	return "";
+    	return "index";
     }
 
 	@RequestMapping(value = "/")
@@ -57,7 +60,7 @@ public class LoginController {
 //		            .hmacSha1(request.getNewPassword().getBytes(), memberDO.getSalt().getBytes())));
         return "index";
     }
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/logout")
 	public String logout(){
 		  HttpSession session = request.getSession(false);
 	        if (session != null) {

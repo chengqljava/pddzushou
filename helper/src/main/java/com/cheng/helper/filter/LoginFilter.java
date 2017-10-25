@@ -1,6 +1,5 @@
 package com.cheng.helper.filter;
 
-
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -16,52 +15,45 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-
+import com.cheng.helper.config.Context;
+import com.cheng.helper.dto.UserDTO;
 
 public class LoginFilter implements Filter {
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
-            filterConfig.getServletContext());
-    }
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, filterConfig.getServletContext());
+	}
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-                         FilterChain chain) throws IOException, ServletException {
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        String url = httpServletRequest.getRequestURI();
-        HttpSession session = httpServletRequest.getSession();
-        //添加个人信息
-      //  Object memberIdObj = session.getAttribute("memberId");
+		String url = httpServletRequest.getRequestURI();
+		HttpSession session = httpServletRequest.getSession();
+		
+		if (StringUtils.startsWith(url, "/login") || StringUtils.startsWith(url, "/register")||StringUtils.startsWith(url, "/static")) {
+			chain.doFilter(request, response);
+		} else {
+			// 添加个人信息
+			UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+			if (null == userDTO) {
+				httpServletResponse.sendRedirect("/login");
+			} else {
+				Context.setUser(userDTO);
+				chain.doFilter(request, response);
+				Context.remove();
+			}
 
-//        if (null == memberIdObj) {
-//            if (StringUtils.startsWith(url, "/member/message")) {
-//                if (Context.getMobileBrowserFlag()) {
-//                    httpServletResponse.sendRedirect("/toLogin");
-//                } else {
-//                    httpServletResponse.sendRedirect("/index");
-//                }
-//            }
-//        } else {
-//            if (memberIdObj != null) {
-//                httpServletRequest.setAttribute("member", SpringContextHolder
-//                    .getBean(MemberService.class).get(String.valueOf(memberIdObj)));
-//            }
-//            Context.setMemberId(String.valueOf(memberIdObj));
-//        }
+			
+		}
+	}
 
-
-        chain.doFilter(request, response);
-       // Context.removeMemberId();
-
-    }
-
-    @Override
-    public void destroy() {
-    }
+	@Override
+	public void destroy() {
+	}
 
 }

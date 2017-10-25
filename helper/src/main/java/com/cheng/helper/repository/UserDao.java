@@ -4,6 +4,7 @@ package com.cheng.helper.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.cheng.helper.domain.UserDO;
 import com.cheng.helper.domain.UserQuery;
@@ -23,5 +24,5 @@ public interface UserDao {
 	
 	List<UserDO> list(UserQuery userQuery);
 	
-	UserDO findUserName(String userName);
+	UserDO findUserName(@Param("userName")String userName);
 }
