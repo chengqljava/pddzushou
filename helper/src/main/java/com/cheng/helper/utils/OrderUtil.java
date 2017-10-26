@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.cheng.helper.dto.GoodsIdOuterIdSpec;
+import com.cheng.helper.dto.GoodMessage;
 
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -26,7 +25,6 @@ public class OrderUtil {
 	private static BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>(); // 固定为10的线程队列
 	private static ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 20, 1, TimeUnit.HOURS, queue);
 	private List<String> orderSNSInfo = Collections.synchronizedList(new ArrayList<String>());
-
 	public void orderList(String mallId, String secret, int orderStatus, int pageNumer) {
 		Map<String, Object> params = new TreeMap<String, Object>();
 		params.put("mall_id", mallId);
@@ -140,14 +138,30 @@ public class OrderUtil {
 	      }  
 	    }  
 	  } 
-	public void parseJSON(){
-		JSONObject jsonObject=null;
-		Map<String,Map<String,GoodsIdOuterIdSpec>> goodIds=new HashMap<String,Map<String,GoodsIdOuterIdSpec>>();
-		List<GoodsIdOuterIdSpec> goodsIdOuterIdSpecs=new ArrayList<GoodsIdOuterIdSpec>();
-		for(String orderInfo:orderSNSInfo){
-			jsonObject=JSONObject.parseObject(orderInfo);
+	public List<GoodMessage> parseList(){
+		JSONObject orderInfo=null;
+		JSONArray itemList=null;
+		String goodsId=null;
+		Map<String,GoodMessage> goodIdsMap=new HashMap<String,GoodMessage>();
+		GoodMessage goodMessage=null;
+		List<GoodMessage> goodMessageList=new ArrayList<GoodMessage>();
+		for(String order:orderSNSInfo){
+			orderInfo=JSONObject.parseObject(order).getJSONObject("order_info_get_response").getJSONObject("order_info");
+			itemList=orderInfo.getJSONArray("item_list");
+			for(int i = 0; i < itemList.size(); i++){
+				goodsId=itemList.getJSONObject(i).getString("goods_id");
+				if(goodIdsMap.containsKey(goodsId)){
+					goodMessage=goodIdsMap.get(goodsId);
+				}else{
+					goodMessage=new GoodMessage(goodsId);
+					goodIdsMap.put(goodsId, goodMessage);
+					goodMessageList.add(goodMessage);
+				}
+				goodMessage.parse(itemList.getJSONObject(i).getString("outer_id"), itemList.getJSONObject(i).getString("goods_spec"), itemList.getJSONObject(i).getIntValue("goods_count"), itemList.getJSONObject(i).getString("goods_img"));
+			}
 			
 		}
+		return goodMessageList;
 	}
 
 	public static void main(String[] args) {
@@ -158,7 +172,8 @@ public class OrderUtil {
         if(order.isEndTask()){
          System.out.println(order.getOrderSNSInfo().size());
         }
-		
+        System.out.println(JSONObject.toJSONString(order.parseList().size()));
+        System.out.println(JSONObject.toJSONString(order.parseList()));
 	}
 
 }
