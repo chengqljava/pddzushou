@@ -1,6 +1,7 @@
 package com.cheng.helper.service;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cheng.helper.domain.ShopDO;
 import com.cheng.helper.domain.ShopQuery;
 import com.cheng.helper.repository.ShopDao;
+import com.cheng.helper.utils.IDGenerator;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -37,6 +39,8 @@ public class ShopService{
 	
 	@Transactional
 	public void save(ShopDO shop){
+		shop.setCreateTime(new Date());
+		shop.setId(IDGenerator.OBJECTID.generate());
 		shopDao.save(shop);
 	}
 	

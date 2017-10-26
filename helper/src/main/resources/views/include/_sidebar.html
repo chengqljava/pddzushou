@@ -7,20 +7,19 @@
 		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 	</script>
 
-	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+<!-- 	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 		<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
 			<a href="${ctxPath}/" class="navbar-brand">
 				<small>
 					<i class="icon-cloud"></i>
-					<span>${tenant.shortName!'屋瓴'}</span>
 				</small>
 			</a>
 		</div>
-	</div>
+	</div> -->
 
 	<ul class="nav nav-list">
 		<li ${active == "index" ? "class='active'" : ""}>
-			<a href="${ctxPath }/">
+			<a href="${ctxPath }/index">
 				<i class="icon-dashboard"></i>
 				<span class="menu-text"> 控制台  </span>
 			</a>

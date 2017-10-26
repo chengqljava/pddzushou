@@ -1,11 +1,14 @@
 package com.cheng.helper.service;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springside.modules.utils.security.CryptoUtil;
+import org.springside.modules.utils.text.EncodeUtil;
 
 import com.cheng.helper.domain.UserDO;
 import com.cheng.helper.domain.UserQuery;
@@ -43,6 +46,8 @@ public class UserService{
 	@Transactional
 	public void save(UserDO user){
 		user.setId(IDGenerator.OBJECTID.generate());
+		user.setCreateTime(new Date());
+		user.setDelFlag(false);
 		userDao.save(user);
 	}
 	

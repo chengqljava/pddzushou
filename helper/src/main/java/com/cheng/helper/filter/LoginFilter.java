@@ -34,12 +34,16 @@ public class LoginFilter implements Filter {
 
 		String url = httpServletRequest.getRequestURI();
 		HttpSession session = httpServletRequest.getSession();
-		
-		if (StringUtils.startsWith(url, "/login") || StringUtils.startsWith(url, "/register")||StringUtils.startsWith(url, "/static")) {
+		UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+		if(userDTO!=null&&StringUtils.startsWith(url, "/login")){
+			httpServletResponse.sendRedirect("/index");
+		}
+		else if (StringUtils.startsWith(url, "/login")
+				|| StringUtils.startsWith(url, "/register") || StringUtils.startsWith(url, "/static")) {
 			chain.doFilter(request, response);
 		} else {
 			// 添加个人信息
-			UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+			
 			if (null == userDTO) {
 				httpServletResponse.sendRedirect("/login");
 			} else {
@@ -48,7 +52,6 @@ public class LoginFilter implements Filter {
 				Context.remove();
 			}
 
-			
 		}
 	}
 

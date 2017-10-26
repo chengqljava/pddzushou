@@ -27,6 +27,7 @@ public class Order {
     private static ThreadPoolExecutor      executor      = new ThreadPoolExecutor(4, 20, 1,
         TimeUnit.HOURS, queue);
     private List<String> orderSNs =Collections.synchronizedList(new ArrayList<String>());
+    private String URL="http://open.yangkeduo.com/api/router";
 
     public void orderList(String mallId, String secret, int orderStatus, int pageNumer) {
         Map<String, Object> params = new TreeMap<String, Object>();
@@ -175,11 +176,10 @@ public class Order {
     
     class OrderDetailThread implements Runnable {
 
-        private String apiKey;
-        private String text;
-        private String mobile;
+        private String orderNum;
 
-        public OrderDetailThread() {
+        public OrderDetailThread(String orderNum,String params) {
+        	
         }
 
         @Override
@@ -194,6 +194,7 @@ public class Order {
     public static void main(String[] args) {
         Order order = new Order();
         order.orderList("110937", "1308706231", 1, 1);
+        System.out.println(order.getOrderSNs().size());
         Map<String, Map<String, GoodsIdOuterIdSpec>> map = order.orderDetail("110937", "1308706231",
             order.getOrderSNs(), null);
         System.out.println("MPA"+JSONArray.toJSON(map));

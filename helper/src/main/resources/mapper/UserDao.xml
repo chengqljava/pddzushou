@@ -4,74 +4,81 @@
 <mapper namespace="com.cheng.helper.repository.UserDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.cheng.helper.domain.UserDO" id="userMap">
-        <result property="id" column="id"/>
-        <result property="userName" column="user_name"/>
-        <result property="password" column="password"/>
-        <result property="phone" column="phone"/>
-        <result property="delFlag" column="del_flag"/>
-        <result property="createTime" column="create_time"/>
-        <result property="validEndTime" column="valid_end_time"/>
-        <result property="role" column="role"/>
-        <result property="salt" column="salt"/>
-    </resultMap>
+	<resultMap type="com.cheng.helper.domain.UserDO" id="userMap">
+		<result property="id" column="id" />
+		<result property="userName" column="user_name" />
+		<result property="password" column="password" />
+		<result property="phone" column="phone" />
+		<result property="delFlag" column="del_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="validEndTime" column="valid_end_time" />
+		<result property="role" column="role" />
+		<result property="salt" column="salt" />
+	</resultMap>
 
 	<select id="get" resultMap="userMap">
-		SELECT 
-			* 
-		FROM 
-			t_user 
-		WHERE 
-			id = #{id}
+		SELECT
+		*
+		FROM
+		t_user
+		WHERE
+		id = #{id}
 	</select>
 
 	<select id="list" resultMap="userMap">
-		SELECT 
-			* 
-		FROM 
-			t_user
+		SELECT
+		*
+		FROM
+		t_user
+		<where>
+			<if test="nameOrPhone!=null and nameOrPhone!=''"> 
+			user_name LIKE concat(concat('%',#{nameOrPhone}),'%') OR
+				phone LIKE concat(concat('%',#{nameOrPhone}),'%')
+			</if>
+		</where>
 		<choose>
-            <when test="orders != null">
-            	ORDER BY 
-            	<foreach collection="orders" item="item"  open=" " separator="," close=" ">  
-			    	${item.property} ${item.direction}  
-			    </foreach>  
-            </when>
+			<when test="orders != null">
+				ORDER BY
+				<foreach collection="orders" item="item" open=" " separator=","
+					close=" ">
+					${item.property} ${item.direction}
+				</foreach>
+			</when>
 			<otherwise>
-                ORDER BY id ASC
+				ORDER BY id ASC
 			</otherwise>
-        </choose>
+		</choose>
 	</select>
-	
+
 	<insert id="save" parameterType="com.cheng.helper.domain.UserDO">
 		INSERT INTO t_user
 		(
-			`id`, 
-			`user_name`, 
-			`password`, 
-			`phone`, 
-			`del_flag`, 
-			`create_time`, 
-			`valid_end_time`, 
-			`role`,
-			`salt`
+		`id`,
+		`user_name`,
+		`password`,
+		`phone`,
+		`del_flag`,
+		`create_time`,
+		`valid_end_time`,
+		`role`,
+		`salt`
 		)
 		VALUES
 		(
-			#{id}, 
-			#{userName}, 
-			#{password}, 
-			#{phone}, 
-			#{delFlag}, 
-			#{createTime}, 
-			#{validEndTime}, 
-			#{role},
-			#{salt}
+		#{id},
+		#{userName},
+		#{password},
+		#{phone},
+		#{delFlag},
+		#{createTime},
+		#{validEndTime},
+		#{role},
+		#{salt}
 		)
 	</insert>
-	 
+
 	<update id="update" parameterType="com.cheng.helper.domain.UserDO">
-		UPDATE t_user 
+		UPDATE t_user
 		<set>
 			<if test="userName != null">`user_name` = #{userName}, </if>
 			<if test="password != null">`password` = #{password}, </if>
@@ -80,25 +87,25 @@
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="validEndTime != null">`valid_end_time` = #{validEndTime}, </if>
 			<if test="role != null">`role` = #{role}</if>
-		   <if test="salt != null">`salt` = #{salt}</if>
+			<if test="salt != null">`salt` = #{salt}</if>
 		</set>
 		WHERE id = #{id}
 	</update>
-	
+
 	<delete id="delete">
-		DELETE FROM 
-			t_user 
-		WHERE 
-			id = #{id}
+		DELETE FROM
+		t_user
+		WHERE
+		id = #{id}
 	</delete>
 	<select id="findUserName" resultMap="userMap">
-		SELECT 
-			* 
-		FROM 
-			t_user 
-		WHERE 
-			user_name= #{userName}
+		SELECT
+		*
+		FROM
+		t_user
+		WHERE
+		user_name= #{userName}
 	</select>
-	
-	
+
+
 </mapper>

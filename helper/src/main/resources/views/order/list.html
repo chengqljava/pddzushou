@@ -26,7 +26,7 @@
 <div id="wrapper">
     <!----左侧导航开始----->
     <nav class="navbar-default navbar-static-side" role="navigation">
-       <% include("/include/_sidebar.html",{active:"shop-list"}){} %>
+       <% include("/include/_sidebar.html",{active:"order-list"}){} %>
     </nav>
     <!----左侧导航结束----->
 
@@ -62,10 +62,10 @@
         <!--------当前位置----->
         <div class="row  border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2>门店列表</h2>
+                <h2>用户列表</h2>
                 <ol class="breadcrumb">
                     <li><a href="${ctxPath}/">管理首页</a></li>
-                    <li class="active">门店列表</li>
+                    <li class="active">用户列表</li>
                 </ol>
             </div>
         </div>
@@ -75,22 +75,31 @@
 
             <div class="ibox-content m-b-sm ibox-content-t border-bottom" id="ibox-content">
                 <div class="row">
-                    <div class="form-group col-md-3">
-                        <a href="${ctxPath}/shop/add" class="btn btn-primary"  data-title="添加广告">新增门店 <i class="fa fa-plus"></i></a>
-                    </div>
-                   <!--  <div class="col-md-3 form-group  m-t-xs">
-                        <input type="text" class="input-sm form-control" name="end" value="" placeholder="公司名称、公司简称、联系人、公司地址">
-                    </div> -->
-
-
-                   <!--  <div class="form-group col-md-4 m-t-xs " id="data_5">
-                        <div class="input-daterange input-group" id="datepicker">
-                            <input type="text" class="input-sm form-control" name="start" value="09/07/2015" placeholder="">
-                            <span class="input-group-addon">至</span>
-                            <input type="text" class="input-sm form-control" name="end" value="10/07/2015" placeholder="">
-                            <span class="input-group-btn"><i class="fa fa-search"></i> <button class="btn btn-primary btn-sm m-b-none"><i class="fa fa-search"></i> 搜索</button></span>
+                    <form id="page_form" onkeydown="if(event.keyCode==13)return false;"
+				action="${ctxPath}/order/list" method="get">
+                    <div class="form-group col-md-4 m-t-xs " id="data_5">
+                    
+                        <div class="col-md-2  m-t-xs form-group">
+                            <select name="" class="form-control input-s-sm inline input-sm">
+                                <option value="">－－门店名称－－</option>
+                                <% for(bean in shopList!){ %>
+									<option value="${bean.id!}" ${shopId! ==bean.id!?'selected' : ''}>${bean.name!}</option>
+								<%}%>
+                            </select>
                         </div>
-                    </div> -->
+                        
+                        <div class="col-md-2  m-t-xs form-group">
+                            <select name="" class="form-control input-s-sm inline input-sm">
+                                <option value="">－－状态－－</option>
+                                <option value="0">－－未发货－－</option>
+                            </select>
+                        </div>
+                        <div class="input-daterange input-group">
+                            <span class="input-group-btn"><i class="fa fa-search"></i> <button  class="btn btn-primary btn-sm m-b-none"><i class="fa fa-search"></i> 搜索</button></span>
+                        </div>
+                    </div>
+                    </form>
+                   
                 </div>
             </div>
             <div class="row">
@@ -99,37 +108,25 @@
                         <div class="ibox-content">
                             <div class="table-responsive ">
                                 <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
-                                    <thead>
+                                  <thead>
                                     <tr>
-                                        <th>门店名称</th>
-                                        <th>key</th>
-                                        <th>secret</th>
-                                        <th>创建时间</th>
+                                        <th>商品ID</th>
+                                        <th>商家编码颜色尺寸</th>
+                                        <th>数量</th>
+                                        <th>图片</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <%for(item in page.list! ){%>
                                     <tr>
-                                        <td>${item.name!}</td>
-                                        <td>${item.key!}</td>
-                                        <td>${item.secret!}</td>
+                                        <td>${item.userName!}</td>
+                                        <td>${item.phone!}</td>
                                         <td>${item.createTime!,'yyyy-MM-dd'}</td>
                                     </tr>
                                     <%}%>
                                     
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="pages border-top">
-                                <div class="row">
-                                    <div class="col-md-4"><div class="m-t-md">共 ${page.total!} 条</div></div>
-                                    <div class="col-md-8 footable-visible">
-                                        <ul class="pagination pull-right">
-                                            <li class="footable-page-arrow disabled"><a data-page="prev" href="${ctxPath}/shop/list?pageNum=${page.prePage!0}">上一页</a></li>
-                                            <li class="footable-page-arrow"><a data-page="next" href="${ctxPath}/shop/list?pageNum=${page.nextPage!0}">下一页</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

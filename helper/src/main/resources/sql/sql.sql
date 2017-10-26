@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `t_goods`;
 CREATE TABLE `t_goods` (
   `id` varchar(64) NOT NULL,
   `goods_id` varchar(20) NOT NULL,
-  `amount` varchar(255) NOT NULL COMMENT '数量',
+  `amount` varchar(22) NOT NULL COMMENT '数量',
   `create_time` datetime NOT NULL,
   `shop_id` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
@@ -21,7 +21,7 @@ CREATE TABLE `t_shop` (
   `create_time` datetime NOT NULL,
   `user_id` varchar(64) NOT NULL,
   `type` tinyint(3) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -41,3 +41,6 @@ CREATE TABLE `t_user` (
   `salt` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `t_user` VALUES ('59f07eab064bf754d84fa70d', '18500197557', '3D39867BD35FFEABC9CD6D6D7521BAF2D6F63043', '18500197557', '0', '2017-10-25 20:08:11', null, 'admin', 'C4632909EA48B079488B40BDB0766BBB4ABBEA50');
+

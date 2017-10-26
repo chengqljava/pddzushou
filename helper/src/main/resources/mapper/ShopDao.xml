@@ -29,6 +29,9 @@
 			* 
 		FROM 
 			t_shop
+		<where>
+		 <if test="userId!=null and userId!=''">user_id=#{userId}</if>
+		</where>
 		<choose>
             <when test="orders != null">
             	ORDER BY 
@@ -37,7 +40,7 @@
 			    </foreach>  
             </when>
 			<otherwise>
-                ORDER BY id ASC
+                ORDER BY create_time DESC
 			</otherwise>
         </choose>
 	</select>

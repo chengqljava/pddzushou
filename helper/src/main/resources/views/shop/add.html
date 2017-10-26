@@ -34,7 +34,7 @@
 		<!----左侧导航开始----->
 		<nav class="navbar-default navbar-static-side" role="navigation"
 			id="leftnav"><%
-			include("/include/_sidebar.html",{active:"user-list"}){} %></nav>
+			include("/include/_sidebar.html",{active:"shop-list"}){} %></nav>
 		<!----左侧导航结束----->
 
 		<!---右侧内容区开始---->
@@ -70,10 +70,10 @@
 			<!--------当前位置----->
 			<div class="row  border-bottom white-bg page-heading">
 				<div class="col-sm-4">
-					<h2>用户新增</h2>
+					<h2>门店新增</h2>
 					<ol class="breadcrumb">
 						<li><a href="${ctxPath}/">管理首页</a></li>
-						<li class="active">用户新增</li>
+						<li class="active">门店新增</li>
 					</ol>
 				</div>
 			</div>
@@ -85,24 +85,39 @@
 						<form name="entity" id="input_form" class="form-horizontal">
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label">用户名称 <span
+								<label class="col-sm-2 control-label">门店名称 <span
 									class="text-danger">*</span></label>
 								<div class="col-sm-10">
-									<input type="text" id="userName" name="userName" value=""
+									<input type="text" id="name" name="name" value=""
 										placeholder="请输入门店名称" class="form-control" required>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label"> 用户手机号 <span
+								<label class="col-sm-2 control-label"> key <span
+									class="text-danger">*</span></label>
+								<div class="col-sm-10">
+									<input type="text" id="key" name="key" value=""
+										placeholder="请输入key" class="form-control" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">secret <span
+									class="text-danger">*</span></label>
+								<div class="col-sm-10">
+									<input type="text" id="secret" name="secret" value=""
+										placeholder="请输入secret" class="form-control" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"> 手机号 <span
 									class="text-danger">*</span></label>
 								<div class="col-sm-10">
 									<input type="text" id="phone" name="phone" value=""
-										placeholder="请输入手机号" class="form-control" required>
+										placeholder="请输入门店联系人" class="form-control" required>
 								</div>
 							</div>
-							<input type="hidden" name="password" value="111111"
-								placeholder="请输入手机号" class="form-control" >
+
 
 							<div class="hr-line-dashed"></div>
 							<div class="form-group">
@@ -136,13 +151,12 @@
 	<!--主体结束-->
 
 	<script src="${ctxPath}/static/js/jquery-2.1.1.js"></script>
-	<script src="${ctxPath}/static/js/bootstrap.js"></script>
-	<!-- <script src="${ctxPath}/static/js/wuling.js"></script> -->
-	<!-- <script src="${ctxPath}/static/js/plugins/pace/pace.min.js"></script> -->
-	<script
-		src="${ctxPath}/static/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="${ctxPath}/static/js/bootstrap.js"></script>
+<!-- <script src="${ctxPath}/static/js/wuling.js"></script> -->
+<!-- <script src="${ctxPath}/static/js/plugins/pace/pace.min.js"></script> -->
+<script src="${ctxPath}/static/js/plugins/validate/jquery.validate.min.js"></script>
 
-	<!-- <script src="${ctxPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- <script src="${ctxPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="${ctxPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script> -->
 
 
@@ -151,12 +165,23 @@
 
 			$("#input_form").validate({
 				rules : {
-					"userName" : {
+					"name" : {
 						required : true,
 						minlength : 3,
 						maxlength : 20
 					},
-					"phone" : {
+					"key" : {
+						required : true,
+						minlength : 2,
+						maxlength : 11,
+						digits : true
+					},
+					"secret" : {
+						required : true,
+						minlength : 11,
+						maxlength : 30
+					},
+					phone : {
 						required : true,
 						minlength : 11,
 						maxlength : 11,
@@ -164,12 +189,23 @@
 					}
 				},
 				messages : {
-					"userName" : {
+					"name" : {
 						required : "请输入门店名称",
 						minlength : "最小长度为3",
 						maxlength : "最大长度为20"
 					},
-					"phone" : {
+					"key" : {
+						required : "请输入key",
+						minlength : "最小长度2",
+						maxlength : "最大长度11",
+						digits : "请输入正整数"
+					},
+					"secret" : {
+						required : "请输入手机号",
+						minlength : "最小长度11",
+						maxlength : "最大长度30"
+					},
+					phone : {
 						required : "请输入手机号",
 						minlength : "最小长度11",
 						maxlength : "最大长度11",
@@ -178,14 +214,15 @@
 
 				},
 				submitHandler : function(form) {
+					alert("HEKE");
 					$.ajax({
-						url : '${ctxPath}/user/saveOrUpdate',
+						url : '${ctxPath}/shop/saveOrUpdate',
 						type : "post",
 						data : $(form).serialize(),
 						dataType : "json",
 						success : function(data) {
 							if (data.success) {
-								location.href = '${ctxPath}/user/list/';
+								location.href = '${ctxPath}/shop/list/';
 							} else {
 								alert(data.message);
 							}
