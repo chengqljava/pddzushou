@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cheng.helper.config.Context;
 import com.cheng.helper.domain.ShopDO;
 import com.cheng.helper.domain.ShopQuery;
 import com.cheng.helper.dto.UserDTO;
 import com.cheng.helper.enums.Role;
 import com.cheng.helper.service.ShopService;
+import com.cheng.helper.utils.OrderUtil;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -47,8 +49,19 @@ public class OrderController {
 		if(shopId!=null){
 			//生成订单
 			ShopDO shopDO=shopService.get(shopId);
+			OrderUtil orderUtil=new OrderUtil();
+			orderUtil.orderList("110937", "1308706231", 1, 1);
+	        System.out.println(orderUtil.getOrderSNs().size());
+	        orderUtil.orderInfo("110937", "1308706231");
+	        if(orderUtil.isEndTask()){
+	         System.out.println(orderUtil.getOrderSNSInfo().size());
+	        }
+	        System.out.println(JSONObject.toJSONString(orderUtil.parseList().size()));
+	        System.out.println(JSONObject.toJSONString(orderUtil.parseList()));
+	        //大于50的保存数据库
+	        model.addAttribute("list", orderUtil.parseList());
 		}
 		
-		return null;
+		return "order/list";
 	}
 }

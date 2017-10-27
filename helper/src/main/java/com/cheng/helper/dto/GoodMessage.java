@@ -1,7 +1,5 @@
 package com.cheng.helper.dto;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +10,7 @@ public class GoodMessage {
 	private String goodIds;
 	private Map<String,GoodsIdOuterIdSpec>  map;
 	private List<GoodsIdOuterIdSpec> list;
+	private int goodAmount;
 	public GoodMessage() {
 		super();
 		map=new HashMap<String,GoodsIdOuterIdSpec>();
@@ -37,7 +36,8 @@ public class GoodMessage {
 			map.put(outer_id+"_"+goods_spec, goodsIdOuterIdSpec);
 			list.add(goodsIdOuterIdSpec);
 		}
-		goodsIdOuterIdSpec.setGoodsCount(goods_count);
+		goodsIdOuterIdSpec.setGoodsCount(goodsIdOuterIdSpec.getGoodsCount()+goods_count);
+		goodAmount=goodsIdOuterIdSpec.getGoodsCount();
 	}
 
 	public String getGoodIds() {
@@ -61,6 +61,14 @@ public class GoodMessage {
 
 	public void setList(List<GoodsIdOuterIdSpec> list) {
 		this.list = list;
+	}
+
+	public int getGoodAmount() {
+		return goodAmount;
+	}
+
+	public void setGoodAmount(int goodAmount) {
+		this.goodAmount = goodAmount;
 	}
 	
 	
