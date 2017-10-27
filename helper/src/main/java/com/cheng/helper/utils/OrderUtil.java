@@ -25,6 +25,7 @@ public class OrderUtil {
 	private static BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>(); // 固定为10的线程队列
 	private static ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 20, 1, TimeUnit.HOURS, queue);
 	private List<String> orderSNSInfo = Collections.synchronizedList(new ArrayList<String>());
+
 	public void orderList(String mallId, String secret, int orderStatus, int pageNumer) {
 		Map<String, Object> params = new TreeMap<String, Object>();
 		params.put("mall_id", mallId);
@@ -44,37 +45,40 @@ public class OrderUtil {
 		HttpRequest httpRequest = HttpRequest.post(URL).contentType("application/x-www-form-urlencoded; charset=UTF-8")
 				.form(params);
 		HttpResponse httpResponse = httpRequest.send();
-		System.out.println(httpResponse.bodyText());
+		// System.out.println(httpResponse.bodyText());
 		// 获取内空转JSON
 		JSONObject jsonObject = JSONObject.parseObject(httpResponse.bodyText());
-		System.out.println("pageNumber" + pageNumer);
-		System.err.println("jsonObject" + jsonObject);
+		// System.out.println("pageNumber" + pageNumer);
+		// System.err.println("jsonObject" + jsonObject);
+
 		// 获取信息
 		JSONObject order_sn_list_get_response = jsonObject.getJSONObject("order_sn_list_get_response");
-		// 获取列表
-		JSONArray order_sn_list = order_sn_list_get_response.getJSONArray("order_sn_list");
+
 		// 获取总数
 		int total_count = order_sn_list_get_response.getIntValue("total_count");
-		// 具体定
-		JSONObject orderSN = null;
-		if (order_sn_list != null && order_sn_list.size() > 0) {
-			for (int i = 0; i < order_sn_list.size(); i++) {
-				orderSN = order_sn_list.getJSONObject(i);
-				orderSNs.add(orderSN.getString("order_sn"));
-			}
-
-		}
 		if (total_count > 0) {
-			pageNumer++;
-			this.orderList(mallId, secret, orderStatus, pageNumer);
+			// 获取列表
+			JSONArray order_sn_list = order_sn_list_get_response.getJSONArray("order_sn_list");
+			// 具体定
+			JSONObject orderSN = null;
+			if (order_sn_list != null && order_sn_list.size() > 0) {
+				for (int i = 0; i < order_sn_list.size(); i++) {
+					orderSN = order_sn_list.getJSONObject(i);
+					orderSNs.add(orderSN.getString("order_sn"));
+				}
+
+			}
+			if (total_count > 0) {
+				pageNumer++;
+				this.orderList(mallId, secret, orderStatus, pageNumer);
+			}
 		}
 	}
 
 	public void orderInfo(String mallId, String secret) {
 		if (!orderSNs.isEmpty()) {
 			for (String orderSN : orderSNs) {
-		        executor.execute(new Thread(new OrderDetailThread(mallId, secret,
-		        		orderSN)));
+				executor.execute(new Thread(new OrderDetailThread(mallId, secret, orderSN)));
 			}
 		}
 	}
@@ -104,18 +108,17 @@ public class OrderUtil {
 			// 先加密
 			String sign = SignUtil.signRequest(params, secret);
 			params.put("sign", sign);
-			httpRequest = HttpRequest.post(URL)
-					.contentType("application/x-www-form-urlencoded; charset=UTF-8").form(params);
+			httpRequest = HttpRequest.post(URL).contentType("application/x-www-form-urlencoded; charset=UTF-8")
+					.form(params);
 			httpResponse = httpRequest.send();
 			// System.out.println(httpResponse.bodyText());
 			// 获取内空转JSON
-			System.out.println(httpResponse.bodyText());
+			// System.out.println(httpResponse.bodyText());
 			orderSNSInfo.add(httpResponse.bodyText());
 		}
 
 	}
-	
-	
+
 	public List<String> getOrderSNs() {
 		return orderSNs;
 	}
@@ -131,49 +134,60 @@ public class OrderUtil {
 	public void setOrderSNSInfo(List<String> orderSNSInfo) {
 		this.orderSNSInfo = orderSNSInfo;
 	}
-	public boolean isEndTask() {  
-	    while (true) {  
-	      if (this.executor.getActiveCount() == 0) {  
-	         return true;  
-	      }  
-	    }  
-	  } 
-	public List<GoodMessage> parseList(){
-		JSONObject orderInfo=null;
-		JSONArray itemList=null;
-		String goodsId=null;
-		Map<String,GoodMessage> goodIdsMap=new HashMap<String,GoodMessage>();
-		GoodMessage goodMessage=null;
-		List<GoodMessage> goodMessageList=new ArrayList<GoodMessage>();
-		for(String order:orderSNSInfo){
-			orderInfo=JSONObject.parseObject(order).getJSONObject("order_info_get_response").getJSONObject("order_info");
-			itemList=orderInfo.getJSONArray("item_list");
-			for(int i = 0; i < itemList.size(); i++){
-				goodsId=itemList.getJSONObject(i).getString("goods_id");
-				if(goodIdsMap.containsKey(goodsId)){
-					goodMessage=goodIdsMap.get(goodsId);
-				}else{
-					goodMessage=new GoodMessage(goodsId);
-					goodIdsMap.put(goodsId, goodMessage);
-					goodMessageList.add(goodMessage);
-				}
-				goodMessage.parse(itemList.getJSONObject(i).getString("outer_id"), itemList.getJSONObject(i).getString("goods_spec"), itemList.getJSONObject(i).getIntValue("goods_count"), itemList.getJSONObject(i).getString("goods_img"));
+
+	public boolean isEndTask() {
+		while (true) {
+			if (OrderUtil.executor.getActiveCount() == 0) {
+				return true;
 			}
-			
 		}
-		return goodMessageList;
+	}
+
+	public List<GoodMessage> parseList() {
+		if (!orderSNSInfo.isEmpty()) {
+			JSONObject orderInfo = null;
+			JSONArray itemList = null;
+			String goodsId = null;
+			Map<String, GoodMessage> goodIdsMap = new HashMap<String, GoodMessage>();
+			GoodMessage goodMessage = null;
+			List<GoodMessage> goodMessageList = new ArrayList<GoodMessage>();
+			for (String order : orderSNSInfo) {
+				orderInfo = JSONObject.parseObject(order).getJSONObject("order_info_get_response")
+						.getJSONObject("order_info");
+				itemList = orderInfo.getJSONArray("item_list");
+				for (int i = 0; i < itemList.size(); i++) {
+					goodsId = itemList.getJSONObject(i).getString("goods_id");
+					if (goodIdsMap.containsKey(goodsId)) {
+						goodMessage = goodIdsMap.get(goodsId);
+					} else {
+						goodMessage = new GoodMessage(goodsId);
+						goodIdsMap.put(goodsId, goodMessage);
+						goodMessageList.add(goodMessage);
+					}
+					goodMessage.parse(itemList.getJSONObject(i).getString("outer_id"),
+							itemList.getJSONObject(i).getString("goods_spec"),
+							itemList.getJSONObject(i).getIntValue("goods_count"),
+							itemList.getJSONObject(i).getString("goods_img"));
+				}
+
+			}
+			return goodMessageList;
+		} else {
+			return null;
+		}
+
 	}
 
 	public static void main(String[] args) {
 		OrderUtil order = new OrderUtil();
-        order.orderList("110937", "1308706231", 1, 1);
-        System.out.println(order.getOrderSNs().size());
-        order.orderInfo("110937", "1308706231");
-        if(order.isEndTask()){
-         System.out.println(order.getOrderSNSInfo().size());
-        }
-        System.out.println(JSONObject.toJSONString(order.parseList().size()));
-        System.out.println(JSONObject.toJSONString(order.parseList()));
+		order.orderList("110937", "1308706231", 1, 1);
+		System.out.println(order.getOrderSNs().size());
+		order.orderInfo("110937", "1308706231");
+		if (order.isEndTask()) {
+			System.out.println(order.getOrderSNSInfo().size());
+		}
+		System.out.println(JSONObject.toJSONString(order.parseList().size()));
+		System.out.println(JSONObject.toJSONString(order.parseList()));
 	}
 
 }

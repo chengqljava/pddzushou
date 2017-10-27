@@ -4,6 +4,7 @@ package com.cheng.helper.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.cheng.helper.domain.GoodsDO;
 import com.cheng.helper.domain.GoodsQuery;
@@ -22,4 +23,6 @@ public interface GoodsDao {
 	GoodsDO get(String id);
 	
 	List<GoodsDO> list(GoodsQuery goodsQuery);
+	
+	void saveBatch(@Param("goods")List<GoodsDO> goods);
 }

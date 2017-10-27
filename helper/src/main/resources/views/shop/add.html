@@ -83,7 +83,7 @@
 				<div class="ibox float-e-margins ">
 					<div class="ibox-content p-t-slg">
 						<form name="entity" id="input_form" class="form-horizontal">
-
+							<input type="hidden" id="id" name="id" value="" required>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">门店名称 <span
 									class="text-danger">*</span></label>
@@ -94,19 +94,19 @@
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label"> key <span
+								<label class="col-sm-2 control-label"> 接入码 <span
 									class="text-danger">*</span></label>
 								<div class="col-sm-10">
 									<input type="text" id="key" name="key" value=""
-										placeholder="请输入key" class="form-control" required>
+										placeholder="请输入接入码" class="form-control" required>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">secret <span
+								<label class="col-sm-2 control-label">接口密码 <span
 									class="text-danger">*</span></label>
 								<div class="col-sm-10">
 									<input type="text" id="secret" name="secret" value=""
-										placeholder="请输入secret" class="form-control" required>
+										placeholder="请输入接口密码" class="form-control" required>
 								</div>
 							</div>
 							<div class="form-group">
@@ -151,12 +151,13 @@
 	<!--主体结束-->
 
 	<script src="${ctxPath}/static/js/jquery-2.1.1.js"></script>
-<script src="${ctxPath}/static/js/bootstrap.js"></script>
-<!-- <script src="${ctxPath}/static/js/wuling.js"></script> -->
-<!-- <script src="${ctxPath}/static/js/plugins/pace/pace.min.js"></script> -->
-<script src="${ctxPath}/static/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="${ctxPath}/static/js/bootstrap.js"></script>
+	<!-- <script src="${ctxPath}/static/js/wuling.js"></script> -->
+	<!-- <script src="${ctxPath}/static/js/plugins/pace/pace.min.js"></script> -->
+	<script
+		src="${ctxPath}/static/js/plugins/validate/jquery.validate.min.js"></script>
 
-<!-- <script src="${ctxPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<!-- <script src="${ctxPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="${ctxPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script> -->
 
 

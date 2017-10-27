@@ -50,4 +50,9 @@ public class GoodsService{
 		goodsDao.delete(id);
 	}
 	
+	@Transactional
+	public void saveBatch(List<GoodsDO> goods){
+		goodsDao.saveBatch(goods);
+	}
+	
 }

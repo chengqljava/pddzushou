@@ -75,5 +75,15 @@
 		WHERE 
 			id = #{id}
 	</delete>
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into t_goods
+		(id,goods_id,amount,create_time,shop_id)
+		values
+		<foreach collection="goods" item="item" index="index"
+			separator=",">
+			(#{item.id},#{item.goodsId},#{item.amount},#{item.createTime},#{item.shopId})
+		</foreach>
+	</insert>
+	
 	
 </mapper>

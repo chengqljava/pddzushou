@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class GoodMessage {
+public class GoodMessage  implements Comparable<GoodMessage>{
 	private String goodIds;
 	private Map<String,GoodsIdOuterIdSpec>  map;
 	private List<GoodsIdOuterIdSpec> list;
 	private int goodAmount;
+	private String imageURL;
 	public GoodMessage() {
 		super();
 		map=new HashMap<String,GoodsIdOuterIdSpec>();
@@ -35,9 +36,10 @@ public class GoodMessage {
 			goodsIdOuterIdSpec.setOuterId(outer_id);
 			map.put(outer_id+"_"+goods_spec, goodsIdOuterIdSpec);
 			list.add(goodsIdOuterIdSpec);
+			imageURL=goods_img;
 		}
 		goodsIdOuterIdSpec.setGoodsCount(goodsIdOuterIdSpec.getGoodsCount()+goods_count);
-		goodAmount=goodsIdOuterIdSpec.getGoodsCount();
+		goodAmount=goodAmount+goods_count;
 	}
 
 	public String getGoodIds() {
@@ -69,6 +71,19 @@ public class GoodMessage {
 
 	public void setGoodAmount(int goodAmount) {
 		this.goodAmount = goodAmount;
+	}
+
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+
+	@Override
+	public int compareTo(GoodMessage o) {
+		return goodAmount-o.goodAmount;
 	}
 	
 	
