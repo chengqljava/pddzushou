@@ -10,13 +10,17 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springside.modules.utils.mapper.BeanMapper;
 
+import com.cheng.helper.common.SpringContextHolder;
 import com.cheng.helper.config.Context;
+import com.cheng.helper.domain.UserDO;
 import com.cheng.helper.dto.UserDTO;
+import com.cheng.helper.service.UserService;
+import com.cheng.helper.utils.CookieUtils;
 
 public class LoginFilter implements Filter {
 
@@ -33,9 +37,18 @@ public class LoginFilter implements Filter {
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
 		String url = httpServletRequest.getRequestURI();
-		HttpSession session = httpServletRequest.getSession();
-		UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
-		if(userDTO!=null&&StringUtils.startsWith(url, "/login")){
+		//HttpSession session = httpServletRequest.getSession();
+		UserDTO userDTO =null;
+		String remember=CookieUtils.getCookie(httpServletRequest, "userId");
+		String userId=CookieUtils.getCookie(httpServletRequest, "userId");
+		if(StringUtils.isNoneBlank(userId)){
+			UserService userService=SpringContextHolder.getBean("userService");
+			UserDO userDO=userService.get(userId);
+			if(userDO!=null){
+				userDTO=BeanMapper.map(userDO, UserDTO.class);
+			}
+		}
+		if(StringUtils.isNoneBlank(remember)&&userDTO!=null&&StringUtils.startsWith(url, "/login")){
 			httpServletResponse.sendRedirect("/index");
 		}
 		else if (StringUtils.startsWith(url, "/login")

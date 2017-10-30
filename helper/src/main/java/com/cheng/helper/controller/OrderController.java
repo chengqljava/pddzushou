@@ -69,7 +69,7 @@ public class OrderController {
 	        	List<GoodsDO> goods=new ArrayList<GoodsDO>();
 	        	GoodsDO goodsDO=null;
 	        	for(GoodMessage goodMessage:orderUtil.parseList()){
-	        		if(goodMessage.getGoodAmount()>10){
+	        		if(goodMessage.getGoodAmount()>20){
 	        			goodsDO=new GoodsDO();
 	        			goodsDO.setAmount(String.valueOf(goodMessage.getGoodAmount()));
 	        			goodsDO.setCreateTime(new Date());

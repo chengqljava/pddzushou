@@ -58,7 +58,7 @@ public class ShopController {
 	
 	@ApiOperation(value = "商店新增", notes = "商店新增")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String add(String id,Model model){
+	public String add(@RequestParam(required = false, defaultValue = "")String id,Model model){
 		 if(id!=null){
 			 ShopDO shopDO=shopService.get(id);
 			 if(shopDO!=null){

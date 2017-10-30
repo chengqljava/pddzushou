@@ -13,12 +13,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.cheng.helper.dto.GoodsIdOuterIdSpec;
 
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 
 
 public class Order {

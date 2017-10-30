@@ -1,10 +1,10 @@
 package com.cheng.helper.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springside.modules.utils.mapper.BeanMapper;
 import org.springside.modules.utils.security.CryptoUtil;
 import org.springside.modules.utils.text.EncodeUtil;
-import org.springframework.http.HttpStatus;
+
 import com.alibaba.fastjson.JSONObject;
 import com.cheng.helper.domain.UserDO;
-import com.cheng.helper.dto.UserDTO;
 import com.cheng.helper.enums.Role;
 import com.cheng.helper.request.UserRequest;
-
 import com.cheng.helper.service.UserService;
+import com.cheng.helper.utils.CookieUtils;
 
 /**
  * @author chengqianliang 注册
@@ -32,7 +31,7 @@ import com.cheng.helper.service.UserService;
 @RequestMapping(value = "/register")
 public class RegisterController {
 	@Autowired
-	private HttpServletRequest request;
+	private HttpServletResponse response;
 	@Autowired
 	private UserService userService;
 
@@ -62,10 +61,7 @@ public class RegisterController {
 			userDO.setRole(Role.SIMPLE_PDD.getCode());
 			// userDO.setValidEndTime();
 			userService.save(userDO);
-			HttpSession session = request.getSession();
-			session.setMaxInactiveInterval(60 * 60 * 24 * 365);
-			UserDTO userDTO = BeanMapper.map(userDO, UserDTO.class);
-			session.setAttribute("userDTO", userDTO);
+			CookieUtils.setCookie(response, "userId", userDO.getId(), 60 * 60 * 24*365);
 
 		} catch (Exception e) {
 			jsonObject.put("success", false);

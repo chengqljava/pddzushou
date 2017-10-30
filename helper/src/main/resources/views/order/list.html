@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>屋瓴网站后台管理系统</title>
+    <title>助手管理系统</title>
     <meta name="keyword" content="">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
     <meta name="Author" content="zifan">
-    <meta name="copyright" content="上海屋瓴版权所有。All Rights Reserved">
+    <meta name="copyright" content="All Rights Reserved">
     <link href="${ctxPath}/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="${ctxPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="${ctxPath}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
@@ -123,6 +123,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <%if(list!!=null){%>
                                     <%for(item in list! ){%>
                                       <%for(goodMessage in item.list!){%>
                                         <tr>
@@ -132,7 +133,13 @@
                                         <td>${goodMessage.outerId!}_${goodMessage.goodsSpec!}</td>
                                         <td>${goodMessage.goodsCount!}</td>
                                         <%if(goodMessageLP.index==1){%>
-                                         <td rowspan="${item.list.~size}"><img width=${item.list.~size>3?300:100} height=${item.list.~size>3?400:100} src="${goodMessage.goodsImg!}"></td>
+                                        <%if(item.list.~size<=4){%>
+                                         <td rowspan="${item.list.~size}"><img width=100 height=100 src="${goodMessage.goodsImg!}"></td>
+                                        <%}if((item.list.~size<=8)&&(item.list.~size>4)){%>
+                                         <td rowspan="${item.list.~size}"><img width=150 height=200 src="${goodMessage.goodsImg!}"></td>
+                                        <%}else if(item.list.~size>8){%>
+                                         <td rowspan="${item.list.~size}"><img width=300 height=400 src="${goodMessage.goodsImg!}"></td>
+                                        <%}%>
                                          <%}%>
                                           </tr>
                                      <%}%>
@@ -142,6 +149,12 @@
                                      <tr bordercolor="black" bgcolor="#FF0000" style="height: 1px;">
                                       <td colspan="4" style="height: 1px;"></td>
                                       </tr>
+                                    <%}%>
+                                    <%}else{%>
+                                      <tr>
+                                      <td colspan="4">暂无数据</td>
+                                      </tr>
+                                     
                                     <%}%>
                                     </tbody>
                                 </table>

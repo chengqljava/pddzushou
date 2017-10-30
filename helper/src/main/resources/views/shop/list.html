@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>屋瓴网站后台管理系统</title>
+    <title>助手管理系统</title>
     <meta name="keyword" content="">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
     <meta name="Author" content="zifan">
-    <meta name="copyright" content="上海屋瓴版权所有。All Rights Reserved">
+    <meta name="copyright" content="All Rights Reserved">
     <link href="${ctxPath}/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="${ctxPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="${ctxPath}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
@@ -102,9 +102,10 @@
                                     <thead>
                                     <tr>
                                         <th>门店名称</th>
-                                        <th>key</th>
-                                        <th>secret</th>
+                                        <th>接入码</th>
+                                        <th>接口密码</th>
                                         <th>创建时间</th>
+                                         <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -114,6 +115,7 @@
                                         <td>${item.key!}</td>
                                         <td>${item.secret!}</td>
                                         <td>${item.createTime!,'yyyy-MM-dd'}</td>
+                                        <td><a href="${ctxPath}/shop/add?id=${item.id!}">编辑</a></td>
                                     </tr>
                                     <%}%>
                                     
