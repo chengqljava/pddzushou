@@ -10,6 +10,7 @@
         <result property="amount" column="amount"/>
         <result property="createTime" column="create_time"/>
         <result property="shopId" column="shop_id"/>
+        <result property="images" column="images"/>
     </resultMap>
 
 	<select id="get" resultMap="goodsMap">
