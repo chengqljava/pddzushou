@@ -2,6 +2,7 @@ package com.cheng.helper.controller;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,7 @@ public class UserController {
 	@ApiOperation(value = "用户新增", notes = "用户新增")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(String id,Model model){
-		 if(id!=null){
+		 if(StringUtils.isNoneBlank(id)){
 			 UserDO userDO=userService.get(id);
 			 if(userDO!=null){
 				 model.addAttribute("user", userDO);
@@ -66,7 +67,7 @@ public class UserController {
 		JSONObject jsonObject=new JSONObject();
 		jsonObject.put("success", true);
 		try{
-		if(userRequest.getId()!=null){
+		if(StringUtils.isNoneBlank(userRequest.getId())){
 			userService.update(userDO);
 		}else{
 			if(userDO.getPassword()==null){

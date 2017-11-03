@@ -11,10 +11,11 @@ spring:
       max-file-size: 5MB  #上传文件最大的大小，因此上传的图片不可超过这个大小，否则抛出异常
       max-request-size: 10MB 
 #  jackson: 
-#    default-property-inclusion: NON_EMPTY        
+#    default-property-inclusion: NON_EMPTY   
+#config-location: classpath:mybatis-config.xml     
 mybatis:
   mapper-locations: classpath*:mapper/**/*.xml
-  config-location: classpath:mybatis-config.xml
+  config-location: classpath:mybatis-config.xml   
  
   
 

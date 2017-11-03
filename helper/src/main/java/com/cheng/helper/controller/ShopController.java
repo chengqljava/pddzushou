@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -75,7 +76,7 @@ public class ShopController {
 		JSONObject jsonObject=new JSONObject();
 		jsonObject.put("success", true);
 		try{
-		if(shopRequest.getId()!=null){
+		if(StringUtils.isNoneBlank(shopRequest.getId())){
 			shopDO.setUserId(Context.getUser().getId());
 			shopService.update(shopDO);
 		}else{
