@@ -38,7 +38,7 @@ public class OrderController {
     private ShopService shopService;
 	@ApiOperation(value = "订单列表", notes = "订单列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String  orderList(@RequestParam(required = false, defaultValue = "")String shopId,@RequestParam(required = false, defaultValue = "")Integer status,@RequestParam(required = false, defaultValue = "1")String filterPhones,Model model){
+	public String  orderList(@RequestParam(required = false, defaultValue = "")String shopId,@RequestParam(required = false, defaultValue = "")Integer status,@RequestParam(required = false, defaultValue = "")String filterPhones,Model model){
 		try{
 		UserDTO userDTO=Context.getUser();
 		ShopQuery shopQuery=new ShopQuery();

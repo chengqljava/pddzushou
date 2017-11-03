@@ -62,7 +62,7 @@
 			#{amount}, 
 			#{createTime}, 
 			#{shopId},
-			#{image}
+			#{images}
 		)
 	</insert>
 	 
@@ -85,11 +85,11 @@
 	</delete>
 	<insert id="saveBatch" parameterType="java.util.List">
 		insert into t_goods
-		(id,goods_id,amount,create_time,shop_id)
+		(id,goods_id,amount,create_time,shop_id,images)
 		values
 		<foreach collection="goods" item="item" index="index"
 			separator=",">
-			(#{item.id},#{item.goodsId},#{item.amount},#{item.createTime},#{item.shopId})
+			(#{item.id},#{item.goodsId},#{item.amount},#{item.createTime},#{item.shopId},#{item.images})
 		</foreach>
 	</insert>
 	

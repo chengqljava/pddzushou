@@ -153,7 +153,6 @@ public class OrderUtil {
 			GoodMessage goodMessage = null;
 			List<GoodMessage> goodMessageList = new ArrayList<GoodMessage>();
 			for (String order : orderSNSInfo) {
-				System.out.println(order);
 			
 				orderInfo = JSONObject.parseObject(order).getJSONObject("order_info_get_response")
 						.getJSONObject("order_info");
