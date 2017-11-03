@@ -11,8 +11,6 @@ import com.cheng.helper.common.BaseQuery.Direction;
 import com.cheng.helper.domain.GoodsDO;
 import com.cheng.helper.domain.GoodsQuery;
 import com.cheng.helper.service.GoodsService;
-import com.github.pagehelper.ISelect;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.annotations.ApiOperation;
