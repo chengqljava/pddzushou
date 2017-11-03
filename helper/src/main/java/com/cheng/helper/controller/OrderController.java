@@ -38,7 +38,7 @@ public class OrderController {
     private ShopService shopService;
 	@ApiOperation(value = "订单列表", notes = "订单列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String  orderList(@RequestParam(required = false, defaultValue = "")String shopId,@RequestParam(required = false, defaultValue = "1")Integer status,Model model){
+	public String  orderList(@RequestParam(required = false, defaultValue = "")String shopId,@RequestParam(required = false, defaultValue = "")Integer status,@RequestParam(required = false, defaultValue = "1")String filterPhones,Model model){
 		try{
 		UserDTO userDTO=Context.getUser();
 		ShopQuery shopQuery=new ShopQuery();
@@ -49,15 +49,18 @@ public class OrderController {
 		model.addAttribute("shopList", shopList);
 		model.addAttribute("shopId", shopId);
 		model.addAttribute("status", status);
+		model.addAttribute("filterPhones", filterPhones);
 		if(shopId!=null){
 			//生成订单
 			ShopDO shopDO=shopService.get(shopId);
+			List<GoodMessage> goodMessages=null;
 			if(shopDO!=null){
 			OrderUtil orderUtil=new OrderUtil();
 			orderUtil.orderList(shopDO.getKey(), shopDO.getSecret(), status==null?1:status, 1);
 	        orderUtil.orderInfo(shopDO.getKey(), shopDO.getSecret());
 	        if(orderUtil.isEndTask()){
-	          model.addAttribute("list", orderUtil.parseList());
+	        	goodMessages=orderUtil.parseList(filterPhones);
+	           model.addAttribute("list", goodMessages);
 	        }
 	        //110937
 	        //08C11D55B379AE9FEFEC96FB3B59EF520F2D0696
@@ -65,10 +68,10 @@ public class OrderController {
 	        //System.out.println(JSONObject.toJSONString(orderUtil.parseList()));
 	        //大于50的保存数据库
 	        
-	        if(!orderUtil.parseList().isEmpty()){
+	        if(!goodMessages.isEmpty()){
 	        	List<GoodsDO> goods=new ArrayList<GoodsDO>();
 	        	GoodsDO goodsDO=null;
-	        	for(GoodMessage goodMessage:orderUtil.parseList()){
+	        	for(GoodMessage goodMessage:goodMessages){
 	        		if(goodMessage.getGoodAmount()>20){
 	        			goodsDO=new GoodsDO();
 	        			goodsDO.setAmount(String.valueOf(goodMessage.getGoodAmount()));

@@ -11,6 +11,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cheng.helper.dto.GoodMessage;
@@ -113,7 +115,6 @@ public class OrderUtil {
 			httpResponse = httpRequest.send();
 			// System.out.println(httpResponse.bodyText());
 			// 获取内空转JSON
-			// System.out.println(httpResponse.bodyText());
 			orderSNSInfo.add(httpResponse.bodyText());
 		}
 
@@ -143,7 +144,7 @@ public class OrderUtil {
 		}
 	}
 
-	public List<GoodMessage> parseList() {
+	public List<GoodMessage> parseList(String filterPhones) {
 		if (!orderSNSInfo.isEmpty()) {
 			JSONObject orderInfo = null;
 			JSONArray itemList = null;
@@ -152,8 +153,15 @@ public class OrderUtil {
 			GoodMessage goodMessage = null;
 			List<GoodMessage> goodMessageList = new ArrayList<GoodMessage>();
 			for (String order : orderSNSInfo) {
+				System.out.println(order);
+			
 				orderInfo = JSONObject.parseObject(order).getJSONObject("order_info_get_response")
 						.getJSONObject("order_info");
+				if(StringUtils.isNoneBlank(filterPhones)){
+					if(filterPhones.contains(orderInfo.getString("receiver_phone"))){
+						continue;
+					}
+				}
 				itemList = orderInfo.getJSONArray("item_list");
 				for (int i = 0; i < itemList.size(); i++) {
 					goodsId = itemList.getJSONObject(i).getString("goods_id");
@@ -180,14 +188,14 @@ public class OrderUtil {
 
 	public static void main(String[] args) {
 		OrderUtil order = new OrderUtil();
-		order.orderList("110937", "1308706231", 1, 1);
+		order.orderList("110937", "08C11D55B379AE9FEFEC96FB3B59EF520F2D0696", 1, 1);
 		System.out.println(order.getOrderSNs().size());
-		order.orderInfo("110937", "1308706231");
+		order.orderInfo("110937", "08C11D55B379AE9FEFEC96FB3B59EF520F2D0696");
 		if (order.isEndTask()) {
 			System.out.println(order.getOrderSNSInfo().size());
 		}
-		System.out.println(JSONObject.toJSONString(order.parseList().size()));
-		System.out.println(JSONObject.toJSONString(order.parseList()));
+		System.out.println(order.parseList("15961511831").size());
+		System.out.println(JSONObject.toJSONString(order.parseList("15961511831")));
 	}
 
 }
