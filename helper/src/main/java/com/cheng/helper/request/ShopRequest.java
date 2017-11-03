@@ -12,12 +12,10 @@ import lombok.ToString;
 
 
 
+
 /**
- * 
- * 
- * @author dongjinsong
- * @email dongjingsong@wulingd.com
- * @date 2017-10-16 19:09:38
+ * @author chengqianliang
+ *
  */
 @Getter
 @Setter

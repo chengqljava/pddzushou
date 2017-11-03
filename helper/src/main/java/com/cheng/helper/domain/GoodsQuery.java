@@ -17,5 +17,8 @@ import lombok.ToString;
 public class GoodsQuery extends BasePageQuery {
 
 	private static final long serialVersionUID = 1L;
+	private Integer amount;
+	private String start;
+	private String end;
 	
 }

@@ -74,11 +74,12 @@ public class OrderController {
 	        	for(GoodMessage goodMessage:goodMessages){
 	        		if(goodMessage.getGoodAmount()>20){
 	        			goodsDO=new GoodsDO();
-	        			goodsDO.setAmount(String.valueOf(goodMessage.getGoodAmount()));
+	        			goodsDO.setAmount(goodMessage.getGoodAmount());
 	        			goodsDO.setCreateTime(new Date());
 	        			goodsDO.setGoodsId(goodMessage.getGoodIds());
 	        			goodsDO.setShopId(shopId);
 	        			goodsDO.setId(IDGenerator.OBJECTID.generate());
+	        			goodsDO.setImages(goodMessage.getImageURL());
 	        			goods.add(goodsDO);
 	        		}
 	        		

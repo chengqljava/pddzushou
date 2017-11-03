@@ -27,10 +27,14 @@ public class GoodsDO implements Serializable {
 	//
 	private String goodsId;
 	//数量
-	private String amount;
+	private Integer amount;
 	//
 	private Date createTime;
 	//
 	private String shopId;
+	/**
+	 * 图片
+	 */
+	private String images;
 
 }

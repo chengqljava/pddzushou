@@ -26,6 +26,11 @@
 			* 
 		FROM 
 			t_goods
+	    <where>
+	     <if test="start!=null and start!=''"><![CDATA[AND DATE_FORMAT(create_time ,'%Y-%m-%d')>=#{start}]]></if>
+	     <if test="end!=null and end!=''"><![CDATA[AND DATE_FORMAT(create_time ,'%Y-%m-%d')<=#{end}]]></if>
+	     <if test="amount!=null and amount!=''"><![CDATA[AND amount>=#{amount}]]></if>
+	    </where>
 		<choose>
             <when test="orders != null">
             	ORDER BY 
@@ -34,7 +39,7 @@
 			    </foreach>  
             </when>
 			<otherwise>
-                ORDER BY id ASC
+                ORDER BY create_time DESC
 			</otherwise>
         </choose>
 	</select>
@@ -46,7 +51,8 @@
 			`goods_id`, 
 			`amount`, 
 			`create_time`, 
-			`shop_id`
+			`shop_id`,
+			`images`
 		)
 		VALUES
 		(
@@ -54,7 +60,8 @@
 			#{goodsId}, 
 			#{amount}, 
 			#{createTime}, 
-			#{shopId}
+			#{shopId},
+			#{image}
 		)
 	</insert>
 	 

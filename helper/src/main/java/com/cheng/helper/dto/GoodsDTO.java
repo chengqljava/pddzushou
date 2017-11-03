@@ -32,18 +32,15 @@ public class GoodsDTO implements Serializable {
 	
 	@ApiModelProperty(value = "")
 	private String id;
-	
 	@ApiModelProperty(value = "")
 	private String goodsId;
-	
 	@ApiModelProperty(value = "数量")
 	private String amount;
-	
 	@ApiModelProperty(value = "")
 	private Date createTime;
-	
 	@ApiModelProperty(value = "")
 	private String shopId;
-	
+	@ApiModelProperty(value = "图片")
+	private String images;
 
 }
