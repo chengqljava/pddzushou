@@ -1,6 +1,6 @@
 spring:  
   profiles: 
-    active: chengql
+    active: prod
   application:
     name: helper
   http:

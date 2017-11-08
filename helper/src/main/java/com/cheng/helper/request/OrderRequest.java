@@ -22,7 +22,8 @@ import lombok.ToString;
 public class OrderRequest {
 	
 	
-	private String id;
+	private String shopId;
 	private int status;
+	private String  filterPhones;
 
 }

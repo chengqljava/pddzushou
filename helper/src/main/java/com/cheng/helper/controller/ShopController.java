@@ -41,7 +41,7 @@ public class ShopController {
 	@ApiOperation(value = "商店列表", notes = "商店列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(@RequestParam(required = true, defaultValue = "1") int pageNum,
-            @RequestParam(required = true, defaultValue = "1") int pageSize,Model model){
+            @RequestParam(required = true, defaultValue = "10") int pageSize,Model model){
 		UserDTO userDTO=Context.getUser();
 		ShopQuery shopQuery=new ShopQuery();
 		

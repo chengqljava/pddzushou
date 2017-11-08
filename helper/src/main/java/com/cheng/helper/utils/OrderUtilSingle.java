@@ -20,10 +20,10 @@ import com.cheng.helper.dto.GoodMessage;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 
-public class OrderUtil {
+public class OrderUtilSingle {
 
 	private String URL = "http://open.yangkeduo.com/api/router";
-	private List<String> orderSNs = Collections.synchronizedList(new ArrayList<String>());
+	//private List<String> orderSNs = Collections.synchronizedList(new ArrayList<String>());
 	private static BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>(); // 固定为10的线程队列
 	private static ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 20, 1, TimeUnit.HOURS, queue);
 	private List<String> orderSNSInfo = Collections.synchronizedList(new ArrayList<String>());
@@ -66,7 +66,8 @@ public class OrderUtil {
 			if (order_sn_list != null && order_sn_list.size() > 0) {
 				for (int i = 0; i < order_sn_list.size(); i++) {
 					orderSN = order_sn_list.getJSONObject(i);
-					orderSNs.add(orderSN.getString("order_sn"));
+					//orderSNs.add(orderSN.getString("order_sn"));
+					executor.execute(new Thread(new OrderDetailThread(mallId, secret, orderSN.getString("order_sn"))));
 				}
 
 			}
@@ -78,11 +79,11 @@ public class OrderUtil {
 	}
 
 	public void orderInfo(String mallId, String secret) {
-		if (!orderSNs.isEmpty()) {
-			for (String orderSN : orderSNs) {
-				executor.execute(new Thread(new OrderDetailThread(mallId, secret, orderSN)));
-			}
-		}
+//		if (!orderSNs.isEmpty()) {
+//			for (String orderSN : orderSNs) {
+//				executor.execute(new Thread(new OrderDetailThread(mallId, secret, orderSN)));
+//			}
+//		}
 	}
 
 	class OrderDetailThread implements Runnable {
@@ -119,14 +120,14 @@ public class OrderUtil {
 		}
 
 	}
-
-	public List<String> getOrderSNs() {
-		return orderSNs;
-	}
-
-	public void setOrderSNs(List<String> orderSNs) {
-		this.orderSNs = orderSNs;
-	}
+//
+//	public List<String> getOrderSNs() {
+//		return orderSNs;
+//	}
+//
+//	public void setOrderSNs(List<String> orderSNs) {
+//		this.orderSNs = orderSNs;
+//	}
 
 	public List<String> getOrderSNSInfo() {
 		return orderSNSInfo;
@@ -138,7 +139,7 @@ public class OrderUtil {
 
 	public boolean isEndTask() {
 		while (true) {
-			if (OrderUtil.executor.getActiveCount() == 0) {
+			if (OrderUtilSingle.executor.getActiveCount() == 0) {
 				return true;
 			}
 		}
@@ -186,15 +187,16 @@ public class OrderUtil {
 	}
 
 	public static void main(String[] args) {
-		OrderUtil order = new OrderUtil();
+		OrderUtilSingle order = new OrderUtilSingle();
 		long time=System.currentTimeMillis();
+				
 		order.orderList("110937", "08C11D55B379AE9FEFEC96FB3B59EF520F2D0696", 1, 1);
-		System.out.println(order.getOrderSNs().size());
+//		System.out.println(order.getOrderSNs().size());
 		order.orderInfo("110937", "08C11D55B379AE9FEFEC96FB3B59EF520F2D0696");
 		if (order.isEndTask()) {
 			System.out.println(order.getOrderSNSInfo().size());
 		}
-	
+		
 		System.out.println(order.parseList("15961511831").size());
 		System.out.println(JSONObject.toJSONString(order.parseList("15961511831")));
 		System.out.println("heleo"+(System.currentTimeMillis()-time));
