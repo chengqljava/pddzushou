@@ -81,10 +81,7 @@
 				<div class="ibox-content m-b-sm ibox-content-t border-bottom"
 					id="ibox-content">
 					<div class="row">
-						<!--                     <form  id="page_form" onkeydown="if(event.keyCode==13)return false;"
- -->
-						<!-- action="${ctxPath}/order/list" method="get"> -->
-
+					 <form  id="page_form" onkeydown="if(event.keyCode==13)return false;" action="${ctxPath}/order/exportExcel" method="post">
 						<div class="col-md-2  m-t-xs form-group">
 							<select name="shopId" id="shopId"
 								class="form-control input-s-sm inline input-sm">
@@ -111,10 +108,14 @@
 										class="btn btn-primary btn-sm m-b-none">
 										<i class="fa fa-search"></i> 搜索
 									</button></span>
+									<span class="input-group-btn"><i class="fa fa-search"></i>
+									<button type="button" onclick="exportOrder()"
+										class="btn btn-primary btn-sm m-b-none">
+										<i class="fa"></i> 导出
+									</button></span>
 							</div>
 						</div>
-						<!--                     </form>
- -->
+                   </form>
 					</div>
 				</div>
 				<div class="row">
@@ -176,7 +177,7 @@
 				</div>
 			</div>
 			<!-----内容结束----->
-
+         <iframe name="exportTarget" id="exportTarget" style="display:none;"></iframe> 
 			<!----版权信息----->
 			<div class="footer">
 				<div class="pull-right">
@@ -361,6 +362,28 @@
   function isContains(str, substr) {
 	    return str.indexOf(substr) >= 0;
 	}
+  function exportOrder(){
+	  if(!$("#shopId").val()){
+		 alert("门店不能为空"); 
+		 return false;
+	  }
+	  if(!$("#status").val()){
+			 alert("状态不能为空"); 
+			 return false;
+		  }
+	  toastr.success("下载成功","下载速度慢大概需要60秒");
+	  $("#content").loading('show');
+	  var url="${ctxPath}/order/exportExcel?shopId="+$("#shopId").val()+"&status="+$("#status").val();
+	 $("#exportTarget").attr("src",url);
+	
+	 // 
+	 // $("#page_form").submit();
+	 
+	  setTimeout(loadingHide,60000);
+  }
+  function loadingHide(){
+	  $("#content").loading('hide');
+  }
   
   function ajaxOrder(){
 	  if(!$("#shopId").val()){

@@ -1,17 +1,16 @@
 package com.cheng.helper.utils;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+
+import org.joda.time.DateTime;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -20,16 +19,13 @@ import com.cheng.helper.dto.GoodsIdOuterIdSpec;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 
-
 public class Order {
     //mall_id 110937 secret 1308706231
-    private static BlockingQueue<Runnable> queue         = new ArrayBlockingQueue<Runnable>(20); //固定为10的线程队列  
-    private static ThreadPoolExecutor      executor      = new ThreadPoolExecutor(4, 20, 1,
-        TimeUnit.HOURS, queue);
-    private List<String> orderSNs =Collections.synchronizedList(new ArrayList<String>());
-    private String URL="http://open.yangkeduo.com/api/router";
 
-    public void orderList(String mallId, String secret, int orderStatus, int pageNumer) {
+    private List<String> orderSNs = new ArrayList<String>();
+
+    public void orderList(String mallId, String secret, Integer orderStatus, int pageNumer) {
+
         Map<String, Object> params = new TreeMap<String, Object>();
         params.put("mall_id", mallId);
         params.put("type", "pdd.order.number.list.get");
@@ -48,7 +44,6 @@ public class Order {
         HttpRequest httpRequest = HttpRequest.post("http://open.yangkeduo.com/api/router")
             .contentType("application/x-www-form-urlencoded; charset=UTF-8").form(params);
         HttpResponse httpResponse = httpRequest.send();
-        System.out.println(httpResponse.bodyText());
         //获取内空转JSON
         JSONObject jsonObject = JSONObject.parseObject(httpResponse.bodyText());
         System.out.println("pageNumber" + pageNumer);
@@ -73,13 +68,12 @@ public class Order {
             pageNumer++;
             this.orderList(mallId, secret, orderStatus, pageNumer);
         }
-     
 
     }
 
     public Map<String, Map<String, GoodsIdOuterIdSpec>> orderDetail(String mallId, String secret,
                                                                     List<String> orderSNs,
-                                                                    List<String> notContain) {
+                                                                    String notContain) {
         Map<String, Map<String, GoodsIdOuterIdSpec>> codeColorSize = null;
         if (orderSNs != null && orderSNs.size() > 0) {
             Map<String, Object> params = null;
@@ -173,31 +167,12 @@ public class Order {
     public void setOrderSNs(List<String> orderSNs) {
         this.orderSNs = orderSNs;
     }
-    
-    class OrderDetailThread implements Runnable {
-
-        private String orderNum;
-
-        public OrderDetailThread(String orderNum,String params) {
-        	
-        }
-
-        @Override
-        public void run() {
-
-           
-
-        }
-
-    }
 
     public static void main(String[] args) {
         Order order = new Order();
         order.orderList("110937", "1308706231", 1, 1);
-        System.out.println(order.getOrderSNs().size());
         Map<String, Map<String, GoodsIdOuterIdSpec>> map = order.orderDetail("110937", "1308706231",
             order.getOrderSNs(), null);
-        System.out.println("MPA"+JSONArray.toJSON(map));
         StringBuffer strBuffer = new StringBuffer();
         List<String> columns = new ArrayList<String>();
         columns.add("商品ID");
@@ -208,10 +183,10 @@ public class Order {
         List<List<String>> datas = new ArrayList<List<String>>();
         List<String> data = null;
         for (Map.Entry<String, Map<String, GoodsIdOuterIdSpec>> entry : map.entrySet()) {
-            System.out.println(entry.getKey()+"="+entry.getValue());  
+            //System.out.println(entry.getKey()+"="+entry.getValue());  
             strBuffer.append(entry.getKey());
             for (Entry<String, GoodsIdOuterIdSpec> outerIdSpec : entry.getValue().entrySet()) {
-                System.out.println(outerIdSpec.getKey()+"="+outerIdSpec.getValue());  
+                //System.out.println(outerIdSpec.getKey()+"="+outerIdSpec.getValue());  
                 //  System.out.println(JSONObject.toJSONString(outerIdSpec.getValue()));
                 data = new ArrayList<String>();
                 data.add(outerIdSpec.getValue().getGoodsId());
@@ -220,22 +195,30 @@ public class Order {
                 data.add(outerIdSpec.getValue().getGoodsCount() + "");
                 // data.add(outerIdSpec.getValue().getGoodsImg());
                 datas.add(data);
-               
+                strBuffer.append(
+                    "\t\t" + outerIdSpec.getKey() + ":" + outerIdSpec.getValue().getGoodsCount());
             }
-           
+            data = new ArrayList<String>();
+            data.add("");
+            data.add("");
+            data.add("");
+            data.add("");
+            datas.add(data);
+            data = new ArrayList<String>();
+            strBuffer.append("\n");
+
         }
-        System.out.println(JSONObject.toJSON(datas));
-//        FileUtil.WriteStringToFile("E:\\tmallTB\\test.txt", strBuffer.toString());
-//
-//        try {
-//            ExcelUtil.exportDataToExcel(columns, datas,
-//                new FileOutputStream("E:\\tmallTB\\"
-//                                     + DateTime.now().toString("yyyy-MM-dd_HH点mm分") + ".xls"),
-//                DateTime.now().toString("yyyy-MM-dd_HH点mm分") + ".xls", "test", "PIN", null, null,
-//                null);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        FileUtil.WriteStringToFile("E:\\tmallTB\\test.txt", strBuffer.toString());
+
+        try {
+            ExcelUtil.exportDataToExcel(columns, datas,
+                new FileOutputStream("E:\\tmallTB\\"
+                                     + DateTime.now().toString("yyyy-MM-dd_HH点mm分") + ".xls"),
+                DateTime.now().toString("yyyy-MM-dd_HH点mm分") + ".xls", "test", "PIN", null, null,
+                null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }
