@@ -373,8 +373,8 @@
 		  }
 	  toastr.success("下载成功","下载速度慢大概需要60秒");
 	  $("#content").loading('show');
-	  var url="${ctxPath}/order/exportExcel?shopId="+$("#shopId").val()+"&status="+$("#status").val();
-	 $("#exportTarget").attr("src",url);
+	  var url="${ctxPath}/order/exportExcel?shopId="+$("#shopId").val()+"&status="+$("#status").val()+"&filterPhones="+$("#filterPhones").val();
+	  $("#exportTarget").attr("src",url);
 	
 	 // 
 	 // $("#page_form").submit();
