@@ -34,7 +34,7 @@ public class ShopDTO implements Serializable {
     private String            name;
 
     @ApiModelProperty(value = "")
-    private String            key;
+    private String            ownerId;
 
     @ApiModelProperty(value = "")
     private String            secret;

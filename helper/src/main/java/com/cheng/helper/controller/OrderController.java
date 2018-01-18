@@ -229,9 +229,9 @@ public class OrderController {
             // 生成订单
             ShopDO shopDO = shopService.get(shopId);
             Order order = new Order();
-            order.orderList(shopDO.getKey(), shopDO.getSecret(), status, 1);
-            Map<String, Map<String, GoodsIdOuterIdSpec>> map = order.orderDetail(shopDO.getKey(),
-                shopDO.getSecret(), order.getOrderSNs(), filterPhones);
+            order.orderList(shopDO.getOwnerId(), shopDO.getSecret(), status, 1);
+            Map<String, Map<String, GoodsIdOuterIdSpec>> map = order.orderDetail(
+                shopDO.getOwnerId(), shopDO.getSecret(), order.getOrderSNs(), filterPhones);
             System.out.println(JSONArray.toJSONString(map));
             StringBuffer strBuffer = new StringBuffer();
             List<String> columns = new ArrayList<String>();

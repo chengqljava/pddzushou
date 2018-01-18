@@ -112,7 +112,7 @@
                                     <%for(item in page.list! ){%>
                                     <tr>
                                         <td>${item.name!}</td>
-                                        <td>${item.key!}</td>
+                                        <td>${item.ownerId!}</td>
                                         <td>${item.secret!}</td>
                                         <td>${item.createTime!,'yyyy-MM-dd'}</td>
                                         <td><a href="${ctxPath}/shop/add?id=${item.id!}">编辑</a></td>

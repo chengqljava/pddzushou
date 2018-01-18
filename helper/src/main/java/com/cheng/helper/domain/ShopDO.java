@@ -23,7 +23,7 @@ public class ShopDO implements Serializable {
     //
     private String            name;
     //
-    private String            key;
+    private String            ownerId;
     //
     private String            secret;
     //

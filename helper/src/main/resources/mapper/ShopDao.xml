@@ -7,7 +7,7 @@
     <resultMap type="com.cheng.helper.domain.ShopDO" id="shopMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="key" column="key"/>
+        <result property="ownerId" column="owner_id"/>
         <result property="secret" column="secret"/>
         <result property="createTime" column="create_time"/>
         <result property="userId" column="user_id"/>
@@ -35,7 +35,7 @@
 			t_shop
 		<where>
 		 <if test="userId!=null and userId!=''">user_id=#{userId}</if>
-		 <if test="key!=null and key!=''">key=#{key}</if>
+		 <if test="ownerId!=null and ownerId!=''"> and owner_id=#{ownerId}</if>
 		</where>
 		<choose>
             <when test="orders != null">
@@ -55,7 +55,7 @@
 		(
 			`id`, 
 			`name`, 
-			`key`, 
+			`owner_id`, 
 			`secret`, 
 			`create_time`, 
 			`user_id`, 
@@ -66,7 +66,7 @@
 		(
 			#{id}, 
 			#{name}, 
-			#{key}, 
+			#{owner_id}, 
 			#{secret}, 
 			#{createTime}, 
 			#{userId}, 
@@ -79,7 +79,7 @@
 		UPDATE t_shop 
 		<set>
 			<if test="name != null">`name` = #{name}, </if>
-			<if test="key != null">`key` = #{key}, </if>
+			<if test="owner_id != null">`key` = #{owner_id}, </if>
 			<if test="secret != null">`secret` = #{secret}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="userId != null">`user_id` = #{userId}, </if>

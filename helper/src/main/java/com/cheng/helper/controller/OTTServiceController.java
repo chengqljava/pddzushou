@@ -51,7 +51,7 @@ public class OTTServiceController {
                 System.out.println("JSONObject Token " + object.toJSONString());
                 if (object != null) {
                     ShopQuery shopQuery = new ShopQuery();
-                    shopQuery.setKey(object.getString("owner_id"));
+                    shopQuery.setOwnerId(object.getString("owner_id"));
                     List<ShopDO> list = shopService.list(shopQuery);
                     if (!list.isEmpty()) {
                         for (ShopDO shopDO : list) {
