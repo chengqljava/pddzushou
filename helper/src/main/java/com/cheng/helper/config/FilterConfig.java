@@ -24,7 +24,7 @@ public class FilterConfig {
     }
 
     @Bean
-    public FilterRegistrationBean memberFilterRegistration() {
+    public FilterRegistrationBean userFilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         //注入过滤器
         registration.setFilter(new LoginFilter());
