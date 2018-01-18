@@ -49,7 +49,7 @@ public class OTTServiceController {
                 JSONObject object = OAuthUtil.accessToken(code, clientProperties.getClientId(),
                     clientProperties.getClientSecret());
                 System.out.println("JSONObject Token " + object.toJSONString());
-                if (object != null) {
+                if (object != null && !object.containsKey("error_response")) {
                     ShopQuery shopQuery = new ShopQuery();
                     shopQuery.setOwnerId(object.getString("owner_id"));
                     List<ShopDO> list = shopService.list(shopQuery);

@@ -66,7 +66,7 @@
 		(
 			#{id}, 
 			#{name}, 
-			#{owner_id}, 
+			#{ownerId}, 
 			#{secret}, 
 			#{createTime}, 
 			#{userId}, 
@@ -79,7 +79,7 @@
 		UPDATE t_shop 
 		<set>
 			<if test="name != null">`name` = #{name}, </if>
-			<if test="owner_id != null">`key` = #{owner_id}, </if>
+			<if test="ownerId != null">`owner_id` = #{ownerId}, </if>
 			<if test="secret != null">`secret` = #{secret}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="userId != null">`user_id` = #{userId}, </if>
