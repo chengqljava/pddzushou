@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.cheng.helper.ClientProperties;
 import com.cheng.helper.config.Context;
 import com.cheng.helper.domain.GoodsDO;
 import com.cheng.helper.domain.ShopDO;
@@ -55,6 +57,8 @@ public class OrderController {
     private ShopService         shopService;
     @Autowired
     private HttpServletResponse response;
+    @Autowired
+    private ClientProperties    clientProperties;
 
     @ApiOperation(value = "订单列表", notes = "订单列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -154,13 +158,18 @@ public class OrderController {
         try {
             ShopDO shopDO = shopService.get(shopId);
             if (shopDO != null) {
-                OrderUtilSingle orderUtil = new OrderUtilSingle();
-                orderUtil.orderList(shopDO.getKey(), shopDO.getSecret(),
-                    status == null ? 1 : status, 1);
-                if (orderUtil.isEndTask()) {
-                    System.out.println(orderUtil.getOrderSNSInfo());
-                    jsonObject.put("list", orderUtil.getOrderSNSInfo());
-
+                if (StringUtils.isNoneBlank(shopDO.getAccessToken())) {
+                    jsonObject.put("success", false);
+                    jsonObject.put("clientId", clientProperties.getClientId());
+                    jsonObject.put("clientSecret", clientProperties.getClientSecret());
+                } else {
+                    OrderUtilSingle orderUtil = new OrderUtilSingle();
+                    orderUtil.orderList(shopDO.getKey(), shopDO.getSecret(),
+                        status == null ? 1 : status, 1);
+                    if (orderUtil.isEndTask()) {
+                        System.out.println(orderUtil.getOrderSNSInfo());
+                        jsonObject.put("list", orderUtil.getOrderSNSInfo());
+                    }
                 }
             }
         } catch (Exception e) {

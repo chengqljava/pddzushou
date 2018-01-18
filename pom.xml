@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cheng</groupId>
 	<artifactId>pddzushou</artifactId>
@@ -27,7 +27,7 @@
 		<fastjson.version>1.2.30</fastjson.version>
 		<guava.version>20.0</guava.version>
 		<webmagic.version>0.7.2</webmagic.version>
-		<quartz.version>2.2.3</quartz.version>
+		<quartz.version>2.3.0</quartz.version>
 		<joda-time.version>2.3</joda-time.version>
 		<ok-http.version>3.4.1</ok-http.version>
 		<zkclient.version>0.1</zkclient.version>
@@ -37,7 +37,9 @@
 
 	<modules>
 		<module>helper</module>
-	</modules>
+    <module>service-qurtz</module>
+    <module>common-utils</module>
+  </modules>
 
 
 	<repositories>
@@ -397,5 +399,3 @@
 		</dependencies>
 	</dependencyManagement>
 </project>
-
-

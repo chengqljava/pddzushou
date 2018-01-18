@@ -497,7 +497,11 @@
                 	            );
                   		}
                   	}else{
-                  		alert(data.message);
+                  		if(data.clientId){
+                  			window.open("http://mms.pinduoduo.com/open.html?response_type=code&client_id="+data.clientId+"&redirect_uri=http://118.31.38.95:8383/ottService/callBack&state=1212"); 
+                  		}else{
+                  		 alert(data.message);
+                  		}
                   		$('#content').loading('hide');
                   	}
                   },
