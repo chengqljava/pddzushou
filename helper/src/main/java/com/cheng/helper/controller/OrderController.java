@@ -83,7 +83,8 @@ public class OrderController {
                 List<GoodMessage> goodMessages = null;
                 if (shopDO != null) {
                     OrderUtilSingle orderUtil = new OrderUtilSingle();
-                    orderUtil.orderList(shopDO.getKey(), shopDO.getSecret(),
+                    orderUtil.orderList(clientProperties.getClientId(),
+                        clientProperties.getClientSecret(), shopDO.getAccessToken(),
                         status == null ? 1 : status, 1);
                     // orderUtil.orderInfo(shopDO.getKey(), shopDO.getSecret());
                     if (orderUtil.isEndTask()) {
@@ -158,13 +159,14 @@ public class OrderController {
         try {
             ShopDO shopDO = shopService.get(shopId);
             if (shopDO != null) {
-                if (StringUtils.isNoneBlank(shopDO.getAccessToken())) {
+                if (StringUtils.isBlank(shopDO.getAccessToken())) {
                     jsonObject.put("success", false);
                     jsonObject.put("clientId", clientProperties.getClientId());
                     jsonObject.put("clientSecret", clientProperties.getClientSecret());
                 } else {
                     OrderUtilSingle orderUtil = new OrderUtilSingle();
-                    orderUtil.orderList(shopDO.getKey(), shopDO.getSecret(),
+                    orderUtil.orderList(clientProperties.getClientId(),
+                        clientProperties.getClientSecret(), shopDO.getAccessToken(),
                         status == null ? 1 : status, 1);
                     if (orderUtil.isEndTask()) {
                         System.out.println(orderUtil.getOrderSNSInfo());

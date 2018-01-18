@@ -113,6 +113,7 @@
 										class="btn btn-primary btn-sm m-b-none">
 										<i class="fa"></i> 导出
 									</button></span>
+									<a href="" id="openNewWindow" target="_blank" style="display:none">授权</a>
 							</div>
 						</div>
                    </form>
@@ -498,7 +499,11 @@
                   		}
                   	}else{
                   		if(data.clientId){
-                  			window.open("http://mms.pinduoduo.com/open.html?response_type=code&client_id="+data.clientId+"&redirect_uri=http://118.31.38.95:8383/ottService/callBack&state=1212"); 
+                  		
+                  			$("#openNewWindow").attr("href","http://mms.pinduoduo.com/open.html?response_type=code&client_id="+data.clientId+"&redirect_uri=http://118.31.38.95:8383/ottService/callBack&state=1212");
+                  			document.getElementById("openNewWindow").click();
+                  			$("#openNewWindow").show();
+                  			//window.open("http://mms.pinduoduo.com/open.html?response_type=code&client_id="+data.clientId+"&redirect_uri=http://118.31.38.95:8383/ottService/callBack&state=1212"); 
                   		}else{
                   		 alert(data.message);
                   		}

@@ -91,6 +91,8 @@ public class OAuthUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(accessToken("23232", "klasdfd", "clientSecret"));
+        System.out.println(accessToken("0bbed33ac7c5428e9493de111a6aba13e0024397",
+            "56b36ebebdb8433b868a647b8e681e67", "cd8acb2c3635b58bd778bac7aa19b1692dc5a842"));
     }
+
 }

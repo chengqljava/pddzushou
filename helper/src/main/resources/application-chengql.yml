@@ -26,14 +26,14 @@ logging:
   config: classpath:log4j2-dev.xml
 
 #flyway:
-#  validate-on-migrate: false
+#  validate-on-migrate: exfalse
 
 helper:
   swagger-open: true #是否开启swagger (true/false)  
 
 client:
-  id: 'test'
-  secret: 'test'
+  id: '56b36ebebdb8433b868a647b8e681e67'
+  secret: 'cd8acb2c3635b58bd778bac7aa19b1692dc5a842'
 
 
   

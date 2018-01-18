@@ -16,7 +16,7 @@
         <result property="ownerName" column="owner_name"/>
         <result property="accessToken" column="access_token"/>
         <result property="refreshToken" column="refresh_token"/>
-        <result property="tokenUpdateTsime" column="token_update_time"/>
+        <result property="tokenUpdateTime" column="token_update_time"/>
     </resultMap>
 
 	<select id="get" resultMap="shopMap">
@@ -88,7 +88,7 @@
 			<if test="ownerName != null">`owner_name` = #{ownerName},</if>
 			<if test="accessToken != null">`access_token` = #{accessToken},</if>
 			<if test="refreshToken != null">`refresh_token` = #{refreshToken},</if>
-			<if test="tokenUpdateTsime != null">`token_update_time` = #{tokenUpdateTsime}</if>
+			<if test="tokenUpdateTime != null">`token_update_time` = #{tokenUpdateTime}</if>
 		</set>
 		WHERE id = #{id}
 	</update>
