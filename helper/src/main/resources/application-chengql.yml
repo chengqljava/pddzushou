@@ -20,7 +20,7 @@ spring:
     test-on-return: false
     poolPreparedStatements: true
  
- 
+
     
 logging: 
   config: classpath:log4j2-dev.xml
@@ -30,6 +30,10 @@ logging:
 
 helper:
   swagger-open: true #是否开启swagger (true/false)  
+
+client:
+  id: 'test'
+  secret: 'test'
 
 
   

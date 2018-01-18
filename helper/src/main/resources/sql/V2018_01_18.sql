@@ -1,0 +1,4 @@
+ALTER TABLE t_shop ADD COLUMN owner_name VARCHAR(30) DEFAULT NULL COMMENT '拥有者登录账户';
+ALTER TABLE t_shop ADD COLUMN access_token VARCHAR(60) DEFAULT NULL COMMENT 'access_token';
+ALTER TABLE t_shop ADD COLUMN refresh_token VARCHAR(60) DEFAULT NULL COMMENT 'refresh_token';
+ALTER TABLE t_shop ADD COLUMN  token_update_time DATETIME  DEFAULT NULL COMMENT 'token更新时间';

@@ -13,6 +13,10 @@
         <result property="userId" column="user_id"/>
         <result property="type" column="type"/>
         <result property="phone" column="phone"/>
+        <result property="ownerName" column="owner_name"/>
+        <result property="accessToken" column="access_token"/>
+        <result property="refreshToken" column="refresh_token"/>
+        <result property="tokenUpdateTsime" column="token_update_time"/>
     </resultMap>
 
 	<select id="get" resultMap="shopMap">
@@ -31,6 +35,7 @@
 			t_shop
 		<where>
 		 <if test="userId!=null and userId!=''">user_id=#{userId}</if>
+		 <if test="key!=null and key!=''">key=#{key}</if>
 		</where>
 		<choose>
             <when test="orders != null">
@@ -79,7 +84,11 @@
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="type != null">`type` = #{type}, </if>
-			<if test="phone != null">`phone` = #{phone}</if>
+			<if test="phone != null">`phone` = #{phone},</if>
+			<if test="ownerName != null">`owner_name` = #{ownerName},</if>
+			<if test="accessToken != null">`access_token` = #{accessToken},</if>
+			<if test="refreshToken != null">`refresh_token` = #{refreshToken},</if>
+			<if test="tokenUpdateTsime != null">`token_update_time` = #{tokenUpdateTsime}</if>
 		</set>
 		WHERE id = #{id}
 	</update>
