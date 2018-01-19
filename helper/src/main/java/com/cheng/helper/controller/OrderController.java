@@ -169,7 +169,6 @@ public class OrderController {
                         clientProperties.getClientSecret(), shopDO.getAccessToken(),
                         status == null ? 1 : status, 1);
                     if (orderUtil.isEndTask()) {
-                        System.out.println(orderUtil.getOrderSNSInfo());
                         jsonObject.put("list", orderUtil.getOrderSNSInfo());
                     }
                 }
