@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.wlgroup.job.repository.JobLogDao">
+<mapper namespace="com.cheng.qurtz.repository.JobLogDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.wlgroup.job.domain.JobLogDO" id="jobLogMap">
+    <resultMap type="com.cheng.qurtz.domain.JobLogDO" id="jobLogMap">
         <result property="id" column="id"/>
         <result property="jobId" column="job_id"/>
         <result property="beanName" column="bean_name"/>
@@ -57,7 +57,7 @@
         </choose>
 	</select>
 
-	<insert id="save" parameterType="com.wlgroup.job.domain.JobLogDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.cheng.qurtz.domain.JobLogDO" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO t_job_log
 		(
 			`id`,

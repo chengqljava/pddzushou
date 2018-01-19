@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cheng.helper.dto.GoodMessage;
+import com.cheng.utils.SignUtil;
 
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -190,7 +191,6 @@ public class OrderUtilSingle {
 
     public static void main(String[] args) {
         OrderUtilSingle order = new OrderUtilSingle();
-        long time = System.currentTimeMillis();
 
         order.orderList("56b36ebebdb8433b868a647b8e681e67",
             "cd8acb2c3635b58bd778bac7aa19b1692dc5a842", "3380c4e7bf78425492d485266c9f58285b0742cd",

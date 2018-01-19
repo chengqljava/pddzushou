@@ -1,6 +1,5 @@
 package com.cheng.helper.utils;
 
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -15,33 +14,37 @@ import org.joda.time.DateTime;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cheng.helper.dto.GoodsIdOuterIdSpec;
+import com.cheng.utils.ExcelUtil;
+import com.cheng.utils.FileUtil;
+import com.cheng.utils.SignUtil;
 
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 
 public class Order {
     //mall_id 110937 secret 1308706231
-
+    private String       URL      = "http://gw-api.pinduoduo.com/api/router";
     private List<String> orderSNs = new ArrayList<String>();
 
-    public void orderList(String mallId, String secret, Integer orderStatus, int pageNumer) {
-
+    public void orderList(String clientId, String clientSerct, String accessToken, int orderStatus,
+                          int pageNumer) {
         Map<String, Object> params = new TreeMap<String, Object>();
-        params.put("mall_id", mallId);
+        params.put("client_id", clientId);
         params.put("type", "pdd.order.number.list.get");
         params.put("order_status", orderStatus);
         params.put("timestamp", System.currentTimeMillis() + "");
         params.put("data_type", "JSON");
         params.put("page", pageNumer);
+        params.put("access_token", accessToken);
         //total_count
         //两页
         //先加密
-        String sign = SignUtil.signRequest(params, secret);
+        String sign = SignUtil.signRequest(params, clientSerct);
         params.put("sign", sign);
         //参数序列
         // String paramSer = SignUtil.parmsStr(params);
         // System.out.println(paramSer);
-        HttpRequest httpRequest = HttpRequest.post("http://open.yangkeduo.com/api/router")
+        HttpRequest httpRequest = HttpRequest.post(URL)
             .contentType("application/x-www-form-urlencoded; charset=UTF-8").form(params);
         HttpResponse httpResponse = httpRequest.send();
         //获取内空转JSON
@@ -66,12 +69,14 @@ public class Order {
         }
         if (total_count > 0) {
             pageNumer++;
-            this.orderList(mallId, secret, orderStatus, pageNumer);
+            this.orderList(clientId, clientSerct, accessToken, orderStatus, pageNumer);
         }
 
     }
 
-    public Map<String, Map<String, GoodsIdOuterIdSpec>> orderDetail(String mallId, String secret,
+    public Map<String, Map<String, GoodsIdOuterIdSpec>> orderDetail(String clientId,
+                                                                    String clientSerct,
+                                                                    String accessToken,
                                                                     List<String> orderSNs,
                                                                     String notContain) {
         Map<String, Map<String, GoodsIdOuterIdSpec>> codeColorSize = null;
@@ -93,15 +98,17 @@ public class Order {
             codeColorSize = new HashMap<String, Map<String, GoodsIdOuterIdSpec>>();
             for (String orderSN : orderSNs) {
                 params = new TreeMap<String, Object>();
-                params.put("mall_id", mallId);
+                params = new TreeMap<String, Object>();
+                params.put("client_id", clientId);
                 params.put("type", "pdd.order.information.get");
                 params.put("timestamp", System.currentTimeMillis());
                 params.put("data_type", "JSON");
                 params.put("order_sn", orderSN);
+                params.put("access_token", accessToken);
                 //先加密
-                String sign = SignUtil.signRequest(params, secret);
+                String sign = SignUtil.signRequest(params, clientSerct);
                 params.put("sign", sign);
-                httpRequest = HttpRequest.post("http://open.yangkeduo.com/api/router")
+                httpRequest = HttpRequest.post(URL)
                     .contentType("application/x-www-form-urlencoded; charset=UTF-8").form(params);
                 httpResponse = httpRequest.send();
                 //System.out.println(httpResponse.bodyText());
@@ -170,9 +177,8 @@ public class Order {
 
     public static void main(String[] args) {
         Order order = new Order();
-        order.orderList("110937", "1308706231", 1, 1);
-        Map<String, Map<String, GoodsIdOuterIdSpec>> map = order.orderDetail("110937", "1308706231",
-            order.getOrderSNs(), null);
+        Map<String, Map<String, GoodsIdOuterIdSpec>> map = order.orderDetail("", "110937",
+            "1308706231", order.getOrderSNs(), null);
         StringBuffer strBuffer = new StringBuffer();
         List<String> columns = new ArrayList<String>();
         columns.add("商品ID");
@@ -212,8 +218,8 @@ public class Order {
 
         try {
             ExcelUtil.exportDataToExcel(columns, datas,
-                new FileOutputStream("E:\\tmallTB\\"
-                                     + DateTime.now().toString("yyyy-MM-dd_HH点mm分") + ".xls"),
+                new FileOutputStream(
+                    "E:\\tmallTB\\" + DateTime.now().toString("yyyy-MM-dd_HH点mm分") + ".xls"),
                 DateTime.now().toString("yyyy-MM-dd_HH点mm分") + ".xls", "test", "PIN", null, null,
                 null);
         } catch (FileNotFoundException e) {

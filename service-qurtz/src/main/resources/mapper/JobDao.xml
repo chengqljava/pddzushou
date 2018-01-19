@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.wlgroup.job.repository.JobDao">
+<mapper namespace="com.cheng.qurtz.repository.JobDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.wlgroup.job.domain.JobDO" id="jobMap">
+    <resultMap type="com.cheng.qurtz.domain.JobDO" id="jobMap">
         <result property="id" column="id"/>
         <result property="beanName" column="bean_name"/>
         <result property="methodName" column="method_name"/>
@@ -47,7 +47,7 @@
         </choose>
 	</select>
 
-	<insert id="save" parameterType="com.wlgroup.job.domain.JobDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.cheng.qurtz.domain.JobDO" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO t_job
 		(
 			`id`,
@@ -72,7 +72,7 @@
 		)
 	</insert>
 
-	<update id="update" parameterType="com.wlgroup.job.domain.JobDO">
+	<update id="update" parameterType="com.cheng.qurtz.domain.JobDO">
 		UPDATE t_job
 		<set>
 			<if test="beanName != null">`bean_name` = #{beanName}, </if>

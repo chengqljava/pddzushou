@@ -80,12 +80,10 @@ public class OAuthUtil {
         params.put("client_id", clientId);
         params.put("client_secret", clientSecret);
         params.put("grant_type", "refresh_token");
-        params.put("state", "1212");
         HttpRequest httpRequest = HttpRequest.post(ACCESS_TOKEN)
             .contentType("application/json", "UTF-8").body(params.toJSONString());
         HttpResponse httpResponse = httpRequest.send();
-        // System.out.println(httpResponse.bodyText());
-        // 获取内空转JSON
+        System.out.println("refreshToken" + httpResponse.bodyText());
         JSONObject jsonObject = JSONObject.parseObject(httpResponse.bodyText());
         return jsonObject;
     }

@@ -15,12 +15,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springside.modules.utils.mapper.BeanMapper;
 
-import com.cheng.helper.common.SpringContextHolder;
+import com.cheng.common.SpringContextHolder;
 import com.cheng.helper.config.Context;
 import com.cheng.helper.domain.UserDO;
 import com.cheng.helper.dto.UserDTO;
 import com.cheng.helper.service.UserService;
-import com.cheng.helper.utils.CookieUtils;
+import com.cheng.utils.CookieUtils;
 
 public class LoginFilter implements Filter {
 

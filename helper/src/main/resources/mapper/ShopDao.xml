@@ -4,79 +4,80 @@
 <mapper namespace="com.cheng.helper.repository.ShopDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.cheng.helper.domain.ShopDO" id="shopMap">
-        <result property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="ownerId" column="owner_id"/>
-        <result property="secret" column="secret"/>
-        <result property="createTime" column="create_time"/>
-        <result property="userId" column="user_id"/>
-        <result property="type" column="type"/>
-        <result property="phone" column="phone"/>
-        <result property="ownerName" column="owner_name"/>
-        <result property="accessToken" column="access_token"/>
-        <result property="refreshToken" column="refresh_token"/>
-        <result property="tokenUpdateTime" column="token_update_time"/>
-    </resultMap>
+	<resultMap type="com.cheng.helper.domain.ShopDO" id="shopMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="ownerId" column="owner_id" />
+		<result property="secret" column="secret" />
+		<result property="createTime" column="create_time" />
+		<result property="userId" column="user_id" />
+		<result property="type" column="type" />
+		<result property="phone" column="phone" />
+		<result property="ownerName" column="owner_name" />
+		<result property="accessToken" column="access_token" />
+		<result property="refreshToken" column="refresh_token" />
+		<result property="tokenUpdateTime" column="token_update_time" />
+	</resultMap>
 
 	<select id="get" resultMap="shopMap">
-		SELECT 
-			* 
-		FROM 
-			t_shop 
-		WHERE 
-			id = #{id}
+		SELECT
+		*
+		FROM
+		t_shop
+		WHERE
+		id = #{id}
 	</select>
 
 	<select id="list" resultMap="shopMap">
-		SELECT 
-			* 
-		FROM 
-			t_shop
+		SELECT
+		*
+		FROM
+		t_shop
 		<where>
-		 <if test="userId!=null and userId!=''">user_id=#{userId}</if>
-		 <if test="ownerId!=null and ownerId!=''"> and owner_id=#{ownerId}</if>
+			<if test="userId!=null and userId!=''">user_id=#{userId}</if>
+			<if test="ownerId!=null and ownerId!=''"> and owner_id=#{ownerId}</if>
 		</where>
 		<choose>
-            <when test="orders != null">
-            	ORDER BY 
-            	<foreach collection="orders" item="item"  open=" " separator="," close=" ">  
-			    	${item.property} ${item.direction}  
-			    </foreach>  
-            </when>
+			<when test="orders != null">
+				ORDER BY
+				<foreach collection="orders" item="item" open=" " separator=","
+					close=" ">
+					${item.property} ${item.direction}
+				</foreach>
+			</when>
 			<otherwise>
-                ORDER BY create_time DESC
+				ORDER BY create_time DESC
 			</otherwise>
-        </choose>
+		</choose>
 	</select>
-	
+
 	<insert id="save" parameterType="com.cheng.helper.domain.ShopDO">
 		INSERT INTO t_shop
 		(
-			`id`, 
-			`name`, 
-			`owner_id`, 
-			`secret`, 
-			`create_time`, 
-			`user_id`, 
-			`type`, 
-			`phone`
+		`id`,
+		`name`,
+		`owner_id`,
+		`secret`,
+		`create_time`,
+		`user_id`,
+		`type`,
+		`phone`
 		)
 		VALUES
 		(
-			#{id}, 
-			#{name}, 
-			#{ownerId}, 
-			#{secret}, 
-			#{createTime}, 
-			#{userId}, 
-			#{type}, 
-			#{phone}
+		#{id},
+		#{name},
+		#{ownerId},
+		#{secret},
+		#{createTime},
+		#{userId},
+		#{type},
+		#{phone}
 		)
 	</insert>
-	 
+
 	<update id="update" parameterType="com.cheng.helper.domain.ShopDO">
-		UPDATE t_shop 
+		UPDATE t_shop
 		<set>
 			<if test="name != null">`name` = #{name}, </if>
 			<if test="ownerId != null">`owner_id` = #{ownerId}, </if>
@@ -92,12 +93,49 @@
 		</set>
 		WHERE id = #{id}
 	</update>
-	
+
 	<delete id="delete">
-		DELETE FROM 
-			t_shop 
-		WHERE 
-			id = #{id}
+		DELETE FROM
+		t_shop
+		WHERE
+		id = #{id}
 	</delete>
-	
+
+	<select id="refreshTokenList" resultMap="shopMap">
+		SELECT
+		id,access_token as accessToken,refresh_token as
+		refreshToken,token_update_time AS tokenUpdateTime
+		FROM
+		t_shop
+	    <![CDATA[ WHERE access_token IS NOT NULL AND refresh_token IS NOT NULL AND token_update_time IS NOT NULL AND  timestampdiff(HOUR,token_update_time,now())>=#{hours}]]>
+	</select>
+
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			UPDATE t_shop
+			<set>
+				<if test="item.name != null">`name` = #{item.name}, </if>
+				<if test="item.ownerId != null">`owner_id` = #{item.ownerId}, </if>
+				<if test="item.secret != null">`secret` = #{item.secret}, </if>
+				<if test="item.createTime != null">`create_time` = #{item.createTime}, </if>
+				<if test="item.userId != null">`user_id` = #{item.userId}, </if>
+				<if test="item.type != null">`type` = #{item.type}, </if>
+				<if test="item.phone != null">`phone` = #{item.phone},</if>
+				<if test="item.ownerName != null">`owner_name` = #{item.ownerName},</if>
+				<if test="item.accessToken != null">`access_token` = #{item.accessToken},</if>
+				<if test="item.refreshToken != null">`refresh_token` = #{item.refreshToken},</if>
+				<if test="item.tokenUpdateTime != null">`token_update_time` = #{item.tokenUpdateTime}</if>
+			</set>
+			where id = #{item.id}
+		</foreach>
+	</update>
+
+	<update id="updateCleanToken">
+		UPDATE t_shop SET
+		access_token=null,refresh_token=null,token_update_time=null WHERE id =
+		#{id}
+	</update>
+
+
 </mapper>

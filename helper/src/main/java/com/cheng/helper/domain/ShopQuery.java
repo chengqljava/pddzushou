@@ -1,6 +1,6 @@
 package com.cheng.helper.domain;
 
-import com.cheng.helper.common.BasePageQuery;
+import com.cheng.common.BasePageQuery;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
