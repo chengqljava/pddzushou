@@ -102,8 +102,8 @@
                                     <thead>
                                     <tr>
                                         <th>店铺名称</th>
-                                        <th>接入码</th>
-                                        <th>接口密码</th>
+                                        <th>商铺ID</th>
+                                    <!--     <th>接口密码</th> -->
                                         <th>创建时间</th>
                                          <th>操作</th>
                                     </tr>
@@ -113,7 +113,6 @@
                                     <tr>
                                         <td>${item.name!}</td>
                                         <td>${item.ownerId!}</td>
-                                        <td>${item.secret!}</td>
                                         <td>${item.createTime!,'yyyy-MM-dd'}</td>
                                         <td><a href="${ctxPath}/shop/add?id=${item.id!}">编辑</a></td>
                                     </tr>
