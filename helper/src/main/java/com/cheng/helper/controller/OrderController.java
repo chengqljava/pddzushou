@@ -192,7 +192,6 @@ public class OrderController {
             List<GoodsDO> goods = new ArrayList<GoodsDO>();
             GoodsDO goodsDO = null;
             JSONArray jsonArray = JSONObject.parseArray("[" + goodRecord + "]");
-            System.out.println(jsonArray.toJSONString() + jsonArray.size());
             JSONObject json = null;
             for (int i = 0; i < jsonArray.size(); i++) {
                 json = jsonArray.getJSONObject(i);
@@ -233,7 +232,6 @@ public class OrderController {
             Map<String, Map<String, GoodsIdOuterIdSpec>> map = order.orderDetail(
                 clientProperties.getClientId(), clientProperties.getClientSecret(),
                 shopDO.getAccessToken(), order.getOrderSNs(), filterPhones);
-            System.out.println(JSONArray.toJSONString(map));
             StringBuffer strBuffer = new StringBuffer();
             List<String> columns = new ArrayList<String>();
             columns.add("商品ID");

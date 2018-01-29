@@ -1,11 +1,11 @@
 package com.cheng.helper.enums;
 
-public enum Role {
-                  ADMIN("admin", "超级管理员"), SIMPLE_PDD("pdd", "简单管理员");
+public enum ActionEnum {
+                        retreat("retreat", "退"), exchange("exchange", "换");
     private String code;
     private String desc;
 
-    private Role(String code, String desc) {
+    private ActionEnum(String code, String desc) {
         this.code = code;
         this.desc = desc;
     }

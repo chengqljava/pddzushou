@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wlgroup.ChannelPopularizePic.repository.ExpressDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.wlgroup.ChannelPopularizePic.domain.ExpressDO" id="expressMap">
+        <result property="id" column="id"/>
+        <result property="order" column="order"/>
+        <result property="express" column="express"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="shopId" column="shop_id"/>
+        <result property="action" column="action"/>
+        <result property="backExpress" column="back_express"/>
+        <result property="backOrder" column="back_order"/>
+        <result property="backTime" column="back_time"/>
+    </resultMap>
+
+	<select id="get" resultMap="expressMap">
+		SELECT 
+			* 
+		FROM 
+			t_express 
+		WHERE 
+			id = #{id}
+	</select>
+
+	<select id="list" resultMap="expressMap">
+		SELECT 
+			* 
+		FROM 
+			t_express
+		<choose>
+            <when test="orders != null">
+            	ORDER BY 
+            	<foreach collection="orders" item="item"  open=" " separator="," close=" ">  
+			    	${item.property} ${item.direction}  
+			    </foreach>  
+            </when>
+			<otherwise>
+                ORDER BY id ASC
+			</otherwise>
+        </choose>
+	</select>
+	
+	<insert id="save" parameterType="com.wlgroup.ChannelPopularizePic.domain.ExpressDO">
+		INSERT INTO t_express
+		(
+			`id`, 
+			`order`, 
+			`express`, 
+			`remark`, 
+			`create_time`, 
+			`shop_id`, 
+			`action`, 
+			`back_express`, 
+			`back_order`, 
+			`back_time`
+		)
+		VALUES
+		(
+			#{id}, 
+			#{order}, 
+			#{express}, 
+			#{remark}, 
+			#{createTime}, 
+			#{shopId}, 
+			#{action}, 
+			#{backExpress}, 
+			#{backOrder}, 
+			#{backTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.wlgroup.ChannelPopularizePic.domain.ExpressDO">
+		UPDATE t_express 
+		<set>
+			<if test="order != null">`order` = #{order}, </if>
+			<if test="express != null">`express` = #{express}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="shopId != null">`shop_id` = #{shopId}, </if>
+			<if test="action != null">`action` = #{action}, </if>
+			<if test="backExpress != null">`back_express` = #{backExpress}, </if>
+			<if test="backOrder != null">`back_order` = #{backOrder}, </if>
+			<if test="backTime != null">`back_time` = #{backTime}</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM 
+			t_express 
+		WHERE 
+			id = #{id}
+	</delete>
+	
+</mapper>
