@@ -62,10 +62,10 @@
         <!--------当前位置----->
         <div class="row  border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2>店铺列表</h2>
+                <h2>快递列表</h2>
                 <ol class="breadcrumb">
                     <li><a href="${ctxPath}/">管理首页</a></li>
-                    <li class="active">店铺列表</li>
+                    <li class="active">快递列表</li>
                 </ol>
             </div>
         </div>
@@ -75,22 +75,57 @@
 
             <div class="ibox-content m-b-sm ibox-content-t border-bottom" id="ibox-content">
                 <div class="row">
-                    <div class="form-group col-md-3">
-                        <a href="${ctxPath}/shop/add" class="btn btn-primary"  data-title="添加店铺">新增店铺 <i class="fa fa-plus"></i></a>
-                    </div>
-                   <!--  <div class="col-md-3 form-group  m-t-xs">
-                        <input type="text" class="input-sm form-control" name="end" value="" placeholder="公司名称、公司简称、联系人、公司地址">
-                    </div> -->
-
-
-                   <!--  <div class="form-group col-md-4 m-t-xs " id="data_5">
-                        <div class="input-daterange input-group" id="datepicker">
-                            <input type="text" class="input-sm form-control" name="start" value="09/07/2015" placeholder="">
-                            <span class="input-group-addon">至</span>
-                            <input type="text" class="input-sm form-control" name="end" value="10/07/2015" placeholder="">
-                            <span class="input-group-btn"><i class="fa fa-search"></i> <button class="btn btn-primary btn-sm m-b-none"><i class="fa fa-search"></i> 搜索</button></span>
-                        </div>
-                    </div> -->
+                   	 <form  id="page_form" onkeydown="if(event.keyCode==13)return false;" action="${ctxPath}/order/exportExcel" method="post">
+						<div class="col-md-2  m-t-xs form-group">
+							<select name="shopId" id="shopId"
+								class="form-control input-s-sm inline input-sm">
+								<option value="">门店名称</option> <% for(bean in shopList!){ %>
+								<option value="${bean.id!}">${bean.name!}</option> <%}%>
+							</select>
+						</div>
+						<div class="col-md-2  m-t-xs form-group">
+							<select name="action" id="action"
+								class="form-control input-s-sm inline input-sm">
+								<option value="">请选择退/换</option>
+							<%for(actionEnum in mapActionEnums!){%>
+							<option value="${actionEnum.key!}"
+								${actionEnum.key==action!(-1)?'selected':''}>${actionEnum.value!}</option>
+							<%}%>
+							</select>
+						</div>
+						<div class="col-md-2  m-t-xs form-group">
+							<select name="action" id="action"
+								class="form-control input-s-sm inline input-sm">
+								<option value="">请选择快递公司</option>
+							<%for(expressEnum in mapExpressEnums!){%>
+							<option value="${expressEnum.key!}"
+								${expressEnum.key==express!(-1)?'selected':''}>${expressEnum.value!}</option>
+							<%}%>
+							</select>
+						</div>
+						<div class="col-md-3 form-group  m-t-xs">
+							<input type="text" class="input-sm form-control"
+								id="order" name="order" value=""
+								placeholder="请输入快递单号">
+						</div>
+						<div class="form-group col-md-4 m-t-xs " id="data_5">
+							<div class="input-daterange input-group">
+								<span class="input-group-btn"><i class="fa fa-search"></i>
+									<button 
+										class="btn btn-primary btn-sm m-b-none">
+										<i class="fa fa-search"></i> 搜索
+									</button></span>
+									<!-- <span class="input-group-btn"><i class="fa fa-search"></i>
+									<button type="button" onclick="exportOrder()"
+										class="btn btn-primary btn-sm m-b-none">
+										<i class="fa"></i> 导出
+									</button></span> -->
+									<span class="input-group-btn"><i class="fa fa-search"></i>
+									 <a href="${ctxPath}/express/add" class="btn btn-primary"  data-title="添加店铺">新增快递 <i class="fa fa-plus"></i></a>
+									 </span>
+							</div>
+						</div>
+                   </form>
                 </div>
             </div>
             <div class="row">
@@ -101,20 +136,33 @@
                                 <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
                                     <thead>
                                     <tr>
-                                        <th>店铺名称</th>
-                                        <th>商铺ID</th>
-                                    <!--     <th>接口密码</th> -->
+                                        <th>单号</th>
+                                        <th>快递名称</th>
+                                        <th>退/换</th>
                                         <th>创建时间</th>
+                                        <th>备注</th>
+                                        <th>商铺名称</th>
+                                        <th>回寄单号</th>
+                                        <th>回寄快递名称</th>
+                                        <th>回寄时间</th>
                                          <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <%for(item in page.list! ){%>
                                     <tr>
-                                        <td>${item.name!}</td>
-                                        <td>${item.ownerId!}</td>
+                                        <td>${item.order!}</td>
+                                        <td>${mapExpressEnums[item.express!]}</td>
+                                        <td>${mapActionEnums[item.action!]}}
                                         <td>${item.createTime!,'yyyy-MM-dd'}</td>
-                                        <td><a href="${ctxPath}/shop/add?id=${item.id!}">编辑</a></td>
+                                        <td>${item.remark!}</td>
+                                        <td>${mapShop[item.shopId!]}</td>
+                                        <td>${item.backOrder!}</td>
+                                        <td>${mapExpressEnums[item.backExpress!]}</td>
+                                        <td>
+                                        <a href="${ctxPath}/express/add?id=${item.id!}">编辑</a>
+                                        <a href="${ctxPath}/express/back?id=${item.id!}">回寄</a>
+                                        </td>
                                     </tr>
                                     <%}%>
                                     
@@ -126,8 +174,8 @@
                                     <div class="col-md-4"><div class="m-t-md">共 ${page.total!} 条</div></div>
                                     <div class="col-md-8 footable-visible">
                                         <ul class="pagination pull-right">
-                                            <li class="footable-page-arrow disabled"><a data-page="prev" href="${ctxPath}/shop/list?pageNum=${page.prePage!0}">上一页</a></li>
-                                            <li class="footable-page-arrow"><a data-page="next" href="${ctxPath}/shop/list?pageNum=${page.nextPage!0}">下一页</a></li>
+                                            <li class="footable-page-arrow disabled"><a data-page="prev" href="${ctxPath}/express/list?pageNum=${page.prePage!0}">上一页</a></li>
+                                            <li class="footable-page-arrow"><a data-page="next" href="${ctxPath}/express/list?pageNum=${page.nextPage!0}">下一页</a></li>
                                         </ul>
                                     </div>
                                 </div>

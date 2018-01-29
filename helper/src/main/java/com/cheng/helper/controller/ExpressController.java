@@ -112,6 +112,13 @@ public class ExpressController {
         }
         List<ShopDO> shopList = shopService.list(shopQuery);
         model.addAttribute("shopList", shopList);
+        Map<String, String> mapShop = new HashMap<>();
+        if (!shopList.isEmpty()) {
+            for (ShopDO shop : shopList) {
+                mapShop.put(shop.getId(), shop.getName());
+            }
+            model.addAttribute("mapShop", mapShop);
+        }
         return "express/list";
     }
 
@@ -143,6 +150,34 @@ public class ExpressController {
             model.addAttribute("shopList", shopList);
         }
         return "express/add";
+    }
+
+    @ApiOperation(value = "新增编辑", notes = "新增编辑")
+    @RequestMapping(value = "/back", method = RequestMethod.GET)
+    public String back(@RequestParam(required = false, defaultValue = "") String id, Model model) {
+        ExpressDO expressDO = expressService.get(id);
+        if (expressDO != null) {
+            model.addAttribute("expressDO", expressDO);
+        }
+        Map<String, String> mapExpressEnums = new HashMap<String, String>();
+        for (ExpressCodeEnum expressCodeEnum : ExpressCodeEnum.values()) {
+            mapExpressEnums.put(expressCodeEnum.getCode(), expressCodeEnum.getDesc());
+        }
+        model.addAttribute("mapExpressEnums", mapExpressEnums);
+        Map<String, String> mapActionEnums = new HashMap<>();
+        for (ActionEnum actionEnum : ActionEnum.values()) {
+            mapActionEnums.put(actionEnum.getCode(), actionEnum.getDesc());
+        }
+        model.addAttribute("actionEnum", mapActionEnums);
+
+        UserDTO userDTO = Context.getUser();
+        ShopQuery shopQuery = new ShopQuery();
+        if (Role.SIMPLE_PDD.getCode().equals(userDTO.getRole())) {
+            shopQuery.setUserId(userDTO.getId());
+        }
+        List<ShopDO> shopList = shopService.list(shopQuery);
+        model.addAttribute("shopList", shopList);
+        return "express/edit";
     }
 
     @ResponseStatus(HttpStatus.OK)
