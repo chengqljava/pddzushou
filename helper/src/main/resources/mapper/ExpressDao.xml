@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.wlgroup.ChannelPopularizePic.repository.ExpressDao">
+<mapper namespace="com.cheng.helper.repository.ExpressDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.wlgroup.ChannelPopularizePic.domain.ExpressDO" id="expressMap">
+    <resultMap type="com.cheng.helper.domain.ExpressDO" id="expressMap">
         <result property="id" column="id"/>
-        <result property="order" column="order"/>
+        <result property="orderCode" column="order_code"/>
         <result property="express" column="express"/>
         <result property="remark" column="remark"/>
         <result property="createTime" column="create_time"/>
@@ -15,6 +15,7 @@
         <result property="backExpress" column="back_express"/>
         <result property="backOrder" column="back_order"/>
         <result property="backTime" column="back_time"/>
+         <result property="userId" column="user_id"/>
     </resultMap>
 
 	<select id="get" resultMap="expressMap">
@@ -31,6 +32,15 @@
 			* 
 		FROM 
 			t_express
+	   <where>
+	     <if test="shopId!=null and shopId!=''">AND shop_id=#{shopId}</if>
+	     <if test="express!=null and express!=''">AND express=#{express}</if>
+	      <if test="searchStartTime!=null and searchStartTime!=''"><![CDATA[AND DATE_FORMAT(create_time ,'%Y-%m-%d')>=#{searchStartTime}]]></if>
+	     <if test="searchEndTime!=null and searchEndTime!=''"><![CDATA[AND DATE_FORMAT(create_time ,'%Y-%m-%d')<=#{searchEndTime}]]></if>
+	     <if test="orderCode!=null and orderCode!=''">AND order_code  LIKE concat(concat('%',#{orderCode}),'%')</if>
+	     <if test="action!=null ">AND action=#{action}</if>
+	      <if test="userId!=null and userId!=''">AND user_id=#{userId}</if>
+	    </where>
 		<choose>
             <when test="orders != null">
             	ORDER BY 
@@ -44,11 +54,11 @@
         </choose>
 	</select>
 	
-	<insert id="save" parameterType="com.wlgroup.ChannelPopularizePic.domain.ExpressDO">
+	<insert id="save" parameterType="com.cheng.helper.domain.ExpressDO">
 		INSERT INTO t_express
 		(
 			`id`, 
-			`order`, 
+			`order_code`, 
 			`express`, 
 			`remark`, 
 			`create_time`, 
@@ -56,12 +66,13 @@
 			`action`, 
 			`back_express`, 
 			`back_order`, 
-			`back_time`
+			`back_time`,
+			`user_id`
 		)
 		VALUES
 		(
 			#{id}, 
-			#{order}, 
+			#{orderCode}, 
 			#{express}, 
 			#{remark}, 
 			#{createTime}, 
@@ -69,14 +80,15 @@
 			#{action}, 
 			#{backExpress}, 
 			#{backOrder}, 
-			#{backTime}
+			#{backTime}, 
+			#{userId} 
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.wlgroup.ChannelPopularizePic.domain.ExpressDO">
+	<update id="update" parameterType="com.cheng.helper.domain.ExpressDO">
 		UPDATE t_express 
 		<set>
-			<if test="order != null">`order` = #{order}, </if>
+			<if test="orderCode != null">`order_code` = #{orderCode}, </if>
 			<if test="express != null">`express` = #{express}, </if>
 			<if test="remark != null">`remark` = #{remark}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
@@ -84,6 +96,7 @@
 			<if test="action != null">`action` = #{action}, </if>
 			<if test="backExpress != null">`back_express` = #{backExpress}, </if>
 			<if test="backOrder != null">`back_order` = #{backOrder}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="backTime != null">`back_time` = #{backTime}</if>
 		</set>
 		WHERE id = #{id}

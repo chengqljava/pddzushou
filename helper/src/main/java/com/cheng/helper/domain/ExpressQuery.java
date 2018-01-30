@@ -15,4 +15,12 @@ public class ExpressQuery extends BasePageQuery {
 
     private static final long serialVersionUID = 1L;
 
+    private String            shopId;
+    private String            express;
+    private String            searchStartTime;
+    private String            searchEndTime;
+    private String            orderCode;
+    private Integer           action;
+    private String            userId;
+
 }

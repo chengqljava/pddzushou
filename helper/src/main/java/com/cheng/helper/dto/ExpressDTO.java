@@ -31,7 +31,7 @@ public class ExpressDTO implements Serializable {
     private String            id;
 
     @ApiModelProperty(value = "单号")
-    private String            order;
+    private String            orderCode;
 
     @ApiModelProperty(value = "代号")
     private String            express;

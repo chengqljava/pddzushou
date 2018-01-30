@@ -21,7 +21,7 @@ public class ExpressDO implements Serializable {
     //
     private String            id;
     //单号
-    private String            order;
+    private String            orderCode;
     //代号
     private String            express;
     //备注
@@ -35,7 +35,7 @@ public class ExpressDO implements Serializable {
     //代号
     private String            backExpress;
     //单号
-    private Boolean           backOrder;
+    private String            backOrder;
     //发回时间
     private Date              backTime;
     /** 用户ID */

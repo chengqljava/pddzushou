@@ -34,7 +34,7 @@
 		<!----左侧导航开始----->
 		<nav class="navbar-default navbar-static-side" role="navigation"
 			id="leftnav"><%
-			include("/include/_sidebar.html",{active:"shop-list"}){} %></nav>
+			include("/include/_sidebar.html",{active:"express-list"}){} %></nav>
 		<!----左侧导航结束----->
 
 		<!---右侧内容区开始---->
@@ -83,16 +83,16 @@
 				<div class="ibox float-e-margins ">
 					<div class="ibox-content p-t-slg">
 						<form name="entity" id="input_form" class="form-horizontal">
-							<input type="hidden" id="id" name="id" value="${entity.id!}">
+							<input type="hidden" id="id" name="id" value="${expressDO.id!}">
 							<div class="form-group">
 								<label class="col-sm-2 control-label"> 快递公司 <span
 									class="text-danger">*</span></label>
 								<div class="col-sm-10">
-									<select name="express" id="express"  class="chosen-select" tabindex="2">
+									<select name="express" id="express"  class="chosen-select form-control input-s-sm inline input-sm" tabindex="2">
 							<option value="">请选择</option>
 							<%for(expressEnum in mapExpressEnums!){%>
 							<option value="${expressEnum.key!}"
-								${expressEnum.key==express!(-1)?'selected':''}>${expressEnum.value!}</option>
+								${expressEnum.key==expressDO.express!(-1)?'selected':''}>${expressEnum.value!}</option>
 							<%}%>
 						</select>
 								</div>
@@ -101,7 +101,7 @@
 								<label class="col-sm-2 control-label">快递单号 <span
 									class="text-danger">*</span></label>
 								<div class="col-sm-10">
-									<input type="text" id="order" name="order" value="${entiry.order!}"
+									<input type="text" id="orderCode" name="orderCode" value="${expressDO.orderCode!}"
 										placeholder="请输入快递单号" class="form-control" required>
 								</div>
 							</div>
@@ -109,11 +109,11 @@
 							<div class="form-group">
 							<label class="col-sm-2 control-label"> 店铺名称 <span
 									class="text-danger">*</span></label>
-					<div class="col-md-2  m-t-xs form-group">
-                        <select name="shopId" id="shopId" class="form-control input-s-sm inline input-sm">
+					<div class="col-sm-10">
+                        <select name="shopId" id="shopId" class=" chosen-select form-control input-s-sm inline input-sm">
                               <option value="">店铺名称</option>
                                 <% for(bean in shopList!){ %>
-									<option value="${bean.id!}" ${shopId! ==bean.id!?'selected' : ''}>${bean.name!}</option>
+									<option value="${bean.id!}" ${expressDO.shopId! ==bean.id!?'selected' : ''}>${bean.name!}</option>
 								<%}%>
                         </select>
                     </div>
@@ -122,11 +122,11 @@
 								<label class="col-sm-2 control-label"> 退/换 <span
 									class="text-danger">*</span></label>
 								<div class="col-sm-10">
-									<select name="action" id="action"  class="chosen-select" tabindex="2">
+									<select name="action" id="action"  class="chosen-select form-control input-s-sm inline input-sm" tabindex="2">
 							<option value="">请选择</option>
 							<%for(actionEnum in mapActionEnums!){%>
 							<option value="${actionEnum.key!}"
-								${actionEnum.key==action!(-1)?'selected':''}>${actionEnum.value!}</option>
+								${actionEnum.key==expressDO.action!(-1)?'selected':''}>${actionEnum.value!}</option>
 							<%}%>
 						</select>
 								</div>
@@ -134,7 +134,8 @@
 							<div class="form-group">
 								<label class="col-sm-2 control-label"> 备注 </label>
 								<div class="col-sm-10">
-								   <textarea rows="10" cols="30"  name="remark" placeholder="请输入备注" class="form-control">
+								   <textarea rows="5" cols="30"  name="remark" placeholder="请输入备注" class="form-control">
+								   ${expressDO.remark!}
 								   </textarea>
 								</div>
 							</div>
@@ -188,7 +189,7 @@
 					"express" : {
 						required : true
 					},
-					"order" : {
+					"orderCode" : {
 						required : true
 					},
 					"shopId" : {
@@ -202,7 +203,7 @@
 					"express" : {
 						required : "请选择快递公司"
 					},
-					"order" : {
+					"orderCode" : {
 						required : "请输入快递单号"
 					},
 					"shopId" : {

@@ -26,7 +26,7 @@
 <div id="wrapper">
     <!----左侧导航开始----->
     <nav class="navbar-default navbar-static-side" role="navigation">
-       <% include("/include/_sidebar.html",{active:"shop-list"}){} %>
+       <% include("/include/_sidebar.html",{active:"express-list"}){} %>
     </nav>
     <!----左侧导航结束----->
 
@@ -75,12 +75,12 @@
 
             <div class="ibox-content m-b-sm ibox-content-t border-bottom" id="ibox-content">
                 <div class="row">
-                   	 <form  id="page_form" onkeydown="if(event.keyCode==13)return false;" action="${ctxPath}/order/exportExcel" method="post">
+                   	 <form  id="page_form" onkeydown="if(event.keyCode==13)return false;" action="${ctxPath}/express/list" method="get">
 						<div class="col-md-2  m-t-xs form-group">
 							<select name="shopId" id="shopId"
 								class="form-control input-s-sm inline input-sm">
 								<option value="">门店名称</option> <% for(bean in shopList!){ %>
-								<option value="${bean.id!}">${bean.name!}</option> <%}%>
+								<option value="${bean.id!}" ${bean.id==shopId!0?'selected':''}>${bean.name!}</option> <%}%>
 							</select>
 						</div>
 						<div class="col-md-2  m-t-xs form-group">
@@ -89,32 +89,46 @@
 								<option value="">请选择退/换</option>
 							<%for(actionEnum in mapActionEnums!){%>
 							<option value="${actionEnum.key!}"
-								${actionEnum.key==action!(-1)?'selected':''}>${actionEnum.value!}</option>
+								${actionEnum.key==action!0?'selected':''}>${actionEnum.value!}</option>
 							<%}%>
 							</select>
 						</div>
 						<div class="col-md-2  m-t-xs form-group">
-							<select name="action" id="action"
+							<select name="express" id="express"
 								class="form-control input-s-sm inline input-sm">
 								<option value="">请选择快递公司</option>
 							<%for(expressEnum in mapExpressEnums!){%>
 							<option value="${expressEnum.key!}"
-								${expressEnum.key==express!(-1)?'selected':''}>${expressEnum.value!}</option>
+								${expressEnum.key==express!?'selected':''}>${expressEnum.value!}</option>
 							<%}%>
 							</select>
 						</div>
-						<div class="col-md-3 form-group  m-t-xs">
+						<div class="col-md-2 form-group  m-t-xs">
 							<input type="text" class="input-sm form-control"
-								id="order" name="order" value=""
+								id="orderCode" name="orderCode" value="${orderCode!}"
 								placeholder="请输入快递单号">
 						</div>
-						<div class="form-group col-md-4 m-t-xs " id="data_5">
+							<div class="col-sm-4  m-t-xs form-group" id="data_5">
+								<div class="input-daterange input-group" id="datepicker">
+									<input type="text" class="form-control" id="searchStartTime"
+										name="searchStartTime"
+										placeholder="开始时间"
+										value="${searchStartTime!}"> <span
+										class="input-group-addon">~</span> <input
+										type="text" class="form-control" id="searchEndTime"
+										name="searchEndTime"
+										placeholder="结束时间"
+										value="${searchEndTime!}">
+								</div>
+						</div>
+						<div class="form-group col-md-4 m-t-xs ">
 							<div class="input-daterange input-group">
 								<span class="input-group-btn"><i class="fa fa-search"></i>
 									<button 
 										class="btn btn-primary btn-sm m-b-none">
 										<i class="fa fa-search"></i> 搜索
-									</button></span>
+									</button>
+									</span>
 									<!-- <span class="input-group-btn"><i class="fa fa-search"></i>
 									<button type="button" onclick="exportOrder()"
 										class="btn btn-primary btn-sm m-b-none">
@@ -151,17 +165,20 @@
                                     <tbody>
                                     <%for(item in page.list! ){%>
                                     <tr>
-                                        <td>${item.order!}</td>
+                                        <td>${item.orderCode!}</td>
                                         <td>${mapExpressEnums[item.express!]}</td>
-                                        <td>${mapActionEnums[item.action!]}}
+                                        <td>${mapActionEnums[item.action!]}</td>
                                         <td>${item.createTime!,'yyyy-MM-dd'}</td>
                                         <td>${item.remark!}</td>
                                         <td>${mapShop[item.shopId!]}</td>
                                         <td>${item.backOrder!}</td>
                                         <td>${mapExpressEnums[item.backExpress!]}</td>
+                                        <td>${item.backTime!,'yyyy-MM-dd'}</td>
                                         <td>
                                         <a href="${ctxPath}/express/add?id=${item.id!}">编辑</a>
+                                        <%if(item.action!0==2){%>
                                         <a href="${ctxPath}/express/back?id=${item.id!}">回寄</a>
+                                        <%}%>
                                         </td>
                                     </tr>
                                     <%}%>
@@ -220,7 +237,22 @@
 
 <script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script>
-  
+$(document).ready(function () {
+//日期控件初始化
+$('#data_5 .input-daterange').datepicker({
+	keyboardNavigation : false,language: 'zh_CN',
+	forceParse : false,
+	autoclose : true,
+	format : 'yyyy-mm-dd',todayBtn: "linked"
+});
+//下拉框控件初始化
+$(".chosen-select").chosen({
+	no_results_text : '未找到此项',
+	width : "100%",
+	allow_single_deselect : true,
+	disable_search_threshold : 10
+});
+});
 </script>
 </body>
 </html>

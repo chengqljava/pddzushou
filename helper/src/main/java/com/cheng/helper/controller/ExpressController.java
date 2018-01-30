@@ -1,6 +1,9 @@
 package com.cheng.helper.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springside.modules.utils.mapper.BeanMapper;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cheng.common.BaseQuery.Direction;
+import com.cheng.common.BaseQuery.Order;
 import com.cheng.helper.config.Context;
 import com.cheng.helper.domain.ExpressDO;
 import com.cheng.helper.domain.ExpressQuery;
@@ -53,12 +58,12 @@ public class ExpressController {
                              Model model) {
         ExpressDO expressDO = expressService.get(id);
         model.addAttribute("entity", expressDO);
-        Map<String, String> mapExpressEnums = new HashMap<String, String>();
+        Map<String, String> mapExpressEnums = new LinkedHashMap<String, String>();
         for (ExpressCodeEnum expressCodeEnum : ExpressCodeEnum.values()) {
             mapExpressEnums.put(expressCodeEnum.getCode(), expressCodeEnum.getDesc());
         }
         model.addAttribute("mapExpressEnums", mapExpressEnums);
-        Map<String, String> mapActionEnums = new HashMap<>();
+        Map<Integer, String> mapActionEnums = new LinkedHashMap<>();
         for (ActionEnum actionEnum : ActionEnum.values()) {
             mapActionEnums.put(actionEnum.getCode(), actionEnum.getDesc());
         }
@@ -80,10 +85,17 @@ public class ExpressController {
                               @RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize,
                               @RequestParam(name = "shopId", required = false) String shopId,
                               @RequestParam(name = "express", required = false) String express,
-                              @RequestParam(name = "startTime", required = false) String startTime,
-                              @RequestParam(name = "endTime", required = false) String endTime,
-                              @RequestParam(name = "order", required = false) String order,
+                              @RequestParam(name = "searchStartTime", required = false) String searchStartTime,
+                              @RequestParam(name = "searchEndTime", required = false) String searchEndTime,
+                              @RequestParam(name = "orderCode", required = false) String orderCode,
+                              @RequestParam(name = "action", required = false) Integer action,
                               Model model) {
+        model.addAttribute("shopId", shopId);
+        model.addAttribute("express", express);
+        model.addAttribute("searchStartTime", searchStartTime);
+        model.addAttribute("searchEndTime", searchEndTime);
+        model.addAttribute("orderCode", orderCode);
+        model.addAttribute("action", action);
         ExpressQuery query = new ExpressQuery();
         if (pageNum <= 0) {
             pageNum = 1;
@@ -93,19 +105,33 @@ public class ExpressController {
         }
         query.setPage(pageNum);
         query.setSize(pageSize);
+        query.setAction(action);
+        query.setExpress(express);
+        query.setOrderCode(orderCode);
+        query.setSearchEndTime(searchEndTime);
+        query.setSearchStartTime(searchStartTime);
+        query.setShopId(shopId);
+        List<Order> orders = new ArrayList<>();
+        Order order = new Order(Direction.DESC, "create_time");
+        orders.add(order);
+        query.setOrders(orders);
+        UserDTO userDTO = Context.getUser();
+        if (Role.SIMPLE_PDD.getCode().equals(userDTO.getRole())) {
+            query.setUserId(userDTO.getId());
+        }
         PageInfo<ExpressDO> page = expressService.page(query);
         model.addAttribute("page", page);
-        Map<String, String> mapExpressEnums = new HashMap<String, String>();
+        Map<String, String> mapExpressEnums = new LinkedHashMap<String, String>();
         for (ExpressCodeEnum expressCodeEnum : ExpressCodeEnum.values()) {
             mapExpressEnums.put(expressCodeEnum.getCode(), expressCodeEnum.getDesc());
         }
         model.addAttribute("mapExpressEnums", mapExpressEnums);
-        Map<String, String> mapActionEnums = new HashMap<>();
+        Map<Integer, String> mapActionEnums = new LinkedHashMap<>();
         for (ActionEnum actionEnum : ActionEnum.values()) {
             mapActionEnums.put(actionEnum.getCode(), actionEnum.getDesc());
         }
-        model.addAttribute("actionEnum", mapActionEnums);
-        UserDTO userDTO = Context.getUser();
+        model.addAttribute("mapActionEnums", mapActionEnums);
+
         ShopQuery shopQuery = new ShopQuery();
         if (Role.SIMPLE_PDD.getCode().equals(userDTO.getRole())) {
             shopQuery.setUserId(userDTO.getId());
@@ -130,16 +156,16 @@ public class ExpressController {
             if (expressDO != null) {
                 model.addAttribute("expressDO", expressDO);
             }
-            Map<String, String> mapExpressEnums = new HashMap<String, String>();
+            Map<String, String> mapExpressEnums = new LinkedHashMap<String, String>();
             for (ExpressCodeEnum expressCodeEnum : ExpressCodeEnum.values()) {
                 mapExpressEnums.put(expressCodeEnum.getCode(), expressCodeEnum.getDesc());
             }
             model.addAttribute("mapExpressEnums", mapExpressEnums);
-            Map<String, String> mapActionEnums = new HashMap<>();
+            Map<Integer, String> mapActionEnums = new LinkedHashMap<>();
             for (ActionEnum actionEnum : ActionEnum.values()) {
                 mapActionEnums.put(actionEnum.getCode(), actionEnum.getDesc());
             }
-            model.addAttribute("actionEnum", mapActionEnums);
+            model.addAttribute("mapActionEnums", mapActionEnums);
 
             UserDTO userDTO = Context.getUser();
             ShopQuery shopQuery = new ShopQuery();
@@ -159,16 +185,16 @@ public class ExpressController {
         if (expressDO != null) {
             model.addAttribute("expressDO", expressDO);
         }
-        Map<String, String> mapExpressEnums = new HashMap<String, String>();
+        Map<String, String> mapExpressEnums = new LinkedHashMap<String, String>();
         for (ExpressCodeEnum expressCodeEnum : ExpressCodeEnum.values()) {
             mapExpressEnums.put(expressCodeEnum.getCode(), expressCodeEnum.getDesc());
         }
         model.addAttribute("mapExpressEnums", mapExpressEnums);
-        Map<String, String> mapActionEnums = new HashMap<>();
+        Map<Integer, String> mapActionEnums = new LinkedHashMap<>();
         for (ActionEnum actionEnum : ActionEnum.values()) {
             mapActionEnums.put(actionEnum.getCode(), actionEnum.getDesc());
         }
-        model.addAttribute("actionEnum", mapActionEnums);
+        model.addAttribute("mapActionEnums", mapActionEnums);
 
         UserDTO userDTO = Context.getUser();
         ShopQuery shopQuery = new ShopQuery();
@@ -187,8 +213,14 @@ public class ExpressController {
         ExpressDO expressDO = BeanMapper.map(expressRequest, ExpressDO.class);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("success", true);
+        expressDO.setUserId(Context.getUser().getId());
         try {
             if (StringUtils.isNoneBlank(expressRequest.getId())) {
+                if (StringUtils.isNoneBlank(expressDO.getBackExpress())
+                    && StringUtils.isNoneBlank(expressDO.getBackOrder())
+                    && expressDO.getBackTime() == null) {
+                    expressDO.setBackTime(new Date());
+                }
                 expressService.update(expressDO);
             } else {
                 expressService.save(expressDO);
