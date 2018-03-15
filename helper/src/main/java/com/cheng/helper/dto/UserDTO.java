@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,31 +25,32 @@ import lombok.ToString;
 @ApiModel(description = "")
 public class UserDTO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@ApiModelProperty(value = "")
-	private String id;
-	
-	@ApiModelProperty(value = "")
-	private String userName;
-	
-	@ApiModelProperty(value = "")
-	private String password;
-	
-	@ApiModelProperty(value = "")
-	private String phone;
-	
-	@ApiModelProperty(value = "")
-	private Boolean delFlag;
-	
-	@ApiModelProperty(value = "")
-	private Date createTime;
-	
-	@ApiModelProperty(value = "")
-	private Date validEndTime;
-	
-	@ApiModelProperty(value = "")
-	private String role;
-	
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "")
+    private String            id;
+
+    @ApiModelProperty(value = "")
+    private String            userName;
+
+    @ApiModelProperty(value = "")
+    private String            password;
+
+    @ApiModelProperty(value = "")
+    private String            phone;
+
+    @ApiModelProperty(value = "")
+    private Boolean           delFlag;
+
+    @ApiModelProperty(value = "")
+    private Date              createTime;
+
+    @ApiModelProperty(value = "")
+    private Date              validEndTime;
+
+    @ApiModelProperty(value = "")
+    private String            role;
+
+    private String            filtrationNumber;
 
 }

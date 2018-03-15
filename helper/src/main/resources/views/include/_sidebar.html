@@ -21,9 +21,10 @@
 		<li ${active == "index" ? "class='active'" : ""}>
 			<a href="${ctxPath }/index">
 				<i class="icon-dashboard"></i>
-				<span class="menu-text"> 控制台  </span>
+				<span class="menu-text"> 控${currentUser!}制台  </span>
 			</a>
 		</li>
+		
 		<!-- admin 系统管理员 -->
 		<%if(user.hasRole("admin")){%>
 			<% include("/rolemenus/admin.html"){} %>

@@ -1,0 +1,1 @@
+ALTER TABLE t_user ADD COLUMN filtration_number VARCHAR(200) DEFAULT NULL COMMENT '过滤数字';

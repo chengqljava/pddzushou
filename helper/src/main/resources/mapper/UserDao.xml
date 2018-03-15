@@ -14,6 +14,7 @@
 		<result property="validEndTime" column="valid_end_time" />
 		<result property="role" column="role" />
 		<result property="salt" column="salt" />
+		<result property="filtrationNumber" column="filtration_number" />
 	</resultMap>
 
 	<select id="get" resultMap="userMap">
@@ -61,7 +62,8 @@
 		`create_time`,
 		`valid_end_time`,
 		`role`,
-		`salt`
+		`salt`,
+		`filtration_number`
 		)
 		VALUES
 		(
@@ -73,7 +75,8 @@
 		#{createTime},
 		#{validEndTime},
 		#{role},
-		#{salt}
+		#{salt},
+		#{filtrationNumber}
 		)
 	</insert>
 
@@ -88,6 +91,7 @@
 			<if test="validEndTime != null">`valid_end_time` = #{validEndTime}, </if>
 			<if test="role != null">`role` = #{role}</if>
 			<if test="salt != null">`salt` = #{salt}</if>
+			<if test="filtrationNumber != null">`filtration_number` = #{filtrationNumber}</if>
 		</set>
 		WHERE id = #{id}
 	</update>
