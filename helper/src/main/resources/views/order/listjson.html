@@ -97,9 +97,21 @@
 							</select>
 						</div>
 						<div class="col-md-3 form-group  m-t-xs">
+						<%if(null!=user.getUser().filtrationNumber){%>
 							<input type="text" class="input-sm form-control"
-								id="filterPhones" name="filterPhones" value="${filterPhones!user.getUser().filtrationNumber}"
+								id="filterPhones" name="filterPhones" value="${user.getUser().filtrationNumber}"
 								placeholder="请输入过滤手机号185********,186*********">
+						<%}else{%>
+						<input type="text" class="input-sm form-control"
+								id="filterPhones" name="filterPhones" value=""
+								placeholder="请输入过滤手机号185********,186*********">
+						<%}%>
+						</div>
+						<div class="col-md-3 form-group  m-t-xs">
+						<input type="text" class="input-sm form-control"
+								id="filterAddress" name="filterAddress" value="A"
+								placeholder="请输入过滤地址包含内容">
+					
 						</div>
 						<div class="form-group col-md-4 m-t-xs " id="data_5">
 							<div class="input-daterange input-group">
@@ -424,14 +436,19 @@
                     	  if($("#filterPhones").val()&&isContains($("#filterPhones").val(),order_info.receiver_phone)){
                     		  continue; 
                     	  }
+                    	  if($("#filterAddress").val()&&order_info.address.indexOf($("#filterAddress").val()) != -1){
+                    		  continue; 
+                    	  }
                     	  item_list=order_info.item_list;
-                    	  
+                    	  console.log(order_info.address);
                     	  for(var j=0;j<item_list.length;j++){
+                    		 
                     		  lists=goodIdsMap.get(item_list[j].goods_id);
                     		  if(!lists){
                     			  lists=new List();
                     			  goodIdsMap.put(item_list[j].goods_id,lists);
                     		  }
+                    		
                     		  goodsIdOuterIdSpec=outerSpecMap.get(item_list[j].outer_goods_id+item_list[j].goods_spec);
                     		  if(!goodsIdOuterIdSpec){
                     			  goodsIdOuterIdSpec=new GoodsIdOuterIdSpec(item_list[j].goods_id,item_list[j].outer_goods_id,item_list[j].goods_spec,0,item_list[j].goods_img);
@@ -444,6 +461,7 @@
                   		console.log("goodIdsMap"+goodIdsMap.size());
                   		console.log("outerSpecMap"+outerSpecMap.size()); 
                   		console.log("goodIdsMap"+goodIdsMap.get(goodIdsMap.keySet()[0]).get(0).goodsImg);
+                  		console.log("goodIdsMap"+goodIdsMap.get(goodIdsMap.keySet()[0]).get(0));
                   		var TRTD="";
                   		var goodList=null;
                   		GoodRecord=[];
