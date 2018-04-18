@@ -50,7 +50,7 @@ public class UserDTO implements Serializable {
 
     @ApiModelProperty(value = "")
     private String            role;
-
+    @ApiModelProperty(value = "")
     private String            filtrationNumber;
 
 }

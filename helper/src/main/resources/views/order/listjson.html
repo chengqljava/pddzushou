@@ -97,7 +97,8 @@
 							</select>
 						</div>
 						<div class="col-md-3 form-group  m-t-xs">
-						<%if(null!=user.getUser().filtrationNumber){%>
+						
+						<%if(!isEmpty(user.getUser().filtrationNumber)){%>
 							<input type="text" class="input-sm form-control"
 								id="filterPhones" name="filterPhones" value="${user.getUser().filtrationNumber}"
 								placeholder="请输入过滤手机号185********,186*********">

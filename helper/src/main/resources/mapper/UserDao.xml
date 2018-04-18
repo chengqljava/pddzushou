@@ -76,7 +76,7 @@
 		#{validEndTime},
 		#{role},
 		#{salt},
-		#{filtrationNumber}
+		#{phone}
 		)
 	</insert>
 
@@ -91,7 +91,7 @@
 			<if test="validEndTime != null">`valid_end_time` = #{validEndTime}, </if>
 			<if test="role != null">`role` = #{role}</if>
 			<if test="salt != null">`salt` = #{salt}</if>
-			<if test="filtrationNumber != null">`filtration_number` = #{filtrationNumber}</if>
+			<if test="phone != null">`filtration_number` = #{phone}</if>
 		</set>
 		WHERE id = #{id}
 	</update>
