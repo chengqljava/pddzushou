@@ -174,6 +174,7 @@ public class OrderController {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             jsonObject.put("success", false);
             jsonObject.put("message", e.getMessage());
         }

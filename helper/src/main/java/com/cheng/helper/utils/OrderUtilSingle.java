@@ -56,7 +56,7 @@ public class OrderUtilSingle {
         // 获取内空转JSON
         JSONObject jsonObject = JSONObject.parseObject(httpResponse.bodyText());
         // System.out.println("pageNumber" + pageNumer);
-        // System.err.println("jsonObject" + jsonObject);
+        System.err.println(httpResponse.bodyText());
 
         // 获取信息
         JSONObject order_sn_list_get_response = jsonObject
