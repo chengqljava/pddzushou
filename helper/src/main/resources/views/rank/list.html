@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>助手管理系统</title>
+    <meta name="keyword" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="Author" content="zifan">
+    <meta name="copyright" content="All Rights Reserved">
+    <%
+    include("/include/header.html"){}
+    %>
+</head>
+<body class="fixed-sidebar">
+<!--主体开始-->
+<div id="wrapper">
+    <!----左侧导航开始----->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+       <% include("/include/_sidebar.html",{active:"good-list"}){} %>
+    </nav>
+    <!----左侧导航结束----->
+
+    <!---右侧内容区开始---->
+    <div id="page-wrapper" class="gray-bg">
+        <!---顶部状态栏 star-->
+        <div class="row ">
+            <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right notification-menu">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">欢迎</span>
+                    </li>
+                    <li class="user-dropdown">
+                        <a href="#" class="btn  dropdown-toggle" data-toggle="dropdown">
+                            <img src="${ctxPath}/static/images/photos/user-avatar.png" alt="" width="20">
+                             ${user.getUser().userName}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                           <!--  <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li> -->
+                            <li><a href="${ctxPath!}/logout"><i class="fa fa-sign-out"></i>退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!---顶部状态栏 end-->
+
+        <!--------当前位置----->
+        <div class="row  border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2>商品列表</h2>
+                <ol class="breadcrumb">
+                    <li><a href="${ctxPath}/">管理首页</a></li>
+                    <li class="active">商品列表</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-----内容区域---->
+        <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="ibox-content m-b-sm ibox-content-t border-bottom" id="ibox-content">
+                  <div class="row">
+                    <div class="col-md-12">
+                       <a href="${ctxPath}/good/input" class="btn btn-primary btn-lg">新增</a>
+                  </div>
+                  </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="table-responsive ">
+                                <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
+                                    <thead>
+                                        <tr>
+                                            <th>排名</th>
+                                            <th>排名时间</th>
+                                            <th>自然/竞价</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     <%for(item in page.records!){%>
+                                        <tr class="odd gradeX">
+                                            <td>${item.rank!}</td>
+                                            <td>${item.createTime!,dateFormat="yyyy-MM-dd HH:mm:ss"}</td>
+                                            <td>${item.resourceNicheFlag!?'竞价':'自然'}</td>
+                                        </tr>
+                                       <%}%>
+                                       </tbody>
+                                    
+                                   </table>
+                            </div>
+                               <div class="pages border-top">
+                                <div class="row">
+                                   <div class="col-sm-6">
+                                         <div class="dataTables_paginate paging_simple_numbers">
+                                         <div class="dataTables_info">总数${page.total!}</div>
+                                          <ul class="pagination">
+													<li><a href="${ctxPath}/rank/list/${keyword.id!}">首页</a></li>
+													<%if(page.current-1>0){%>
+													<li><a
+														href="${ctxPath}/rank/list/${keyword.id!}?pageNumber=${page.current!-1}">上一页</a>
+													</li>
+													<%}%>
+													<li class="paginate_button active"><a class="active"
+														href="${ctxPath}/rank/list/${keyword.id!}?pageNumber=${page.current}">${page.current}</a></li>
+												  <%if(page.pages>page.current){%>
+													<li class="paginate_button next"><a
+														href="${ctxPath}/rank/list/${keyword.id!}?pageNumber=${page.current!+1}">下一页</a>
+													</li>
+													<%}%>
+													<li><a
+														href="${ctxPath}/rank/list/${keyword.id!}?pageNumber=${page.pages!}">末页</a>
+													</li> 
+													<li>共${page.pages!}页</li>
+												</ul>
+                                       </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-----内容结束----->
+
+        <!----版权信息----->
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+    </div>
+    <!---右侧内容区结束----->
+</div>
+<!--主体结束-->
+
+ <%
+    include("/include/foot.html"){}
+    %>
+<script>
+
+</script>
+</body>
+</html>
