@@ -39,6 +39,8 @@
 		<module>helper</module>
     <module>service-qurtz</module>
     <module>common-utils</module>
+<module>feihong</module>
+
   </modules>
 
 
@@ -194,7 +196,7 @@
 				<version>2.5.0</version>
 			</dependency>
 
-			<!-- 二维码生成 -->
+			<!-- 二维码生�?-->
 			<dependency>
 				<groupId>com.github.binarywang</groupId>
 				<artifactId>qrcode-utils</artifactId>

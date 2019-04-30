@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>助手管理系统</title>
+<meta name="keyword" content="">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="Author" content="zifan">
+<meta name="copyright" content="All Rights Reserved">
+<link href="${ctxPath}/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="${ctxPath}/static/font-awesome/css/font-awesome.css"
+	rel="stylesheet">
+<link href="${ctxPath}/static/css/plugins/toastr/toastr.min.css"
+	rel="stylesheet">
+<link href="${ctxPath}/static/css/plugins/chosen/chosen.css"
+	rel="stylesheet">
+<link href="${ctxPath}/static/css/plugins/fileinput/fileinput.min.css"
+	rel="stylesheet">
+<link href="${ctxPath}/static/css/animate.css" rel="stylesheet">
+<link href="${ctxPath}/static/css/style.css" rel="stylesheet">
+<link href="${ctxPath}/static/css/style.css" rel="stylesheet">
+</head>
+<body class="fixed-sidebar">
+	<!--主体开始-->
+	<div id="wrapper">
+		<!----左侧导航开始----->
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<% include("/include/_sidebar.html",{active:"order-list-json"}){} %>
+		</nav>
+		<!----左侧导航结束----->
+
+		<!---右侧内容区开始---->
+		<div id="page-wrapper" class="gray-bg">
+			<!---顶部状态栏 star-->
+			<div class="row ">
+				<nav class="navbar navbar-fixed-top" role="navigation"
+					style="margin-bottom: 0">
+					<div class="navbar-header">
+						<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
+							href="#"><i class="fa fa-bars"></i> </a>
+					</div>
+					<ul class="nav navbar-top-links navbar-right notification-menu">
+						<li><span class="m-r-sm text-muted welcome-message">欢迎</span>
+						</li>
+						<li class="user-dropdown"><a href="#"
+							class="btn  dropdown-toggle" data-toggle="dropdown"> <img
+								src="${ctxPath}/static/images/photos/user-avatar.png" alt=""
+								width="20"> ${user.getUser().userName} <span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+								<!--  <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li> -->
+								<li><a href="${ctxPath!}/logout"><i
+										class="fa fa-sign-out"></i>退出</a></li>
+							</ul></li>
+					</ul>
+				</nav>
+			</div>
+			<!---顶部状态栏 end-->
+
+			<!--------当前位置----->
+			<div class="row  border-bottom white-bg page-heading">
+				<div class="col-sm-4">
+					<h2>订单列表</h2>
+					<ol class="breadcrumb">
+						<li><a href="${ctxPath}/">管理首页</a></li>
+						<li class="active">订单列表</li>
+					</ol>
+				</div>
+			</div>
+
+			<!-----内容区域---->
+			<div class="wrapper wrapper-content animated fadeInRight"
+				id="content">
+
+				<div class="ibox-content m-b-sm ibox-content-t border-bottom"
+					id="ibox-content">
+					<div class="row">
+					 <form  id="page_form" onkeydown="if(event.keyCode==13)return false;" action="${ctxPath}/order/exportExcel" method="post">
+						<div class="col-md-2  m-t-xs form-group">
+							<select name="shopId" id="shopId"
+								class="form-control input-s-sm inline input-sm">
+								<option value="">门店名称</option> <% for(bean in shopList!){ %>
+								<option value="${bean.id!}">${bean.name!}</option> <%}%>
+							</select>
+						</div>
+						<div class="col-md-2  m-t-xs form-group">
+							<select name="status" id="status"
+								class="form-control input-s-sm inline input-sm">
+								<option value="">－－状态－－</option>
+								<option value="1">未发货</option>
+								<option value="2">已发货待签收</option>
+								<option value="3">已签收</option>
+								<option value="5">全部</option>
+							</select>
+						</div>
+						<div class="col-md-3 form-group  m-t-xs">
+						
+						<%if(!isEmpty(user.getUser().filtrationNumber)){%>
+							<input type="text" class="input-sm form-control"
+								id="filterPhones" name="filterPhones" value="${user.getUser().filtrationNumber}"
+								placeholder="请输入过滤手机号185********,186*********">
+						<%}else{%>
+						<input type="text" class="input-sm form-control"
+								id="filterPhones" name="filterPhones" value=""
+								placeholder="请输入过滤手机号185********,186*********">
+						<%}%>
+						</div>
+						<div class="col-md-3 form-group  m-t-xs">
+						<input type="text" class="input-sm form-control"
+								id="filterAddress" name="filterAddress" value="A"
+								placeholder="请输入过滤地址包含内容">
+					
+						</div>
+						<div class="col-md-3 form-group  m-t-xs">
+						<input type="text" class="input-sm form-control"
+								id="filterName" name="filterName" value=""
+								placeholder="请输入过滤姓名">
+					
+						</div>
+						<div class="form-group col-md-4 m-t-xs " id="data_5">
+							<div class="input-daterange input-group">
+								<span class="input-group-btn"><i class="fa fa-search"></i>
+									<button type="button" onclick="ajaxOrder()"
+										class="btn btn-primary btn-sm m-b-none">
+										<i class="fa fa-search"></i> 搜索
+									</button></span>
+									<!-- <span class="input-group-btn"><i class="fa fa-search"></i>
+									<button type="button" onclick="exportOrder()"
+										class="btn btn-primary btn-sm m-b-none">
+										<i class="fa"></i> 导出
+									</button></span> -->
+									<span class="input-group-btn"><i class="fa fa-search"></i>
+									<a  href="http://mms.pinduoduo.com/open.html?response_type=code&client_id=56b36ebebdb8433b868a647b8e681e67&redirect_uri=http://118.31.38.95:8383/ottService/callBack&state=1212" target="_blank"
+										class="btn btn-primary btn-sm m-b-none">
+										<i class="fa"></i> 授权
+									</a></span>
+									<a href="" id="openNewWindow" target="_blank" style="display:none">授权</a>
+							</div>
+						</div>
+                   </form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="ibox">
+							<div class="ibox-content">
+								<div class="table-responsive ">
+									<table
+										class="table table-centerbody table-striped table-condensed text-nowrap"
+										id="editable-sample">
+										<thead>
+											<tr>
+												<th>商品ID</th>
+												<th>商家编码颜色尺寸</th>
+												<th>数量</th>
+												<th>图片</th>
+											</tr>
+										</thead>
+										<tbody>
+											<%if(list!!=null){%> <%for(item in list! ){%>
+											<%for(goodMessage in item.list!){%>
+											<tr>
+												<%if(goodMessageLP.index==1){%>
+												<td rowspan="${item.list.~size}">${item.goodIds!}</td> <%}%>
+												<td>${goodMessage.outerId!}_${goodMessage.goodsSpec!}</td>
+												<td>${goodMessage.goodsCount!}</td>
+												<%if(goodMessageLP.index==1){%> <%if(item.list.~size<=4){%>
+												<td rowspan="${item.list.~size}"><img width=100
+													height=100 src="${goodMessage.goodsImg!}"></td>
+												<%}if((item.list.~size<=8)&&(item.list.~size>4)){%>
+												<td rowspan="${item.list.~size}"><img width=150
+													height=200 src="${goodMessage.goodsImg!}"></td> <%}else
+												if(item.list.~size>8){%>
+												<td rowspan="${item.list.~size}"><img width=300
+													height=400 src="${goodMessage.goodsImg!}"></td> <%}%>
+												<%}%>
+											</tr>
+											<%}%>
+											<tr bordercolor="black" bgcolor="#FF0000"
+												style="height: 1px;">
+												<td colspan="4" style="height: 1px;"></td>
+											</tr>
+											<tr bordercolor="black" bgcolor="#FF0000"
+												style="height: 1px;">
+												<td colspan="4" style="height: 1px;"></td>
+											</tr>
+											<%}%> <%}else{%>
+											<tr>
+												<td colspan="4">暂无数据</td>
+											</tr>
+
+											<%}%>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-----内容结束----->
+         <iframe name="exportTarget" id="exportTarget" style="display:none;"></iframe> 
+			<!----版权信息----->
+			<div class="footer">
+				<div class="pull-right">
+					10GB of <strong>250GB</strong> Free.
+				</div>
+				<div>
+					<strong>Copyright</strong> Example Company &copy; 2014-2015
+				</div>
+			</div>
+
+		</div>
+		<!---右侧内容区结束----->
+	</div>
+	<!--主体结束-->
+
+	<!-- 全局 scripts -->
+	<script src="${ctxPath}/static/js/jquery-2.1.1.js"></script>
+	<script src="${ctxPath}/static/js/bootstrap.js"></script>
+	<script src="${ctxPath}/static/js/wuling.js"></script>
+	<script src="${ctxPath}/static/js/plugins/pace/pace.min.js"></script>
+
+	<script
+		src="${ctxPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script
+		src="${ctxPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+	<!-- 插件 scripts -->
+	<script src="${ctxPath}/static/js/plugins/chosen/chosen.jquery.js"></script>
+	<script src="${ctxPath}/static/js/plugins/toastr/toastr.min.js" async></script>
+	<!---顶部弹出提示--->
+	<script src="${ctxPath}/static/js/plugins/sweetalert/sweetalert.min.js"
+		async></script>
+	<!---对话框 alert--->
+	<script
+		src="${ctxPath}/static/js/plugins/validate/jquery.validate.min.js"></script>
+	<!---表单验证--->
+	<script src="${ctxPath}/static/js/plugins/validate/validate-cn.js"></script>
+	<!---validate 自定义方法--->
+
+	<script
+		src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctxPath}/static/js/plugins/loading/jquery.loading.js"></script>
+	<script>
+	//构建map
+	function Map() {  
+	    this.arr = new Array();  
+	    var struct = function(key, value) {  
+	            this.key = key;  
+	            this.value = value;  
+	    };
+	    this.keySet = function() {
+	        var arrKeys = new Array();
+	        for(var i = 0; i < this.arr.length; i++) {
+	            arrKeys.push(this.arr[i].key);
+	        }
+	        return arrKeys;
+	    };
+	    this.put = function(key, value){  
+	          for (var i = 0; i < this.arr.length; i++) {  
+	              if ( this.arr[i].key === key ) {  
+	                     this.arr[i].value = value;  
+	                    return;  
+	               }  
+	          }  
+	       this.arr[this.arr.length] = new struct(key, value);  
+	    };  
+	    this.get = function(key) {  
+	       for (var i = 0; i < this.arr.length; i++) {  
+	          if ( this.arr[i].key === key ) {  
+	               return this.arr[i].value;  
+	            }  
+	        }  
+	      return null;  
+	     };  
+	     this.values=function(){  
+	        var value=[]  
+	       for (var i = 0; i < this.arr.length; i++) {  
+	          value.push(this.arr[i].value);  
+	       }  
+	       return value.join(",");  
+	     };  
+	     this.remove = function(key) {  
+	       var v;  
+	       for (var i = 0; i < this.arr.length; i++) {  
+	          v = this.arr.pop();  
+	          if ( v.key === key ) {  
+	           continue;  
+	       }  
+	       this.arr.unshift(v);  
+	      }  
+	     };  
+	     this.size = function() {  
+	      return this.arr.length;  
+	     };  
+	     this.isEmpty = function() {  
+	         return this.arr.length <= 0;  
+	     };  
+	} 
+
+	/**  
+	 * js实现list  
+	 *   
+	 */  
+	function List() {  
+	    this.value = [];  
+	  
+	    /* 添加 */  
+	    this.add = function(obj) {  
+	        return this.value.push(obj);  
+	    };  
+	  
+	    /* 大小 */  
+	    this.size = function() {  
+	        return this.value.length;  
+	    };  
+	  
+	    /* 返回指定索引的值 */  
+	    this.get = function(index) {  
+	        return this.value[index];  
+	    }
+	    /*返回指定对象的索引
+	     */
+	    this.indexOf = function(obj) {
+	        for ( var i in this.value) { 
+	            
+	            if (obj == this.value[i]) {  
+	                return i;  
+	            } 
+	        }  
+	    };
+	    /* 删除指定索引的值 */  
+	    this.remove = function(index) {  
+	        this.value.splice(index,1);  
+	        return this.value;  
+	    };  
+	  
+	    /* 删除全部值 */  
+	    this.removeAll = function() {  
+	        return this.value = [];  
+	    };  
+	  
+	    /* 是否包含某个对象 */  
+	    this.constains = function(obj) {  
+	        for ( var i in this.value) {  
+	            if (obj == this.value[i]) {  
+	                return true;  
+	            } else {  
+	                continue;  
+	            }  
+	        }  
+	        return false;  
+	    };  
+	      
+	    /* 是否包含某个对象 */  
+	    this.getAll = function() {  
+	        var allInfos = '';  
+	        for ( var i in this.value) {  
+	            if(i != (value.length-1)){  
+	                allInfos += this.value[i]+",";  
+	            }else{  
+	                allInfos += this.value[i];  
+	            }  
+	        }  
+	        alert(allInfos);  
+	        return allInfos += this.value[i]+",";;  
+	    };  
+	      
+	}
+  function GoodsIdOuterIdSpec(goodsId,outerId,goodsSpec,goodsCount,goodsImg){
+	  //商品ID
+	   this.goodsId=goodsId;
+	  //商品编码
+	   this.outerId=outerId;
+	  //颜色尺码码
+	  this.goodsSpec=goodsSpec;
+	  //商品数量
+	  this.goodsCount=goodsCount;
+	  //商品图片
+	  this.goodsImg=goodsImg;
+  }
+
+  function isContains(str, substr) {
+	    return str.indexOf(substr) >= 0;
+	}
+  function exportOrder(){
+	  if(!$("#shopId").val()){
+		 alert("门店不能为空"); 
+		 return false;
+	  }
+	  if(!$("#status").val()){
+			 alert("状态不能为空"); 
+			 return false;
+		  }
+	  toastr.success("下载成功","下载速度慢大概需要60秒");
+	  $("#content").loading('show');
+	  var url="${ctxPath}/order/exportExcel?shopId="+$("#shopId").val()+"&status="+$("#status").val()+"&filterPhones="+$("#filterPhones").val();
+	  $("#exportTarget").attr("src",url);
+	
+	 // 
+	 // $("#page_form").submit();
+	 
+	  setTimeout(loadingHide,60000);
+  }
+  function loadingHide(){
+	  $("#content").loading('hide');
+  }
+  
+  function ajaxOrder(){
+	  if(!$("#shopId").val()){
+		 alert("门店不能为空"); 
+		 return;
+	  }
+	  if(!$("#status").val()){
+			 alert("状态不能为空"); 
+			 return;
+		  }
+	  $("#content").loading('show');
+	  $.ajax(
+              {
+                  url: '${ctxPath}/order/ajaxOrderInfo',
+                  type: "post",
+                  data: {shopId:$("#shopId").val(),status:$("#status").val(),filterPhones:$("#filterPhones").val()},
+                  dataType:"json",
+                  success: function (data) {
+                  	if(data.success){
+                  	
+                  	  var item_list;
+                  	  var order_info;
+                  	  var  goodIdsMap=new Map();
+                  	  var  outerSpecMap=new Map();
+                  	  var  lists=null;
+                  	  var GoodRecord;
+                  	  var goodIds,goodsCount,goodsImg;
+                  	 
+                  	 
+                      for(var i=0;i<data.list.length;i++){
+                    	  order_info=eval('(' +data.list[i]+ ')').order_info_get_response.order_info;
+                    	  if($("#filterPhones").val()&&isContains($("#filterPhones").val(),order_info.receiver_phone)){
+                    		  continue; 
+                    	  }
+                    	  if($("#filterAddress").val()&&order_info.address.indexOf($("#filterAddress").val()) != -1){
+                    		  continue; 
+                    	  }
+                    	  
+                    	  if($("#filterName").val()&&isContains($("#filterName").val(),order_info.receiver_name)){
+                    		  continue; 
+                    	  }
+                    	  
+                    	  item_list=order_info.item_list;
+                    	  console.log("filterName"+$("#filterName").val()+  order_info.receiver_name+ isContains($("#filterName").val(),order_info.receiver_name));
+                    	  for(var j=0;j<item_list.length;j++){
+                    		 
+                    		  lists=goodIdsMap.get(item_list[j].goods_id);
+                    		  if(!lists){
+                    			  lists=new List();
+                    			  goodIdsMap.put(item_list[j].goods_id,lists);
+                    		  }
+                    		
+                    		  goodsIdOuterIdSpec=outerSpecMap.get(item_list[j].outer_goods_id+item_list[j].goods_spec);
+                    		  if(!goodsIdOuterIdSpec){
+                    			  goodsIdOuterIdSpec=new GoodsIdOuterIdSpec(item_list[j].goods_id,item_list[j].outer_goods_id,item_list[j].goods_spec,0,item_list[j].goods_img);
+                    			  outerSpecMap.put(item_list[j].outer_goods_id+item_list[j].goods_spec,goodsIdOuterIdSpec);
+                    			  lists.add(goodsIdOuterIdSpec);
+                    		  }
+                    		  goodsIdOuterIdSpec.goodsCount=item_list[j].goods_count+goodsIdOuterIdSpec.goodsCount;
+                    	  }                    	             	  
+                  	   } 
+                  		/* console.log("goodIdsMap"+goodIdsMap.size());
+                  		console.log("outerSpecMap"+outerSpecMap.size()); 
+                  		console.log("goodIdsMap"+goodIdsMap.get(goodIdsMap.keySet()[0]).get(0).goodsImg);
+                  		console.log("goodIdsMap"+goodIdsMap.get(goodIdsMap.keySet()[0]).get(0)); */
+                  		var TRTD="";
+                  		var goodList=null;
+                  		GoodRecord=[];
+                  		for(var i=0;i<goodIdsMap.size();i++){
+                  			goodList=goodIdsMap.get(goodIdsMap.keySet()[i]);
+                  			goodsCount=0;
+                  			for(var j=0;j<goodList.size();j++){
+                  			TRTD+="<tr>";
+                  			if(!j){
+                  			   goodIds=goodIdsMap.keySet()[i];
+                  			   TRTD+="<td rowspan='"+goodList.size()+"'>"+goodIds+"</td>";
+                  			  }
+                  			  TRTD+="<td>"+(goodList.get(j).outerId)+"_"+(goodList.get(j).goodsSpec)+"</td>"
+                  			  TRTD+="<td><input type='text' value='"+goodList.get(j).goodsCount+"' /></td>";
+                  			  goodsCount=goodsCount+goodList.get(j).goodsCount;
+                  			if(!j){
+                  				 TRTD+="<td rowspan='"+goodList.size()+"'>";
+                  				 goodsImg=goodList.get(j).goodsImg;
+                  				if(goodList.size()<=4){
+                  					TRTD+="<img width=100 height=100 src='"+goodList.get(j).goodsImg+"'>";
+                  				}else if(goodList.size()>4&&goodList.size()<=8){
+                  					TRTD+="<img width=150 height=200 src='"+goodList.get(j).goodsImg+"'>";
+                  				}else{
+                  					TRTD+="<img width=300 height=400 src='"+goodList.get(j).goodsImg+"'>";
+                  				}
+                  				TRTD+="</td>";
+                  			 }
+                  			}
+                  			TRTD+="<tr bordercolor='black' bgcolor='#FF0000' style='height: 1px;'><td colspan='4' style='height: 1px;'></td></tr>";
+                  			TRTD+="<tr bordercolor='black' bgcolor='#FF0000' style='height: 1px;'><td colspan='4' style='height: 1px;'></td></tr>";	
+                  			if(goodsCount>=50){
+                  				GoodRecord.push("{'goodsCount':"+goodsCount+",'goodIds':'"+goodIds+"','goodsImg':'"+goodsImg+"'}");
+                  			}
+                  		}
+                  		$("tbody").empty();
+                  		$("tbody").html(TRTD);
+                  		$('#content').loading('hide');
+                  		if(GoodRecord.length){
+                  			console.log("GoodRecord"+GoodRecord.toString());
+                  			$.ajax(
+                	                {
+                	                    url: '${ctxPath}/order/ajaxOrderRecoderInfo',
+                	                    type: "post",
+                	                    data: {shopId:$("#shopId").val(),goodRecord:GoodRecord.toString()},
+                	                    dataType:"json",
+                	                    success: function (data) {
+                	                    	if(data.success){
+                	                    		
+                	                    	}else{
+                	                    		
+                	                    	}
+                	                    },
+                	                    error:function(error){
+                	                      
+                	                    }
+                	                }
+                	            );
+                  		}
+                  	}else{
+                  		if(data.clientId){
+                  		
+                  			$("#openNewWindow").attr("href","http://mms.pinduoduo.com/open.html?response_type=code&client_id="+data.clientId+"&redirect_uri=http://118.31.38.95:8383/ottService/callBack&state=1212");
+                  			document.getElementById("openNewWindow").click();
+                  			//$("#openNewWindow").show();
+                  			//window.open("http://mms.pinduoduo.com/open.html?response_type=code&client_id="+data.clientId+"&redirect_uri=http://118.31.38.95:8383/ottService/callBack&state=1212"); 
+                  		}else{
+                  		 alert(data.message);
+                  		}
+                  		$('#content').loading('hide');
+                  	}
+                  },
+                  error:function(error){
+                     alert(error);
+                     $('#content').loading('hide');
+                  }
+              }
+          );
+  }
+</script>
+</body>
+</html>

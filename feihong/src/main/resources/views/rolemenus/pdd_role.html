@@ -1,0 +1,29 @@
+<!--pdd_admin-->
+<li ${active== "shop-list" ? "class='active'" : ""}><a
+	href="${ctxPath }/shop/list"> <i class="icon-dashboard"></i>
+		<span class="menu-text">商铺列表</span>
+</a></li>
+<!-- <li ${active== "order-list" ? "class='active'" : ""}>
+	<a href="${ctxPath}/order/list">
+		<i class="icon-dashboard"></i>
+		订单列表
+	</a>
+</li> -->
+<li ${active== "order-list-json" ? "class='active'" : ""}>
+	<a href="${ctxPath}/order/list/json">
+		<i class="icon-dashboard"></i>
+		订单列表
+	</a>
+</li>
+<li ${active== "express-list" ? "class='active'" : ""}>
+	<a href="${ctxPath}/express/list">
+		<i class="icon-dashboard"></i>
+		快递列表
+	</a>
+</li>
+<li ${active== "good-list" ? "class='active'" : ""}>
+	<a href="${ctxPath}/good/list">
+		<i class="icon-dashboard"></i>
+		商品列表
+	</a>
+</li>

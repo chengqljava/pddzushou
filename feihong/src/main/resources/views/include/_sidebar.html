@@ -1,0 +1,44 @@
+<a class="menu-toggler" id="menu-toggler" href="#">
+	<span class="menu-text"></span>
+</a>
+<div class="sidebar" id="sidebar">
+	
+	<script type="text/javascript">
+		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+	</script>
+
+<!-- 	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+		<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+			<a href="${ctxPath}/" class="navbar-brand">
+				<small>
+					<i class="icon-cloud"></i>
+				</small>
+			</a>
+		</div>
+	</div> -->
+
+	<ul class="nav nav-list">
+		<li ${active == "index" ? "class='active'" : ""}>
+			<a href="${ctxPath }/index">
+				<i class="icon-dashboard"></i>
+				<span class="menu-text"> 控${currentUser!}制台  </span>
+			</a>
+		</li>
+		
+		<!-- admin 系统管理员 -->
+		<%if(user.hasRole("admin")){%>
+			<% include("/rolemenus/admin.html"){} %>
+		<%}%>
+		<!-- pdd_admin 电商系统管理员 -->
+		<%if(user.hasRole("pdd")){%>
+			<% include("/rolemenus/pdd_role.html"){} %>
+		<%}%>
+		
+	</ul>
+	
+	<!-- /.nav-list -->
+	
+	<div class="sidebar-collapse" id="sidebar-collapse">
+		<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+	</div>
+</div>

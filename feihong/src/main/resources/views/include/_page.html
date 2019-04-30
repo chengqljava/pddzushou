@@ -1,0 +1,124 @@
+<%
+	if (totalPage <= 0){
+%>
+	<div class="alert alert-warning">没有找到相关数据！</div>
+<%
+		return;
+	}
+	var startPage = currentPage - 4;
+	if(startPage < 1){
+		startPage = 1;
+	}
+	var endPage = currentPage + 4;
+	if(endPage > totalPage){
+		endPage = totalPage;
+	}
+%>
+<form action="${ctxPath}${actionUrl}" method="post" id="page_form">
+<input type="hidden" id="page" name="page_num" value="${currentPage}" />
+<%
+	var paramMap = request.parameterMap;
+	for(entry in paramMap!){
+		var key = entry.key;
+		var value = entry.value;
+		if(strutil.startWith(key,"search_")){
+		for(values in @Arrays.asList(value)){
+		
+%>
+	<input type="hidden" name="${key}" value="${values}" />
+<%		}
+		}
+	}
+%>
+<div class="row">
+	<div class="col-sm-6">
+		每页
+		<select id='pageSize' name="page_size">
+			<option value="15" <% if(pageSize == 15){ %>selected<% } %> >15</option>
+			<option value="50" <% if(pageSize == 50){ %>selected<% } %> >50</option>
+			<option value="100" <% if(pageSize == 100){ %>selected<% } %> >100</option>
+			<option value="200" <% if(pageSize == 200){ %>selected<% } %> >200</option>
+		</select>
+		条
+	</div>
+	<div class="col-sm-6">
+		<div class="dataTables_paginate paging_bootstrap">
+			<ul class="pagination">
+				<%
+					if(currentPage <= 8){
+						startPage = 1;
+					}
+					if(totalPage - currentPage < 8){
+						endPage = totalPage;
+					}
+					if(currentPage == 1){
+				%>
+				<li class="prev disabled"><a href="javascript:void(0);"><i class="icon-double-angle-left"></i></a></li>
+				<%
+					}else{
+				%>
+				<li class="prev"><a href="javascript:void(0);" onclick="$('#page').val('${currentPage - 1}');$('#page_form').submit();"><i class="icon-double-angle-left"></i></a></li>
+				<%
+					}
+				%>
+				
+				<%
+					if(currentPage > 8){
+				%>
+				<li><a href="javascript:void(0);" onclick="$('#page').val('1');$('#page_form').submit();">1</a></li>
+				<li><a href="javascript:void(0);" onclick="$('#page').val('2');$('#page_form').submit();">2</a></li>
+				<li><span>...</span></li>
+				<%
+					}
+				%>
+				
+				<%
+					var index = startPage;
+					while(index <= endPage){
+						if(currentPage == index){
+				%>
+				<li class="active"><a href="javascript:void(0);">${index}</a></li>
+				<%
+						}else{
+				%>
+				<li><a href="javascript:void(0);" onclick="$('#page').val('${index}');$('#page_form').submit();">${index}</a></li>
+				<%
+						}
+						index= index+1;
+					}
+				%>
+				
+				<%
+					if((totalPage - currentPage) >= 8){
+				%>
+				<li><span>...</span></li>
+				<li><a href="javascript:void(0);" onclick="$('#page').val('${totalPage - 1}');$('#page_form').submit();">${totalPage - 1}</a></li>
+				<li><a href="javascript:void(0);" onclick="$('#page').val('${totalPage}');$('#page_form').submit();">${totalPage}</a></li>
+				<%
+					}
+				%>
+				
+				<%
+					if(currentPage == totalPage){
+				%>
+				<li class="next disabled"><a href="javascript:void(0);"><i class="icon-double-angle-right"></i></a></li>
+				<%
+					}else{
+				%>
+				<li class="next"><a href="javascript:void(0);" onclick="$('#page').val('${currentPage + 1}');$('#page_form').submit();"><i class="icon-double-angle-right"></i></a></li>
+				<%
+					}
+				%>
+			</ul>
+		</div>
+	</div>
+</div>
+</form>
+<script type="text/javascript">
+jQuery(function($) {
+	$("#pageSize").change(function() {
+		$('#page').val('1')
+		$("#page_form").submit();
+	});
+});
+</script>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>助手管理系统</title>
+    <meta name="keyword" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="Author" content="zifan">
+    <meta name="copyright" content="All Rights Reserved">
+    <link href="${ctxPath}/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/fileinput/fileinput.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/style.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/style.css" rel="stylesheet">
+</head>
+<body class="fixed-sidebar">
+<!--主体开始-->
+<div id="wrapper">
+    <!----左侧导航开始----->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+       <% include("/include/_sidebar.html",{active:"goods-list"}){} %>
+    </nav>
+    <!----左侧导航结束----->
+
+    <!---右侧内容区开始---->
+    <div id="page-wrapper" class="gray-bg">
+        <!---顶部状态栏 star-->
+        <div class="row ">
+            <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right notification-menu">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">欢迎</span>
+                    </li>
+                    <li class="user-dropdown">
+                        <a href="#" class="btn  dropdown-toggle" data-toggle="dropdown">
+                            <img src="${ctxPath}/static/images/photos/user-avatar.png" alt="" width="20">
+                             ${user.getUser().userName}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                           <!--  <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li> -->
+                            <li><a href="${ctxPath!}/logout"><i class="fa fa-sign-out"></i>退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!---顶部状态栏 end-->
+
+        <!--------当前位置----->
+        <div class="row  border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2>商品列表</h2>
+                <ol class="breadcrumb">
+                    <li><a href="${ctxPath}/">管理首页</a></li>
+                    <li class="active">商品列表</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-----内容区域---->
+        <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="ibox-content m-b-sm ibox-content-t border-bottom" id="ibox-content">
+                  <div class="row">
+                    <form  id="page_form" onkeydown="if(event.keyCode==13)return false;"
+				action="${ctxPath}/goods/list" method="get">
+
+                    <div class="form-group col-md-4 m-t-xs" id="data_5">
+                            <div class="input-daterange input-group" id="datepicker">
+                                <input type="text" class="input-sm form-control" name="start" value="${start!}">
+                                <span class="input-group-addon">至</span>
+                                <input type="text" class="input-sm form-control" name="end" value="${end}">
+                            </div>
+                      </div>
+                      <div class="col-md-2  m-t-xs form-group">
+                        <select name="amount" class="form-control input-s-sm inline input-sm">
+                            <option value="">－－数量－－</option>
+                            <option value="20" ${amount!0==20?'selected' : ''}>20</option>
+                            <option value="30" ${amount!0==30?'selected' : ''}>30</option>
+                            <option value="40" ${amount!0==40?'selected' : ''}>40</option>
+                            <option value="50" ${amount!0==50?'selected' : ''}>50</option>
+                            <option value="60" ${amount!0==60?'selected' : ''}>60</option>
+                            <option value="70" ${amount!0==70?'selected' : ''}>70</option>
+                            <option value="80" ${amount!0==80?'selected' : ''}>80</option>
+                            <option value="90" ${amount!0==90?'selected' : ''}>90</option>
+                            <option value="100" ${amount!0==100?'selected' : ''}>100</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4 m-t-xs " id="data_5">
+                        <div class="input-daterange input-group" >
+                            <span class="input-group-btn"><i class="fa fa-search"></i> <button class="btn btn-primary btn-sm m-b-none"><i class="fa fa-search"></i> 搜索</button></span>
+                        </div>
+                    </div>
+                    </form>
+                  </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="table-responsive ">
+                                <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
+                                  <thead>
+                                    <tr>
+                                        <th>商品ID</th>
+                                        <th>商品数量</th>
+                                        <th>商品URL</th>
+                                        <th>商品图片</th>
+                                        <th>创建时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                     <%for(item in page.list! ){%>
+                                    <tr>
+                                        <td>${item.goodsId!}</td>
+                                        <td>${item.amount!}</td>
+                                        <td>http://mobile.yangkeduo.com/goods.html?goods_id=${item.goodsId!}</td>
+                                        <td><img src="${item.images!}" width="50px" height="50px"></td>
+                                        <td>${item.createTime!,'yyyy-MM-dd'}</td>
+                                    </tr>
+                                    <%}%>
+                                   
+                                    </tbody>
+                                </table>
+                            </div>
+                               <div class="pages border-top">
+                                <div class="row">
+                                    <div class="col-md-4"><span>当前第 ${page.pageNum!}页</span>&nbsp;<span>共 ${page.pages!}页</span>&nbsp;<span class="m-t-md">共 ${page.total!} 条</span> &nbsp;<span class="m-t-md">每页 ${page.pageSize!} 条</span></div>
+                                    <div class="col-md-8 footable-visible">
+                                        <ul class="pagination pull-right">
+                                            <li class="footable-page-arrow disabled"><a data-page="prev" href="${ctxPath}/goods/list?pageNum=${page.prePage!0}&amount=${amount!}&start=${start!}&end=${end!}">上一页</a></li>
+                                            <li class="footable-page-arrow"><a data-page="next" href="${ctxPath}/goods/list?pageNum=${page.nextPage!0}&amount=${amount!}&start=${start!}&end=${end!}">下一页</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-----内容结束----->
+
+        <!----版权信息----->
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+    </div>
+    <!---右侧内容区结束----->
+</div>
+<!--主体结束-->
+
+ <%
+    include("/include/foot.html"){}
+    %>
+<script>
+$(document).ready(function() {
+		$('#data_5 .input-daterange').datepicker({
+			keyboardNavigation : false,language: 'zh_CN',
+			forceParse : false,
+			autoclose : true,
+			format : 'yyyy-mm-dd',todayBtn: "linked"
+		});  
+  });
+</script>
+</body>
+</html>

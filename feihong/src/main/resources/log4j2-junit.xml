@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Properties>
+		<Property name="logFormat">
+			%d{yyyy-MM-dd HH:mm:ss.SSS}{GMT+8} [examples-allinone] [%thread] %-5level %X{requestId} %logger{35} - %msg %n
+		</Property>
+	</Properties>
+	<Appenders>
+		<Console name="STDOUT">
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="STDOUT" />
+		</Root>
+	</Loggers>
+</Configuration>

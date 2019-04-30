@@ -223,7 +223,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>helper</finalName>
+		<finalName>access</finalName>
 		<plugins>
 			<plugin>
 				<!-- The plugin rewrites your manifest -->

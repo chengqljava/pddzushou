@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheng.helper.repository.PriceDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+	<resultMap type="com.cheng.helper.domain.PriceDO" id="priceMap">
+		<result property="id" column="id" />
+		<result property="price" column="price" />
+	</resultMap>
+
+	<select id="get" resultMap="priceMap">
+		SELECT
+		*
+		FROM
+		t_price
+		WHERE
+		id = #{id}
+	</select>
+
+	<select id="list" resultMap="priceMap">
+		SELECT
+		*
+		FROM
+		t_price
+	</select>
+
+	<insert id="save" parameterType="com.cheng.helper.domain.PriceDO">
+		INSERT INTO t_price
+		(
+		`id`,
+		`price`
+		)
+		VALUES
+		(
+		#{id},
+		#{price}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.cheng.helper.domain.PriceDO">
+		UPDATE t_price
+		<set>
+			<if test="userName != null">`id` = #{id}, </if>
+			<if test="password != null">`price` = #{price} </if>
+		</set>
+		WHERE id = #{id}
+	</update>
+</mapper>

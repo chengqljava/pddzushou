@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>屋瓴网站后台管理系统</title>
+    <meta name="keyword" content="">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="Author" content="zifan">
+    <meta name="copyright" content="上海屋瓴版权所有。All Rights Reserved">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
+    
+    <!-- fileinput fileinput -->
+    <link href="../css/plugins/fileinput/fileinput.min.css" rel="stylesheet">
+    
+    
+
+    <link href="../css/animate.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+
+<body class="fixed-sidebar">
+<div id="wrapper">
+    <!----左侧导航开始----->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-scroll">
+            <div class="logo">
+                <a href="../index.html"><img src="/images/logo.png" alt=""></a>
+            </div>
+            <!--div class="logo-icon text-center">
+                <a href="index.html"><img src="images/logo_icon.png" alt=""></a>
+            </div-->
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li>
+                        <a href="/index.html"><i class="fa fa-home"></i> <span class="nav-label">管理首页</span></a>
+                    </li>
+                    <li>
+                        <a href="/view/project/add3.html"><i class="fa fa-diamond"></i> <span class="nav-label">表单样式</span></a>
+                    </li>
+                    <li>
+                        <a href="button.html"><i class="fa fa-diamond"></i> <span class="nav-label">按钮样式</span></a>
+                    </li>
+                    <li>
+                        <a href="loadingbutton.html"><i class="fa fa-diamond"></i> <span class="nav-label">加载按钮</span></a>
+                    </li>
+                    <li>
+                        <a href="alertlink.html"><i class="fa fa-diamond"></i> <span class="nav-label">信息提示</span></a>
+                    </li>
+                    <li>
+                        <a href="icons.html"><i class="fa fa-diamond"></i> <span class="nav-label">图标元素</span></a>
+                    </li>
+                    <li class="active">
+                        <a href="label.html"><i class="fa fa-diamond"></i> <span class="nav-label">label 标签</span></a>
+                    </li>
+                    <li>
+                        <a href="form_advanced.html"><i class="fa fa-diamond"></i> <span class="nav-label">其它表单元素</span></a>
+                    </li>
+                    <li>
+                        <a href="toastr.html"><i class="fa fa-diamond"></i> <span class="nav-label">toastr提示工具</span></a>
+                    </li>
+                    <li>
+                        <a href="alert.html"><i class="fa fa-desktop"></i> <span class="nav-label">alert 弹框</span></a>
+                    </li>
+                    <li>
+                        <a href="upload.html"><i class="fa fa-envelope"></i> <span class="nav-label">上传组件 </span></a>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!----左侧导航结束----->
+
+    <!---右侧内容区开始---->
+    <div id="page-wrapper" class="gray-bg">
+        <!---顶部状态栏 star-->
+        <div class="row ">
+            <nav class="navbar navbar-fixed-top" role="navigation" id="topnav"></nav>
+        </div>
+        <!---顶部状态栏 end-->
+
+        <!--------当前位置----->
+        <div class="row  border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2>fileinput</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="../index.html">管理首页</a>
+                    </li>
+                    <li class="active">
+                        工具
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <!-----内容区域---->
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Badges</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <p>
+                                To add a badge style You have to add <code>.badge</code>class to element. To change a color od badge you can add extra class like <code>.badge-primary</code>.
+                            </p>
+                            <p><span class="badge">Plain</span></p>
+                            <p><span class="badge badge-primary">Primary</span></p>
+                            <p><span class="badge badge-info">Information</span></p>
+                            <p><span class="badge badge-success">Success</span></p>
+                            <p><span class="badge badge-warning">Warning</span></p>
+                            <p><span class="badge badge-danger">Danger</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Labels</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <p>
+                                Analogic to badge. To add a label style You have to add <code>.label</code>class to element. To change a color od label you can add extra class like <code>.label-primary</code>.
+                            </p>
+                            <p><span class="label">Plain</span></p>
+                            <p><span class="label label-primary">Primary</span></p>
+                            <p><span class="label label-info">Information</span></p>
+                            <p><span class="label label-success">Success</span></p>
+                            <p><span class="label label-warning">Warning</span></p>
+                            <p><span class="label label-danger">Danger</span></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Progress Bars</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <h5>Basic ProgressBars</h5>
+                            <div class="progress">
+                                <div style="width: 35%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="35" role="progressbar" class="progress-bar progress-bar-success">
+                                    <span class="sr-only">35% Complete (success)</span>
+                                </div>
+                            </div>
+
+                            <div class="progress progress-bar-default">
+                                <div style="width: 43%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="43" role="progressbar" class="progress-bar">
+                                    <span class="sr-only">43% Complete (success)</span>
+                                </div>
+                            </div>
+
+                            <h5>Striped Progressbars</h5>
+
+                            <div class="progress progress-striped">
+                                <div style="width: 50%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" class="progress-bar progress-bar-warning">
+                                    <span class="sr-only">40% Complete (success)</span>
+                                </div>
+                            </div>
+
+                            <h5>Active Progressbars</h5>
+
+                            <div class="progress progress-striped active">
+                                <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-danger">
+                                    <span class="sr-only">40% Complete (success)</span>
+                                </div>
+                            </div>
+
+                            <h5>Stacked Progressbars</h5>
+
+                            <div class="progress progress-striped active">
+                                <div style="width: 30%" class="progress-bar progress-bar-success">
+                                    <span class="sr-only">30% Complete (success)</span>
+                                </div>
+                                <div style="width: 20%" class="progress-bar progress-bar-warning">
+                                    <span class="sr-only">15% Complete (warning)</span>
+                                </div>
+                                <div style="width: 40%" class="progress-bar progress-bar-danger">
+                                    <span class="sr-only">40% Complete (danger)</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-----内容结束----->
+
+        <!----版权信息----->
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+    </div>
+    <!---右侧内容区结束----->
+
+
+    <!---右侧下方小聊天框---->
+    <div class="small-chat-box fadeInRight animated">
+
+        <div class="heading" draggable="true">
+            <small class="chat-date pull-right">
+                02.19.2015
+            </small>
+            Small chat
+        </div>
+
+        <div class="content">
+
+            <div class="left">
+                <div class="author-name">
+                    Monica Jackson <small class="chat-date">
+                    10:02 am
+                </small>
+                </div>
+                <div class="chat-message active">
+                    Lorem Ipsum is simply dummy text input.
+                </div>
+
+            </div>
+            <div class="right">
+                <div class="author-name">
+                    Mick Smith
+                    <small class="chat-date">
+                        11:24 am
+                    </small>
+                </div>
+                <div class="chat-message">
+                    Lorem Ipsum is simpl.
+                </div>
+            </div>
+            <div class="left">
+                <div class="author-name">
+                    Alice Novak
+                    <small class="chat-date">
+                        08:45 pm
+                    </small>
+                </div>
+                <div class="chat-message active">
+                    Check this stock char.
+                </div>
+            </div>
+            <div class="right">
+                <div class="author-name">
+                    Anna Lamson
+                    <small class="chat-date">
+                        11:24 am
+                    </small>
+                </div>
+                <div class="chat-message">
+                    The standard chunk of Lorem Ipsum
+                </div>
+            </div>
+            <div class="left">
+                <div class="author-name">
+                    Mick Lane
+                    <small class="chat-date">
+                        08:45 pm
+                    </small>
+                </div>
+                <div class="chat-message active">
+                    I belive that. Lorem Ipsum is simply dummy text.
+                </div>
+            </div>
+        </div>
+        <div class="form-chat">
+            <div class="input-group input-group-sm"><input type="text" class="form-control"> <span class="input-group-btn"> <button
+                    class="btn btn-primary" type="button">Send
+                </button> </span></div>
+        </div>
+
+    </div>
+    <div id="small-chat">
+
+        <span class="badge badge-warning pull-right">5</span>
+        <a class="open-small-chat">
+            <i class="fa fa-comments"></i>
+
+        </a>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<!-- 全局 scripts -->
+<script src="../js/jquery-2.1.1.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/wuling.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
+
+<!-- Sweet fileinput -->
+<script src="../js/plugins/fileinput/fileinput.min.js" ></script><!---文件上传--->
+<script src="../js/plugins/fileinput/fileinput_locale_zh.js" ></script><!---文件上传中文配置--->
+<script>
+    var imgItems=[[
+        '<img src="../img/a1.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+        '<img src="../img/a2.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+        '<img src="../img/a3.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+        '<img src="../img/a4.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+        '<img src="../img/a5.jpg" class="file-preview-image" alt="The Moon" title="The Moon">'
+    ],
+        [
+            '<img src="../../img/a6.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+            '<img src="../../img/a7.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+            '<img src="../../img/a8.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+            '<img src="../../img/a2.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+            '<img src="../../img/a3.jpg" class="file-preview-image" alt="The Moon" title="The Moon">'
+        ],
+        [
+            '<img src="../../img/a8.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+            '<img src="../../img/a3.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+            '<img src="../../img/a1.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+            '<img src="../../img/a2.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+            '<img src="../../img/a3.jpg" class="file-preview-image" alt="The Moon" title="The Moon">'
+        ]];
+    
+    
+    $("#addFile").fileinput({
+        uploadUrl: '#',    //服务端上传地址
+        showCaption:false,     //是否显示按钮前的INPUT
+        dropZoneEnabled:true,  //是否启动拖拽
+        uploadAsync: true,  //true异步上传
+        //autoReplace: false,  // 替换预览文件maxFileCount达到极限，
+        validateInitialCount: true, //是否包括已有的文件数，新加文件个数和现有文件相加的判断
+        overwriteInitial:false,  //是否要覆盖已有的缩略图列表。
+        //minFileCount: 0,  //最小文件数，为0可选
+        //maxFileCount: 0,    //最大文件数，为0无限
+        maxFileSize: 1000,   //文件大小限制
+        previewFileType: "image",   //文件类型
+        allowedFileExtensions: ["jpg", "gif", "png", "jpeg"],//文件允许后缀名称
+        browseClass: "btn btn-primary", //自定义浏览按钮样式
+        minImageWidth: 200,
+        minImageHeight: 200,
+        maxImageWidth: 1200,
+        maxImageHeight: 1200,
+        msgFilesTooLess: '必须上传 <b>{n}</b>个{files}，您可以选择新的文件进行替换. ',
+        initialPreview: imgItems[0],//编辑页面初始化数据
+        initialPreviewConfig: [
+            {caption: "图片一", width: "120px", url: "/111", key: 1}, //URL 为从服务端删除图片的地址
+            {caption: "图片一", width: "120px", url: "/111", key: 2},
+            {caption: "图片一", width: "120px", url: "/111", key: 3},
+            {caption: "图片一", width: "120px", url: "/111", key: 4},
+            {caption: "图片一", width: "120px", url: "/111", key: 5}
+
+        ],//通过此方法可以删除服务端上传的图片
+
+        uploadExtraData: function(previewId, index) {
+            if (previewId!=undefined && index!=undefined){
+                alert(previewId+","+index)
+            }
+            return{
+                userid: "10000",
+                username: "zifan",
+                key: index,
+                //classid:classid
+            }
+        } //扩展AJAX传送数据。
+    })
+
+</script>
+
+</body>
+</html>

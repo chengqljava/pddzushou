@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>助手管理系统</title>
+    <meta name="keyword" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="Author" content="zifan">
+    <meta name="copyright" content="All Rights Reserved">
+    <link href="${ctxPath}/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/plugins/fileinput/fileinput.min.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/animate.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/style.css" rel="stylesheet">
+    <link href="${ctxPath}/static/css/style.css" rel="stylesheet">
+</head>
+<body class="fixed-sidebar">
+<!--主体开始-->
+<div id="wrapper">
+    <!----左侧导航开始----->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+       <% include("/include/_sidebar.html",{active:"express-list"}){} %>
+    </nav>
+    <!----左侧导航结束----->
+
+    <!---右侧内容区开始---->
+    <div id="page-wrapper" class="gray-bg">
+        <!---顶部状态栏 star-->
+        <div class="row ">
+            <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right notification-menu">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">欢迎</span>
+                    </li>
+                    <li class="user-dropdown">
+                        <a href="#" class="btn  dropdown-toggle" data-toggle="dropdown">
+                            <img src="${ctxPath}/static/images/photos/user-avatar.png" alt="" width="20">
+                             ${user.getUser().userName}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                           <!--  <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li> -->
+                            <li><a href="${ctxPath!}/logout"><i class="fa fa-sign-out"></i>退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!---顶部状态栏 end-->
+
+        <!--------当前位置----->
+        <div class="row  border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2>快递列表</h2>
+                <ol class="breadcrumb">
+                    <li><a href="${ctxPath}/">管理首页</a></li>
+                    <li class="active">快递列表</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-----内容区域---->
+        <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="ibox-content m-b-sm ibox-content-t border-bottom" id="ibox-content">
+                <div class="row">
+                   	 <form  id="page_form" onkeydown="if(event.keyCode==13)return false;" action="${ctxPath}/express/list" method="get">
+						<div class="col-md-2  m-t-xs form-group">
+							<select name="shopId" id="shopId"
+								class="form-control input-s-sm inline input-sm">
+								<option value="">门店名称</option> <% for(bean in shopList!){ %>
+								<option value="${bean.id!}" ${bean.id==shopId!0?'selected':''}>${bean.name!}</option> <%}%>
+							</select>
+						</div>
+						<div class="col-md-2  m-t-xs form-group">
+							<select name="action" id="action"
+								class="form-control input-s-sm inline input-sm">
+								<option value="">请选择退/换</option>
+							<%for(actionEnum in mapActionEnums!){%>
+							<option value="${actionEnum.key!}"
+								${actionEnum.key==action!0?'selected':''}>${actionEnum.value!}</option>
+							<%}%>
+							</select>
+						</div>
+						<div class="col-md-2  m-t-xs form-group">
+							<select name="express" id="express"
+								class="form-control input-s-sm inline input-sm">
+								<option value="">请选择快递公司</option>
+							<%for(expressEnum in mapExpressEnums!){%>
+							<option value="${expressEnum.key!}"
+								${expressEnum.key==express!?'selected':''}>${expressEnum.value!}</option>
+							<%}%>
+							</select>
+						</div>
+						<div class="col-md-2 form-group  m-t-xs">
+							<input type="text" class="input-sm form-control"
+								id="orderCode" name="orderCode" value="${orderCode!}"
+								placeholder="请输入快递单号">
+						</div>
+							<div class="col-sm-4  m-t-xs form-group" id="data_5">
+								<div class="input-daterange input-group" id="datepicker">
+									<input type="text" class="form-control" id="searchStartTime"
+										name="searchStartTime"
+										placeholder="开始时间"
+										value="${searchStartTime!}"> <span
+										class="input-group-addon">~</span> <input
+										type="text" class="form-control" id="searchEndTime"
+										name="searchEndTime"
+										placeholder="结束时间"
+										value="${searchEndTime!}">
+								</div>
+						</div>
+						<div class="form-group col-md-4 m-t-xs ">
+							<div class="input-daterange input-group">
+								<span class="input-group-btn"><i class="fa fa-search"></i>
+									<button 
+										class="btn btn-primary btn-sm m-b-none">
+										<i class="fa fa-search"></i> 搜索
+									</button>
+									</span>
+									<!-- <span class="input-group-btn"><i class="fa fa-search"></i>
+									<button type="button" onclick="exportOrder()"
+										class="btn btn-primary btn-sm m-b-none">
+										<i class="fa"></i> 导出
+									</button></span> -->
+									<span class="input-group-btn"><i class="fa fa-search"></i>
+									 <a href="${ctxPath}/express/add" class="btn btn-primary"  data-title="添加店铺">新增快递 <i class="fa fa-plus"></i></a>
+									 </span>
+							</div>
+						</div>
+                   </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="table-responsive ">
+                                <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
+                                    <thead>
+                                    <tr>
+                                        <th>单号</th>
+                                        <th>快递名称</th>
+                                        <th>退/换</th>
+                                        <th>创建时间</th>
+                                        <th>备注</th>
+                                        <th>商铺名称</th>
+                                        <th>回寄单号</th>
+                                        <th>回寄快递名称</th>
+                                        <th>回寄时间</th>
+                                         <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <%for(item in page.list! ){%>
+                                    <tr>
+                                        <td>${item.orderCode!}</td>
+                                        <td>${mapExpressEnums[item.express!]}</td>
+                                        <td>${mapActionEnums[item.action!]}</td>
+                                        <td>${item.createTime!,'yyyy-MM-dd'}</td>
+                                        <td>${item.remark!}</td>
+                                        <td>${mapShop[item.shopId!]}</td>
+                                        <td>${item.backOrder!}</td>
+                                        <td>${mapExpressEnums[item.backExpress!]}</td>
+                                        <td>${item.backTime!,'yyyy-MM-dd'}</td>
+                                        <td>
+                                        <a href="${ctxPath}/express/add?id=${item.id!}">编辑</a>
+                                        <%if(item.action!0==2){%>
+                                        <a href="${ctxPath}/express/back?id=${item.id!}">回寄</a>
+                                        <%}%>
+                                        </td>
+                                    </tr>
+                                    <%}%>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pages border-top">
+                                <div class="row">
+                                    <div class="col-md-4"><div class="m-t-md">共 ${page.total!} 条</div></div>
+                                    <div class="col-md-8 footable-visible">
+                                        <ul class="pagination pull-right">
+                                            <li class="footable-page-arrow disabled"><a data-page="prev" href="${ctxPath}/express/list?pageNum=${page.prePage!0}">上一页</a></li>
+                                            <li class="footable-page-arrow"><a data-page="next" href="${ctxPath}/express/list?pageNum=${page.nextPage!0}">下一页</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-----内容结束----->
+
+        <!----版权信息----->
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+    </div>
+    <!---右侧内容区结束----->
+</div>
+<!--主体结束-->
+
+<!-- 全局 scripts -->
+<script src="${ctxPath}/static/js/jquery-2.1.1.js"></script>
+<script src="${ctxPath}/static/js/bootstrap.js"></script>
+<script src="${ctxPath}/static/js/wuling.js"></script>
+<script src="${ctxPath}/static/js/plugins/pace/pace.min.js"></script>
+
+<script src="${ctxPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!-- 插件 scripts -->
+<script src="${ctxPath}/static/js/plugins/chosen/chosen.jquery.js"></script>
+<script src="${ctxPath}/static/js/plugins/toastr/toastr.min.js" async></script><!---顶部弹出提示--->
+<script src="${ctxPath}/static/js/plugins/sweetalert/sweetalert.min.js" async></script><!---对话框 alert--->
+<script src="${ctxPath}/static/js/plugins/validate/jquery.validate.min.js"></script>  <!---表单验证--->
+<script src="${ctxPath}/static/js/plugins/validate/validate-cn.js" ></script> <!---validate 自定义方法--->
+
+<script src="${ctxPath}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script>
+$(document).ready(function () {
+//日期控件初始化
+$('#data_5 .input-daterange').datepicker({
+	keyboardNavigation : false,language: 'zh_CN',
+	forceParse : false,
+	autoclose : true,
+	format : 'yyyy-mm-dd',todayBtn: "linked"
+});
+//下拉框控件初始化
+$(".chosen-select").chosen({
+	no_results_text : '未找到此项',
+	width : "100%",
+	allow_single_deselect : true,
+	disable_search_threshold : 10
+});
+});
+</script>
+</body>
+</html>

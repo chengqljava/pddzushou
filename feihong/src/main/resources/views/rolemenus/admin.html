@@ -1,0 +1,49 @@
+<!--admin-->
+<li ${active== "user-list" ? "class='active'" : ""}>
+	<a href="${ctxPath }/user/list"> 
+		<i class="icon-dashboard"></i>
+		<span class="menu-text"> 用户列表 </span>
+	</a>
+</li>
+<li ${active== "shop-list" ? "class='active'" : ""}>
+	<a href="${ctxPath }/shop/list"> 
+		<i class="icon-dashboard"></i>
+		<span class="menu-text">商铺列表</span>
+	</a>
+</li>
+<!-- <li ${active== "order-list" ? "class='active'" : ""}>
+	<a href="${ctxPath }/order/list"> 
+		<i class="icon-dashboard"></i>
+		<span class="menu-text">订单列表</span>
+	</a>
+</li> -->
+<li ${active== "order-list-json" ? "class='active'" : ""}>
+	<a href="${ctxPath}/order/list/json">
+		<i class="icon-dashboard"></i>
+		订单列表
+	</a>
+</li>
+<li ${active== "goods-list" ? "class='active'" : ""}>
+	<a href="${ctxPath }/goods/list"> 
+		<i class="icon-dashboard"></i>
+		<span class="menu-text">销量列表</span>
+	</a>
+</li>
+<li ${active== "quartz-list" ? "class='active'" : ""}>
+	<a href="${ctxPath }/quartz/list"> 
+		<i class="icon-dashboard"></i>
+		<span class="menu-text">任务列表</span>
+	</a>
+</li>
+<li ${active== "express-list" ? "class='active'" : ""}>
+	<a href="${ctxPath}/express/list">
+		<i class="icon-dashboard"></i>
+		快递列表
+	</a>
+</li>
+<li ${active== "good-list" ? "class='active'" : ""}>
+	<a href="${ctxPath}/good/list">
+		<i class="icon-dashboard"></i>
+		商品列表
+	</a>
+</li>
