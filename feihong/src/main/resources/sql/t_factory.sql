@@ -20,10 +20,10 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_factory`;
 CREATE TABLE `t_factory` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20)  NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `name` varchar(100) NOT NULL COMMENT '车间名称',
   `address` varchar(100) DEFAULT NULL COMMENT '地址',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `workshop_id` bigint(20) NOT NULL COMMENT '厂房ID',
+  `work_shop_id` bigint(20) NOT NULL COMMENT '厂房ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '车间';

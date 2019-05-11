@@ -5,45 +5,39 @@
 		<span class="menu-text"> 用户列表 </span>
 	</a>
 </li>
-<li ${active== "shop-list" ? "class='active'" : ""}>
-	<a href="${ctxPath }/shop/list"> 
+<li ${active== "work-shop-list" ? "class='active'" : ""}>
+	<a href="${ctxPath }/workShop/list"> 
 		<i class="icon-dashboard"></i>
-		<span class="menu-text">商铺列表</span>
+		<span class="menu-text">工厂列表</span>
 	</a>
 </li>
-<!-- <li ${active== "order-list" ? "class='active'" : ""}>
-	<a href="${ctxPath }/order/list"> 
+ <li ${active== "factory-list" ? "class='active'" : ""}>
+	<a href="${ctxPath }/factory/list"> 
 		<i class="icon-dashboard"></i>
-		<span class="menu-text">订单列表</span>
+		<span class="menu-text">车间列表</span>
 	</a>
-</li> -->
-<li ${active== "order-list-json" ? "class='active'" : ""}>
-	<a href="${ctxPath}/order/list/json">
+</li> 
+<li ${active== "meter-list" ? "class='active'" : ""}>
+	<a href="${ctxPath }/meter/list"> 
 		<i class="icon-dashboard"></i>
-		订单列表
-	</a>
-</li>
-<li ${active== "goods-list" ? "class='active'" : ""}>
-	<a href="${ctxPath }/goods/list"> 
-		<i class="icon-dashboard"></i>
-		<span class="menu-text">销量列表</span>
+		<span class="menu-text">电表列表</span>
 	</a>
 </li>
-<li ${active== "quartz-list" ? "class='active'" : ""}>
-	<a href="${ctxPath }/quartz/list"> 
+<li ${active== "degrees-record-list" ? "class='active'" : ""}>
+	<a href="${ctxPath}/degreesRecord/listStatistics">
 		<i class="icon-dashboard"></i>
-		<span class="menu-text">任务列表</span>
+		度数记录列表
 	</a>
 </li>
-<li ${active== "express-list" ? "class='active'" : ""}>
-	<a href="${ctxPath}/express/list">
+<li ${active== "degrees-record-statistics-list" ? "class='active'" : ""}>
+	<a href="${ctxPath}/degreesRecord/listStatistics">
 		<i class="icon-dashboard"></i>
-		快递列表
+		 电费统计列表
 	</a>
 </li>
-<li ${active== "good-list" ? "class='active'" : ""}>
-	<a href="${ctxPath}/good/list">
+<li ${active== "price-list" ? "class='active'" : ""}>
+	<a href="${ctxPath}/price/list">
 		<i class="icon-dashboard"></i>
-		商品列表
+		电费价格列表
 	</a>
 </li>

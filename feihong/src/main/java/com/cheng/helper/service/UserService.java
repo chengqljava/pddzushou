@@ -40,7 +40,7 @@ public class UserService {
 
     @Transactional
     public void save(UserDO user) {
-        user.setId(IDGenerator.OBJECTID.generate());
+    	user.setId(IDGenerator.OBJECTID.generate());
         user.setCreateTime(new Date());
         user.setDelFlag(false);
         userDao.save(user);

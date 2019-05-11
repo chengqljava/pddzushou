@@ -3,6 +3,8 @@ package com.cheng.helper.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +21,7 @@ public class UserDO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //
+    @TableId
     private String            id;
     //用户名
     private String            userName;

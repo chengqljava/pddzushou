@@ -3,6 +3,7 @@ package com.cheng.helper.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 
 import lombok.Data;
@@ -37,5 +38,10 @@ public class DegreesRecordDO implements Serializable{
 	 * 采集时间
 	 */
 	private Date acquisitionTime;
+	/**
+	 * 钱
+	 */
+	private Double money;
+	
 	
 }

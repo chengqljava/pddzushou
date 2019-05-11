@@ -1,11 +1,22 @@
 package com.cheng.helper.repository;
 
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import com.cheng.helper.domain.MeterDO;
+import com.cheng.helper.domain.MeterQuery;
 
 @Mapper
-public interface MeterDao  extends BaseMapper<MeterDO>{
-
+public interface MeterDao {
+	     List<MeterDO> list(MeterQuery meterQuery);
+	 
+	     MeterDO get(@Param("id")Long id);
+		 
+		 int save(MeterDO meterDO);
+		 
+		 int update(MeterDO meterDO);
+		 
+		 int delete(@Param("id")Long id);
 }

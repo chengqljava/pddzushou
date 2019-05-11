@@ -16,13 +16,13 @@ Date: 2019-05-01 00:15:13
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for t_meter
+-- Table structure for t_meter 电表名称
 -- ----------------------------
 DROP TABLE IF EXISTS `t_meter`;
 CREATE TABLE `t_meter` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `name` varchar(100) NOT NULL COMMENT '名称',
   `factory_id` bigint(20) NOT NULL,
   `create_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '电表';

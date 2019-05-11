@@ -1,12 +1,25 @@
 package com.cheng.helper.repository;
 
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import com.cheng.helper.domain.FactoryDO;
+import com.cheng.helper.domain.FactoryQuery;
 
 
 @Mapper
-public interface FactoryDao extends BaseMapper<FactoryDO>{
+public interface FactoryDao {
 
+	
+ List<FactoryDO> list(FactoryQuery factoryQuery);
+	 
+ FactoryDO get(@Param("id")Long id);
+	 
+	 int save(FactoryDO factoryDO);
+	 
+	 int update(FactoryDO factoryDO);
+	 
+	 int delete(@Param("id")Long id);
 }

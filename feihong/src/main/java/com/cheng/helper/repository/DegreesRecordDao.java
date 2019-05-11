@@ -1,11 +1,28 @@
 package com.cheng.helper.repository;
 
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.cheng.helper.domain.DegreesRecordBO;
 import com.cheng.helper.domain.DegreesRecordDO;
+import com.cheng.helper.domain.DegreesRecordQuery;
+import com.cheng.helper.domain.DegreesRecordStatisticBO;
 
 @Mapper
-public interface DegreesRecordDao extends BaseMapper<DegreesRecordDO>{
+public interface DegreesRecordDao {
 
+	List<DegreesRecordBO> list(DegreesRecordQuery degreesRecordQuery);
+
+	DegreesRecordDO get(@Param("id") Long id);
+
+	int save(DegreesRecordDO meterDO);
+
+	int update(DegreesRecordDO meterDO);
+
+	int delete(@Param("id") Long id);
+	
+	
+	List<DegreesRecordStatisticBO> listStatistics(DegreesRecordQuery degreesRecordQuery);
 }

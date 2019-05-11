@@ -25,5 +25,6 @@ CREATE TABLE `t_degrees_record` (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `meter_number` float NOT NULL,
   `acquisition_time` datetime NOT NULL,
+  `money` double NOT NULL DEFAULT '0' COMMENT '费用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '电费记录表';

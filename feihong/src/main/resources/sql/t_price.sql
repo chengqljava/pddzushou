@@ -23,4 +23,4 @@ CREATE TABLE `t_price` (
   `id` int(11) NOT NULL COMMENT '时间段',
   `price` float(10,2) NOT NULL COMMENT '价格',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '电费价格';

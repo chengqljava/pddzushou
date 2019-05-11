@@ -41,8 +41,8 @@
 	<update id="update" parameterType="com.cheng.helper.domain.PriceDO">
 		UPDATE t_price
 		<set>
-			<if test="userName != null">`id` = #{id}, </if>
-			<if test="password != null">`price` = #{price} </if>
+			<if test="id != null">`id` = #{id}, </if>
+			<if test="price != null">`price` = #{price} </if>
 		</set>
 		WHERE id = #{id}
 	</update>
