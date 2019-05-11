@@ -18,7 +18,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for t_workshop
 -- ----------------------------
-DROP TABLE IF EXISTS `t_workshop`;
+DROP TABLE IF EXISTS `t_work_shop`;
 CREATE TABLE `t_workshop` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `name` varchar(100) NOT NULL,
@@ -27,4 +27,4 @@ CREATE TABLE `t_workshop` (
   `contacts` varchar(20) DEFAULT NULL COMMENT '联系人',
   `phone_number` varchar(11) DEFAULT NULL COMMENT '联系电话',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '工厂表';

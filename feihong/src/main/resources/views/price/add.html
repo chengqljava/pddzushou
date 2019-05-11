@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>助手管理系统</title>
+<meta name="keyword" content="">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="Author" content="zifan">
+<meta name="copyright" content="All Rights Reserved">
+<link href="${ctxPath}/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="${ctxPath}/static/font-awesome/css/font-awesome.css"
+	rel="stylesheet">
+<link href="${ctxPath}/static/css/plugins/toastr/toastr.min.css"
+	rel="stylesheet">
+<link href="${ctxPath}/static/css/plugins/chosen/chosen.css"
+	rel="stylesheet">
+<!--date style-->
+<link
+	href="${ctxPath}/static/css/plugins/dataTables/dataTables.bootstrap.css"
+	rel="stylesheet">
+<link href="${ctxPath}/static/css/plugins/datapicker/datepicker3.css"
+	rel="stylesheet">
+<link href="${ctxPath}/static/css/animate.css" rel="stylesheet">
+<link href="${ctxPath}/static/css/style.css" rel="stylesheet">
+</head>
+<body class="fixed-sidebar">
+	<!--主体开始-->
+	<div id="wrapper">
+		<!----左侧导航开始----->
+		<nav class="navbar-default navbar-static-side" role="navigation"
+			id="leftnav"><%
+			include("/include/_sidebar.html",{active:"price-list"}){} %></nav>
+		<!----左侧导航结束----->
+
+		<!---右侧内容区开始---->
+		<div id="page-wrapper" class="gray-bg">
+			<!---顶部状态栏 star-->
+			<div class="row ">
+				<nav class="navbar navbar-fixed-top" role="navigation"
+					style="margin-bottom: 0">
+					<div class="navbar-header">
+						<a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
+							href="#"><i class="fa fa-bars"></i> </a>
+					</div>
+					<ul class="nav navbar-top-links navbar-right notification-menu">
+						<li><span class="m-r-sm text-muted welcome-message">欢迎</span>
+						</li>
+
+						<li class="user-dropdown"><a href="#"
+							class="btn  dropdown-toggle" data-toggle="dropdown"> <img
+								src="${ctxPath}/static/images/photos/user-avatar.png" alt=""
+								width="20"> ${user.getUser().userName} <span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+								<!--  <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li> -->
+								<li><a href="${ctxPath!}/logout"><i
+										class="fa fa-sign-out"></i>退出</a></li>
+							</ul></li>
+					</ul>
+				</nav>
+			</div>
+			<!---顶部状态栏 end-->
+
+			<!--------当前位置----->
+			<div class="row  border-bottom white-bg page-heading">
+				<div class="col-sm-4">
+					<h2>价格${factory!!=null?'编辑':'新增'}</h2>
+					<ol class="breadcrumb">
+						<li><a href="${ctxPath}/">管理首页</a></li>
+						<li class="active">价格${factory!!=null?'编辑':'新增'}</li>
+					</ol>
+				</div>
+			</div>
+
+			<!-----内容区域---->
+			<div class="wrapper wrapper-content animated fadeInRight">
+				<div class="ibox float-e-margins ">
+					<div class="ibox-content p-t-slg">
+						<form name="entity" id="input_form" class="form-horizontal">
+							<input type="hidden" id="id" name="id" value="${price.id!}">
+							
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label"> 价格 <span
+									class="text-danger">*</span></label>
+								<div class="col-sm-10">
+									<input type="text" id="price" name="price" value="${price.price!}"
+										placeholder="请输入价格" class="form-control" required>
+								</div>
+							</div>
+
+
+							<div class="hr-line-dashed"></div>
+							<div class="form-group">
+								<div class="col-sm-4 col-sm-offset-2">
+									<button class="btn btn-primary" type="submit">
+										<i class="fa fa-check"></i> 提交
+									</button>
+									<button class="btn btn-white" type="reset">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+			<!-----内容结束----->
+
+			<!----版权信息----->
+			<div class="footer">
+				<div class="pull-right">
+					10GB of <strong>250GB</strong> Free.
+				</div>
+				<div>
+					<strong>Copyright</strong> Example Company &copy; 2014-2015
+				</div>
+			</div>
+
+		</div>
+		<!---右侧内容区结束----->
+	</div>
+	<!--主体结束-->
+
+	<script src="${ctxPath}/static/js/jquery-2.1.1.js"></script>
+	<script src="${ctxPath}/static/js/bootstrap.js"></script>
+	<!-- <script src="${ctxPath}/static/js/wuling.js"></script> -->
+	<!-- <script src="${ctxPath}/static/js/plugins/pace/pace.min.js"></script> -->
+	<script
+		src="${ctxPath}/static/js/plugins/validate/jquery.validate.min.js"></script>
+
+	<!-- <script src="${ctxPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${ctxPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script> -->
+
+
+	<script>
+		$(document).ready(function() {
+
+			$("#input_form").validate({
+				rules : {
+					"price" : {
+						required : true,
+						number : true
+					}
+				},
+				messages : {
+					"price" : {
+						required : "请输入电费价格",
+						number : "请输入数字"
+					}
+				},
+				submitHandler : function(form) {
+					$.ajax({
+						url : '${ctxPath}/price/saveOrUpdate',
+						type : "post",
+						data : $(form).serialize(),
+						dataType : "json",
+						success : function(data) {
+							if (data.success) {
+								location.href = '${ctxPath}/price/list/';
+							} else {
+								alert(data.message);
+							}
+						},
+						error : function(error) {
+							alert(error);
+						}
+					});
+				}
+
+			});
+		});
+	</script>
+</body>
+</html>

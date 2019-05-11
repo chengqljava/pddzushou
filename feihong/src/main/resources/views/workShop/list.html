@@ -26,7 +26,7 @@
 <div id="wrapper">
     <!----左侧导航开始----->
     <nav class="navbar-default navbar-static-side" role="navigation">
-       <% include("/include/_sidebar.html",{active:"shop-list"}){} %>
+       <% include("/include/_sidebar.html",{active:"work-shop-list"}){} %>
     </nav>
     <!----左侧导航结束----->
 
@@ -62,7 +62,7 @@
         <!--------当前位置----->
         <div class="row  border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2>店铺列表</h2>
+                <h2>工厂列表</h2>
                 <ol class="breadcrumb">
                     <li><a href="${ctxPath}/">管理首页</a></li>
                     <li class="active">店铺列表</li>
@@ -76,10 +76,10 @@
             <div class="ibox-content m-b-sm ibox-content-t border-bottom" id="ibox-content">
                 <div class="row">
                     <div class="form-group col-md-3">
-                        <a href="${ctxPath}/shop/add" class="btn btn-primary"  data-title="添加店铺">新增店铺 <i class="fa fa-plus"></i></a>
+                        <a href="${ctxPath}/workShop/add" class="btn btn-primary"  data-title="添加工厂">新增工厂 <i class="fa fa-plus"></i></a>
                     </div>
                    <!--  <div class="col-md-3 form-group  m-t-xs">
-                        <input type="text" class="input-sm form-control" name="end" value="" placeholder="公司名称、公司简称、联系人、公司地址">
+                        <input type="text" class="input-sm form-control" name="end" value="" placeholder="工厂名称、工厂地址">
                     </div> -->
 
 
@@ -101,20 +101,21 @@
                                 <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
                                     <thead>
                                     <tr>
-                                        <th>店铺名称</th>
-                                        <th>商铺ID</th>
-                                    <!--     <th>接口密码</th> -->
-                                        <th>创建时间</th>
+                                        <th>名称</th>
+                                        <th>地址</th>
+                                        <th>联生人</th>
+                                        <th>联生手机号</th>
                                          <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <%for(item in page.list! ){%>
+                                    <%for(item in page.records! ){%>
                                     <tr>
                                         <td>${item.name!}</td>
-                                        <td>${item.ownerId!}</td>
-                                        <td>${item.createTime!,'yyyy-MM-dd'}</td>
-                                        <td><a href="${ctxPath}/shop/add?id=${item.id!}">编辑</a></td>
+                                        <td>${item.address!}</td>
+                                        <td>${item.contacts!}</td>
+                                         <td>${item.phoneNumber!}</td>
+                                        <td><a href="${ctxPath}/workShop/add?id=${item.id!}">编辑</a></td>
                                     </tr>
                                     <%}%>
                                     
@@ -123,11 +124,15 @@
                             </div>
                             <div class="pages border-top">
                                 <div class="row">
-                                    <div class="col-md-4"><div class="m-t-md">共 ${page.total!} 条</div></div>
+                                    <div class="col-md-4"><div class="m-t-md"> 当前第${page.current!}页  共 ${page.total!} 条 每页${page.size!}条 共${page.pages!}页</div></div>
                                     <div class="col-md-8 footable-visible">
                                         <ul class="pagination pull-right">
-                                            <li class="footable-page-arrow disabled"><a data-page="prev" href="${ctxPath}/shop/list?pageNum=${page.prePage!0}">上一页</a></li>
-                                            <li class="footable-page-arrow"><a data-page="next" href="${ctxPath}/shop/list?pageNum=${page.nextPage!0}">下一页</a></li>
+                                            <%if(page.current!-1>0){%>
+                                            <li class="footable-page-arrow disabled"><a data-page="prev" href="${ctxPath}/workShop/list?pageNum=${page.current!0-1}">上一页</a></li>
+                                            <%}%>
+                                             <%if((page.current!+1)<=page.pages!){%>
+                                            <li class="footable-page-arrow"><a data-page="next" href="${ctxPath}/workShop/list?pageNum=${page.current!0+1}">下一页</a></li>
+                                            <%}%>
                                         </ul>
                                     </div>
                                 </div>

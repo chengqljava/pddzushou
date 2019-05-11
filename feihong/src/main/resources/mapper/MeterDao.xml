@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheng.helper.repository.MeterDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+	<resultMap type="com.cheng.helper.domain.MeterDO" id="meterMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="createTime" column="create_time" />
+		<result property="factoryId" column="factory_id" />
+	</resultMap>
+
+	<select id="get" resultMap="meterMap">
+		SELECT
+		*
+		FROM
+		t_meter
+		WHERE
+		id = #{id}
+	</select>
+
+	<select id="list" resultMap="meterMap">
+		SELECT
+		*
+		FROM
+		t_meter
+		<where>
+			<if test="userId!=null and userId!=''">user_id=#{userId}</if>
+			<if test="ownerId!=null and ownerId!=''"> and owner_id=#{ownerId}</if>
+			<if test="factoryId!=null and factoryId!=''"> and factory_id=#{factoryId}</if>
+		</where>
+		<choose>
+			<when test="orders != null">
+				ORDER BY
+				<foreach collection="orders" item="item" open=" " separator=","
+					close=" ">
+					${item.property} ${item.direction}
+				</foreach>
+			</when>
+			<otherwise>
+				ORDER BY create_time DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="save" parameterType="com.cheng.helper.domain.MeterDO">
+		INSERT INTO t_meter
+		(
+		`name`,
+		`create_time`,
+		`factory_id`
+		)
+		VALUES
+		(
+		#{name},
+		#{createTime},
+		#{factoryId}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.cheng.helper.domain.MeterDO">
+		UPDATE t_factory
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="workShopId != null">`workshop_Id` = #{workShopId}</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM
+		t_meter
+		WHERE
+		id = #{id}
+	</delete>
+
+
+
+</mapper>

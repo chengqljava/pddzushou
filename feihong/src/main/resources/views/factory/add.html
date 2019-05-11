@@ -34,7 +34,7 @@
 		<!----左侧导航开始----->
 		<nav class="navbar-default navbar-static-side" role="navigation"
 			id="leftnav"><%
-			include("/include/_sidebar.html",{active:"shop-list"}){} %></nav>
+			include("/include/_sidebar.html",{active:"factory-list"}){} %></nav>
 		<!----左侧导航结束----->
 
 		<!---右侧内容区开始---->
@@ -70,10 +70,10 @@
 			<!--------当前位置----->
 			<div class="row  border-bottom white-bg page-heading">
 				<div class="col-sm-4">
-					<h2>商铺${shop!!=null?'编辑':'新增'}</h2>
+					<h2>车间${factory!!=null?'编辑':'新增'}</h2>
 					<ol class="breadcrumb">
 						<li><a href="${ctxPath}/">管理首页</a></li>
-						<li class="active">商铺${shop!!=null?'编辑':'新增'}</li>
+						<li class="active">车间${factory!!=null?'编辑':'新增'}</li>
 					</ol>
 				</div>
 			</div>
@@ -83,38 +83,34 @@
 				<div class="ibox float-e-margins ">
 					<div class="ibox-content p-t-slg">
 						<form name="entity" id="input_form" class="form-horizontal">
-							<input type="hidden" id="id" name="id" value="${shop.id!}">
+							<input type="hidden" id="id" name="id" value="${factory.id!}">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"> 工厂名称 <span
+									class="text-danger">*</span></label>
+					<div class="col-sm-10">
+                        <select name="workShopId" id="workShopId" class=" chosen-select form-control input-s-sm inline input-sm">
+                              <option value="">工厂名称</option>
+                                <% for(bean in wrorkShopList!){ %>
+									<option value="${bean.id!}" ${factory.workShopId! ==bean.id!?'selected' : ''}>${bean.name!}</option>
+								<%}%>
+                        </select>
+                    </div>
+                    </div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">商铺名称 <span
+								<label class="col-sm-2 control-label">车间名称 <span
 									class="text-danger">*</span></label>
 								<div class="col-sm-10">
-									<input type="text" id="name" name="name" value="${shop.name!}"
-										placeholder="请输入商铺名称" class="form-control" required>
+									<input type="text" id="name" name="name" value="${factory.name!}"
+										placeholder="请输入车间名称" class="form-control" required>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-2 control-label"> 商铺ID <span
+								<label class="col-sm-2 control-label"> 车间地址 <span
 									class="text-danger">*</span></label>
 								<div class="col-sm-10">
-									<input type="text" id="ownerId" name="ownerId" value="${shop.ownerId!}"
-										placeholder="请输入商铺ID" class="form-control" required>
-								</div>
-							</div>
-							<!-- <div class="form-group">
-								<label class="col-sm-2 control-label">接口密码 <span
-									class="text-danger">*</span></label>
-								<div class="col-sm-10">
-									<input type="text" id="secret" name="secret" value="${shop.secret!}"
-										placeholder="请输入接口密码" class="form-control" required>
-								</div>
-							</div> -->
-							<div class="form-group">
-								<label class="col-sm-2 control-label"> 手机号 <span
-									class="text-danger">*</span></label>
-								<div class="col-sm-10">
-									<input type="text" id="phone" name="phone" value="${shop.phone!}"
-										placeholder="请输入商铺联系人" class="form-control" required>
+									<input type="text" id="address" name="address" value="${factory.address!}"
+										placeholder="请输入车间地址" class="form-control" required>
 								</div>
 							</div>
 
@@ -171,53 +167,34 @@
 						minlength : 3,
 						maxlength : 20
 					},
-					"ownerId" : {
+					"address" : {
 						required : true,
 						minlength : 2,
-						maxlength : 11,
-						digits : true
-					},
-					"secret" : {
-						required : true,
-						minlength : 11,
-						maxlength : 60
-					},
-					phone : {
-						required : true,
-						minlength : 11,
-						maxlength : 11,
-						digits : true
+						maxlength : 50
 					}
 				},
 				messages : {
 					"name" : {
-						required : "请输入商铺名称",
+						required : "请输入车间名称",
 						minlength : "最小长度为3",
 						maxlength : "最大长度为20"
 					},
-					"ownerId" : {
-						required : "请输入商铺ID",
+					address : {
+						required : "请输车间地址",
 						minlength : "最小长度2",
-						maxlength : "最大长度11",
-						digits : "请输入正整数"
-					},
-					phone : {
-						required : "请输入手机号",
-						minlength : "最小长度11",
-						maxlength : "最大长度11",
-						digits : "请输入整数"
+						maxlength : "最大长度50"
 					}
 
 				},
 				submitHandler : function(form) {
 					$.ajax({
-						url : '${ctxPath}/shop/saveOrUpdate',
+						url : '${ctxPath}/factory/saveOrUpdate',
 						type : "post",
 						data : $(form).serialize(),
 						dataType : "json",
 						success : function(data) {
 							if (data.success) {
-								location.href = '${ctxPath}/shop/list/';
+								location.href = '${ctxPath}/factory/list/';
 							} else {
 								alert(data.message);
 							}

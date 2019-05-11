@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cheng.helper.repository.DegreesRecordDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+	<resultMap type="com.cheng.helper.domain.DegreesRecordDO" id="degreesRecordrMap">
+		<result property="id" column="id" />
+		<result property="meterId" column="meter_id" />
+		<result property="createTime" column="create_time" />
+		<result property="meterNumber" column="meter_number" />
+		<result property="acquisitionTime" column="acquisition_time" />
+		<result property="money" column="money"/>
+	</resultMap>
+
+	<select id="get" resultMap="degreesRecordrMap">
+		SELECT
+		*
+		FROM
+		t_degrees_record
+		WHERE
+		id = #{id}
+	</select>
+
+	<select id="list" resultType="com.cheng.helper.domain.DegreesRecordBO">
+		SELECT
+		DC.id,DC.meter_id meterId,DC.create_time createTime,DC.meter_number meterNumber,DC.acquisition_time acquisitionTime,DC.money money,M.name meterName
+		FROM
+		t_degrees_record DC  LEFT JOIN t_meter M ON M.id=DC.meter_id
+		<where>
+			<if test="meterId!=null and meterId!=''">DC.meter_id=#{meterId}</if>
+			<if test="factoryId!=null and factoryId!=''"> and M.factory_id=#{factoryId}</if>
+			<if test="searchStartTime!=null and searchStartTime!=''"><![CDATA[AND DATE_FORMAT(DC.create_time ,'%Y-%m-%d')>=#{searchStartTime}]]></if>
+	        <if test="searchEndTime!=null and searchEndTime!=''"><![CDATA[AND DATE_FORMAT(DC.create_time ,'%Y-%m-%d')<=#{searchEndTime}]]></if>
+		</where>
+		<choose>
+			<when test="orders != null">
+				ORDER BY
+				<foreach collection="orders" item="item" open=" " separator=","
+					close=" ">
+					DC.${item.property} ${item.direction}
+				</foreach>
+			</when>
+			<otherwise>
+				ORDER BY DC.create_time DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	<select id="listStatistics"  resultType="com.cheng.helper.domain.DegreesRecordStatisticBO">
+		SELECT
+		DC.id,DC.meter_id meterId,DC.create_time createTime,SUM(DC.meter_number) meterNumber,DC.acquisition_time acquisitionTime,SUM(DC.money) money,M.name meterName
+		FROM
+		t_degrees_record DC  LEFT JOIN t_meter M ON M.id=DC.meter_id
+		<where>
+			<if test="meterId!=null and meterId!=''">DC.meter_id=#{meterId}</if>
+			<if test="factoryId!=null and factoryId!=''"> and M.factory_id=#{factoryId}</if>
+			<if test="searchStartTime!=null and searchStartTime!=''"><![CDATA[AND DATE_FORMAT(DC.create_time ,'%Y-%m-%d')>=#{searchStartTime}]]></if>
+	        <if test="searchEndTime!=null and searchEndTime!=''"><![CDATA[AND DATE_FORMAT(DC.create_time ,'%Y-%m-%d')<=#{searchEndTime}]]></if>
+		</where>
+	
+		<if test="type!='' and type!=null and type==1"><![CDATA[GROUP BY DATE_FORMAT(DC.acquisition_time ,'%Y-%m'),DC.meter_id]]></if>
+		<if test="type!='' and type!=null and type==2"> GROUP BY DC.factory_id</if>
+		<if test="type!='' and type!=null and type==3"> GROUP BY DC.meter_id</if>
+			
+		<choose>
+			<when test="orders != null">
+				ORDER BY
+				<foreach collection="orders" item="item" open=" " separator=","
+					close=" ">
+					DC.${item.property} ${item.direction}
+				</foreach>
+			</when>
+			<otherwise>
+				ORDER BY DC.create_time DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="save" parameterType="com.cheng.helper.domain.MeterDO">
+		INSERT INTO t_degrees_record
+		(
+		`meter_id`,
+		`create_time`,
+		`meter_number`,
+		`acquisition_time`
+		)
+		VALUES
+		(
+		#{meterId},
+		#{createTime},
+		#{meterNumber},
+		#{acquisitionTime}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.cheng.helper.domain.MeterDO">
+		UPDATE t_degrees_record
+		<set>
+			<if test="name != null">`meter_id` = #{meterId}, </if>
+			<if test="address != null">`meter_number` = #{meterNumber}, </if>
+			<if test="contacts != null">`acquisition_time` = #{acquisitionTime}</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM
+		t_degrees_record
+		WHERE
+		id = #{id}
+	</delete>
+
+
+
+</mapper>
